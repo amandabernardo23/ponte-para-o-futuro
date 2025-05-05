@@ -32,8 +32,39 @@ const universidadeController = {
       const token = jwt.sign({ id: universidade.id, tipo: 'universidade' }, SECRET, { expiresIn: '1d' });
       res.json({ mensagem: 'Login realizado com sucesso', token });
     });
+  },
+
+  listar: (req, res) => {
+    Universidade.listar((err, results) => {
+      if (err) return res.status(500).json({ erro: 'Erro ao listar universidades' });
+      res.json(results);
+    });
+  },
+  
+  atualizar: async (req, res) => {
+    const { id } = req.params;
+    const { nome, email, senha } = req.body;
+  
+    const hash = await bcrypt.hash(senha, 10);
+  
+    Universidade.atualizar(id, nome, email, hash, (err, result) => {
+      if (err) return res.status(500).json({ erro: 'Erro ao atualizar cadastro' });
+      res.json({ mensagem: 'Cadastro atualizado com sucesso' });
+    });
+  },
+  
+  deletar: (req, res) => {
+    const { id } = req.params;
+  
+    Universidade.deletar(id, (err, result) => {
+      if (err) return res.status(500).json({ erro: 'Erro ao deletar universidade' });
+      res.json({ mensagem: 'Universidade deletada com sucesso' });
+    });
   }
+  
 };
+
+
 
 module.exports = universidadeController;
 
