@@ -2,10 +2,11 @@ const mysql = require('mysql2');
 
 // Conexão com o banco de dados 
 const db = mysql.createConnection({
-  host: 'localhost',
+   host: 'caboose.proxy.rlwy.net',
   user: 'root',
-  password: 'Wan72364', // senha do banco MySQL
-  database: 'ponte_para_o_futuro'
+  password: 'QTRiYxwKeMYmiWzlXXnNUnxFUMKYROWt',//senha do banco hospedado no Railway
+  database: 'railway',
+  port: 50541
 });
 
 db.connect((err) => {
