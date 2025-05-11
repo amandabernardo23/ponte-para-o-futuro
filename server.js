@@ -1,13 +1,13 @@
 require('dotenv').config();
-//Importando o banco de dados para conexão
-require('./config/database');
+require('./config/database'); //Importando o banco de dados para conexão
 
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 3000;
 
-// Utilizei esse comando para que o Express entenda o corpo da requisição em JSON. Antes disso o servidor estava entendendo como "undefined".
-app.use(express.json());
+app.use(cors()); // Adiciona o middleware CORS para permitir requisições de outros domínios
+app.use(express.json()); // Utilizei esse comando para que o Express entenda o corpo da requisição em JSON. Antes disso o servidor estava entendendo como "undefined".
 
 // Importando as rotas
 const usersRoutes = require('./routes/users');
