@@ -16,5 +16,7 @@ router.get('/:id', userController.buscarUsuarioPorId);
 router.put('/:id', userController.atualizarUsuario);
 router.delete('/:id', userController.deletarUsuario);
 
+//Login
+router.post('/login', userController.loginUsuario);
 
 module.exports = router;

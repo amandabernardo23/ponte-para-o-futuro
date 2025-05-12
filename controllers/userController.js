@@ -1,4 +1,5 @@
 const db = require('../config/database');
+const bcrypt = require('bcrypt');
 
 // Cadastrar usuários
 exports.cadastrarUsuario = (req, res) => {
@@ -8,14 +9,21 @@ exports.cadastrarUsuario = (req, res) => {
     return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
   }
 
-  const sql = 'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)';
-
-  db.query(sql, [nome, email, senha, tipo], (err, result) => {
+  // Criptografar a senha antes de salvar
+  bcrypt.hash(senha, 10, (err, hash) => {
     if (err) {
-      console.error('Erro ao cadastrar usuário:', err);
-      return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário' });
+      console.error('Erro ao criptografar senha:', err);
+      return res.status(500).json({ mensagem: 'Erro interno ao cadastrar usuário' });
     }
-    res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso!', id: result.insertId });
+
+    const sql = 'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)';
+    db.query(sql, [nome, email, hash, tipo], (err, result) => {
+      if (err) {
+        console.error('Erro ao cadastrar usuário:', err);
+        return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário' });
+      }
+      res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso!', id: result.insertId });
+    });
   });
 };
 
@@ -31,6 +39,7 @@ exports.listarUsuarios = (req, res) => {
     res.json(results);
   });
 };
+
 // Buscar usuário por ID
 exports.buscarUsuarioPorId = (req, res) => {
   const { id } = req.params;
@@ -48,18 +57,26 @@ exports.buscarUsuarioPorId = (req, res) => {
   });
 };
 
-// Atualizar usuário
+// Atualizar usuário (recriptografar se senha for alterada)
 exports.atualizarUsuario = (req, res) => {
   const { id } = req.params;
   const { nome, email, senha, tipo } = req.body;
 
-  const sql = 'UPDATE usuarios SET nome = ?, email = ?, senha = ?, tipo = ? WHERE id = ?';
-  db.query(sql, [nome, email, senha, tipo, id], (err, result) => {
+  // Criptografar nova senha
+  bcrypt.hash(senha, 10, (err, hash) => {
     if (err) {
-      console.error('Erro ao atualizar usuário:', err);
-      return res.status(500).json({ mensagem: 'Erro ao atualizar usuário' });
+      console.error('Erro ao criptografar senha:', err);
+      return res.status(500).json({ mensagem: 'Erro interno ao atualizar usuário' });
     }
-    res.json({ mensagem: 'Usuário atualizado com sucesso!' });
+
+    const sql = 'UPDATE usuarios SET nome = ?, email = ?, senha = ?, tipo = ? WHERE id = ?';
+    db.query(sql, [nome, email, hash, tipo, id], (err, result) => {
+      if (err) {
+        console.error('Erro ao atualizar usuário:', err);
+        return res.status(500).json({ mensagem: 'Erro ao atualizar usuário' });
+      }
+      res.json({ mensagem: 'Usuário atualizado com sucesso!' });
+    });
   });
 };
 
@@ -74,5 +91,39 @@ exports.deletarUsuario = (req, res) => {
       return res.status(500).json({ mensagem: 'Erro ao deletar usuário' });
     }
     res.json({ mensagem: 'Usuário deletado com sucesso!' });
+  });
+};
+
+// Login de usuário
+exports.loginUsuario = (req, res) => {
+  const { 'login-username': email, 'login-password': senha } = req.body;
+
+  const sql = 'SELECT * FROM usuarios WHERE email = ?';
+  db.query(sql, [email], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar usuário:', err);
+      return res.status(500).json({ mensagem: 'Erro no servidor' });
+    }
+
+    if (results.length === 0) {
+      return res.status(401).json({ mensagem: 'Usuário não encontrado' });
+    }
+
+    const usuario = results[0];
+
+    // Comparar a senha informada com a senha criptografada do banco
+    bcrypt.compare(senha, usuario.senha, (err, resultado) => {
+      if (err) {
+        console.error('Erro ao comparar senhas:', err);
+        return res.status(500).json({ mensagem: 'Erro ao validar senha' });
+      }
+
+      if (!resultado) {
+        return res.status(401).json({ mensagem: 'Senha incorreta' });
+      }
+
+      // Login bem-sucedido
+      res.status(200).json({ mensagem: 'Login realizado com sucesso', usuario });
+    });
   });
 };
