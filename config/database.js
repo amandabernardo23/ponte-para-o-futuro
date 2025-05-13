@@ -1,11 +1,13 @@
 const mysql = require('mysql2');
+require("dotenv").config();
 
 // Conexão com o banco de dados 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Wan72364', // senha do banco MySQL
-  database: 'ponte_para_o_futuro'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,//senha do banco hospedado no Railway
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
 db.connect((err) => {
