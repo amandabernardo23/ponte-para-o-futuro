@@ -215,10 +215,8 @@ formRegister.addEventListener("submit", (e) => {
       btnSubmitProject.style.display = "none";
       mostrarSecao("projects");
     } else if (usuarioLogado.role === "instituicao") {
-      btnProjects.style.display = "none";
-      btnDashboard.style.display = "none";
-      btnSubmitProject.style.display = "inline-block";
-      mostrarSecao("submit-project");
+      //direciona o usuário do tipo "instituição" para a página html
+      window.location.href = "instituicao.html";
     }
   }
   

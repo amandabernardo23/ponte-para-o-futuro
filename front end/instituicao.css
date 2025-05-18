@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Nexa';
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexaregular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexa-light.otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexa-bold.otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+body.instituicao, .dashboard {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  font-family: 'Nexa';
+  background-color: #f4f4f4;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #111827;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+.sidebar p {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00bfff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+.sidebar button:hover {
+  background-color: #009acd;
+}
+
+.back-button {
+  margin-top: auto;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.secao-dashboard {
+  display: none;
+}
+
+.secao-dashboard.active {
+  display: block;
+}
+
+form input, form textarea, form select {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+form label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+}
+
+form button {
+  background-color: #00bfff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #008ecc;
+}
+
+h2 {
+  color: #111827;
+  margin-bottom: 20px;
+}

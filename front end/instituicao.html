@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Instituição</title>
+  <link rel="stylesheet" href="instituicao.css" />
+</head>
+<body class="instituicao">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <img src="uninassau.png" alt="Foto da Instituição" class="profile-pic" />
+      <p>UNINASSAU</p>
+      <button onclick="mostrarSecao('alunos')">Cadastro de Alunos</button>
+      <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+      <button onclick="mostrarSecao('usuarios')">Cadastro de Usuários</button>
+      <a href="index.html" class="back-button">←</a>
+    </aside>
+
+    <main class="main-content">
+      <section id="alunos" class="secao-dashboard active">
+        <h2>Cadastro de Alunos</h2>
+        <form action="/alunos" method="POST">
+          <input type="text" name="nome" placeholder="Nome do aluno" required />
+          <input type="email" name="email" placeholder="Email do aluno" required />
+          <input type="text" name="curso" placeholder="Curso" />
+          <button type="submit">Cadastrar Aluno</button>
+        </form>
+      </section>
+
+      <section id="projetos" class="secao-dashboard">
+        <h2>Cadastro de Projetos</h2>
+        <form action="/projetos" method="POST">
+          <input type="text" name="titulo" placeholder="Título do Projeto" required />
+          <textarea name="descricao" placeholder="Descrição do Projeto" rows="4"></textarea>
+          <input type="text" name="area" placeholder="Área do conhecimento" />
+          <button type="submit">Cadastrar Projeto</button>
+        </form>
+      </section>
+
+      <section id="usuarios" class="secao-dashboard">
+        <h2>Cadastrar novo usuário</h2>
+        <form id="form-register" method="POST" action="/usuarios">
+          <label for="register-username">Usuário</label>
+          <input type="text" id="register-username" name="username" required />
+          
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" name="email" required />
+          
+          <label for="register-password">Senha</label>
+          <input type="password" id="register-password" name="password" required />
+          
+          <label for="register-role">Perfil</label>
+          <select id="register-role" name="role" required>
+            <option value="">Selecione</option>
+            <option value="aluno">Aluno</option>
+            <option value="instituicao">Instituição / Empresa</option>
+          </select>
+
+          <button type="submit">Registrar</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function mostrarSecao(secaoId) {
+      const secoes = document.querySelectorAll('.secao-dashboard');
+      secoes.forEach(secao => secao.classList.remove('active'));
+      document.getElementById(secaoId).classList.add('active');
+    }
+  </script>
+</body>
+</html>
