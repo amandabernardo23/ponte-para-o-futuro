@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard - Instituição</title>
+  <title> Página da Instituição</title>
   <link rel="stylesheet" href="instituicao.css" />
 </head>
 <body class="instituicao">
@@ -11,11 +11,33 @@
     <aside class="sidebar">
       <img src="uninassau.png" alt="Foto da Instituição" class="profile-pic" />
       <p>UNINASSAU</p>
+       <button onclick="mostrarSecao('painel')">Painel Inicial</button>
       <button onclick="mostrarSecao('alunos')">Cadastro de Alunos</button>
       <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
       <button onclick="mostrarSecao('usuarios')">Cadastro de Usuários</button>
-      <a href="index.html" class="back-button">←</a>
+      <a href="index.html" class="back-button"> Sair </a>
     </aside>
+
+     <main class="main-content">
+      <!-- Painel Inicial -->
+      <section id="painel" class="secao-dashboard active">
+        <h2>Bem-vindo(a) ao Painel da Instituição</h2>
+        <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+        <div class="dashboard-cards">
+          <div class="card">
+            <h3>Alunos Cadastrados</h3>
+            <p id="count-alunos">45</p>
+          </div>
+          <div class="card">
+            <h3>Projetos Ativos</h3>
+            <p id="count-projetos">12</p>
+          </div>
+          <div class="card">
+            <h3>Último Cadastro</h3>
+            <p id="last-cadastro">João da Silva - 10/05/2025</p>
+          </div>
+        </div>
+      </section>
 
     <main class="main-content">
       <section id="alunos" class="secao-dashboard active">

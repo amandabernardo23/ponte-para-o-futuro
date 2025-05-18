@@ -8,4 +8,7 @@ router.get('/', projetosController.listarProjetos);
 // Rota para cadastrar um novo projeto
 router.post('/', projetosController.cadastrarProjeto);
 
+// Rota para deletar projeto
+router.delete('/projetos/:id', projetosController.deletarProjeto);
+
 module.exports = router;
