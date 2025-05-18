@@ -31,7 +31,7 @@ body.instituicao, .dashboard {
   margin: 0;
   height: 100vh;
   font-family: 'Nexa';
-  background-color: #f4f4f4;
+  background-color: #D9D9D9;
 }
 
 .sidebar {
@@ -71,6 +71,8 @@ body.instituicao, .dashboard {
 .sidebar button:hover {
   background-color: #009acd;
 }
+
+
 
 .back-button {
   margin-top: auto;

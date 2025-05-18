@@ -15,7 +15,7 @@
       <button onclick="mostrarSecao('alunos')">Cadastro de Alunos</button>
       <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
       <button onclick="mostrarSecao('usuarios')">Cadastro de Usuários</button>
-      <a href="index.html" class="back-button"> Sair </a>
+      <a href="login.html" class="back-button"> Sair </a>
     </aside>
 
      <main class="main-content">
@@ -91,6 +91,30 @@
       secoes.forEach(secao => secao.classList.remove('active'));
       document.getElementById(secaoId).classList.add('active');
     }
+
   </script>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
+
+    if (dados) {
+      const usuario = JSON.parse(dados);
+
+      // Exemplo: verificar o tipo
+      if (usuario.tipo !== "instituicao") {
+        alert("Acesso não autorizado.");
+        window.location.href = "login.html";
+      }
+
+      // Aqui você pode usar os dados do usuário normalmente
+      console.log("Usuário logado:", usuario.nome);
+    } else {
+      // Redireciona se não estiver logado
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
 </body>
 </html>

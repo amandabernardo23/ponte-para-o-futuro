@@ -13,6 +13,13 @@ cadastroButton.onclick = () => {
   card.classList.remove("loginActive")
   card.classList.add("cadastroActive")
 }
+//Function para fazer logout
+function logout() {
+  localStorage.removeItem("usuarioLogado");
+  window.location.href = "login.html";
+}
+
+let usuarioLogado = null;// define global
 
 //Function para criar login
 function criarLoginHandler(urlLogin) {
@@ -40,8 +47,12 @@ function criarLoginHandler(urlLogin) {
         .then((response) => response.json())
         .then((data) => {
           if (data.mensagem === "Login realizado com sucesso") {
-            const usuarioLogado = data.usuario;
+            usuarioLogado = data.usuario;
+            //// Salva no localStorage para acesso em outras páginas
+            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado)); 
+
             alert(`Bem-vindo(a), ${usuarioLogado.nome}!`);
+            aposLogin (); //chama aposLogin após definir usuarioLogado
             formLogin.reset();
             // Chame aqui qualquer função que você queira após login
             // Exemplo: aposLogin();
@@ -112,22 +123,22 @@ function criarRegistroHandler(urlRegistro) {
 
 // -----------------------
   // Após login
-  function aposLogin() {
-    // Ajusta botões conforme perfil
-    btnLogin.style.display = "none";
-    btnRegister.style.display = "none";
-    btnLogout.style.display = "inline-block";
   
-    if (usuarioLogado.role === "aluno") {
-      btnProjects.style.display = "inline-block";
-      btnDashboard.style.display = "inline-block";
-      btnSubmitProject.style.display = "none";
-      mostrarSecao("projects");
-    } else if (usuarioLogado.role === "instituicao") {
-      //direciona o usuário do tipo "instituição" para a página html
-      window.location.href = "instituicao.html";
-    }
+    function aposLogin() {
+  if (typeof btnLogin !== "undefined" && btnLogin) btnLogin.style.display = "none";
+  if (typeof btnRegister !== "undefined" && btnRegister) btnRegister.style.display = "none";
+  if (typeof btnLogout !== "undefined" && btnLogout) btnLogout.style.display = "inline-block";
+
+  if (usuarioLogado.tipo === "aluno") {
+    if (typeof btnProjects !== "undefined" && btnProjects) btnProjects.style.display = "inline-block";
+    if (typeof btnDashboard !== "undefined" && btnDashboard) btnDashboard.style.display = "inline-block";
+    if (typeof btnSubmitProject !== "undefined" && btnSubmitProject) btnSubmitProject.style.display = "none";
+    mostrarSecao("projects");
+  } else if (usuarioLogado.tipo === "instituicao") {
+    window.location.href = "instituicao.html";
   }
+}
+//Tive que modificar essa function pois como esse botões não existem no login.html, tava quebrando antes de redirecionar pra outra página.
   
   document.addEventListener("DOMContentLoaded", () => {
 
