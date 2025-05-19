@@ -9,8 +9,8 @@
 <body class="instituicao">
   <div class="dashboard">
     <aside class="sidebar">
-      <img src="uninassau.png" alt="Foto da Instituição" class="profile-pic" />
-      <p>UNINASSAU</p>
+      <img src="assets/iconuser.png" alt="Foto da Instituição" class="profile-pic" />
+      <p class="institution-name"></p>
        <button onclick="mostrarSecao('painel')">Painel Inicial</button>
       <button onclick="mostrarSecao('alunos')">Cadastro de Alunos</button>
       <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
@@ -40,7 +40,7 @@
       </section>
 
     <main class="main-content">
-      <section id="alunos" class="secao-dashboard active">
+      <section id="alunos" class="secao-dashboard">
         <h2>Cadastro de Alunos</h2>
         <form action="/alunos" method="POST">
           <input type="text" name="nome" placeholder="Nome do aluno" required />
@@ -94,6 +94,7 @@
 
   </script>
 
+
   <script>
   document.addEventListener("DOMContentLoaded", () => {
     const dados = localStorage.getItem("usuarioLogado");
@@ -115,6 +116,40 @@
     }
   });
 </script>
+
+
+<script>
+  function mostrarSecao(secaoId) {
+    const secoes = document.querySelectorAll('.secao-dashboard');
+    secoes.forEach(secao => secao.classList.remove('active'));
+    document.getElementById(secaoId)?.classList.add('active');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // Verifica se o tipo de usuário está correto
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
+    if (tipoUsuario !== "instituicao") {
+      // Redireciona para a tela de login se não for do tipo "instituicao"
+      window.location.href = "login.html";
+      return;
+    }
+
+    const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
+
+    // Atualiza o nome no menu lateral
+    const nomeElemento = document.querySelector('.institution-name');
+    if (nomeElemento) {
+      nomeElemento.textContent = nomeInstituicao;
+    }
+
+    // Atualiza o título da seção principal
+    const painelTitulo = document.querySelector('#painel h2');
+    if (painelTitulo) {
+      painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
+    }
+  });
+</script>
+
 
 </body>
 </html>

@@ -13,11 +13,6 @@ cadastroButton.onclick = () => {
   card.classList.remove("loginActive")
   card.classList.add("cadastroActive")
 }
-//Function para fazer logout
-function logout() {
-  localStorage.removeItem("usuarioLogado");
-  window.location.href = "login.html";
-}
 
 let usuarioLogado = null;// define global
 
@@ -50,6 +45,9 @@ function criarLoginHandler(urlLogin) {
             usuarioLogado = data.usuario;
             //// Salva no localStorage para acesso em outras páginas
             localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado)); 
+            localStorage.setItem("instituicaoNome", usuarioLogado.nome);
+            localStorage.setItem("tipoUsuario", usuarioLogado.tipo);
+
 
             alert(`Bem-vindo(a), ${usuarioLogado.nome}!`);
             aposLogin (); //chama aposLogin após definir usuarioLogado
