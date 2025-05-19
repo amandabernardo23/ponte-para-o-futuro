@@ -33,3 +33,23 @@ exports.cadastrarProjeto = (req, res) => {
   });
 };
 
+// Controlador para deletar um projeto
+exports.deletarProjeto = (req, res) => {
+  const { id } = req.params;
+
+  const sql = 'DELETE FROM projetos WHERE id = ?';
+
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Erro ao deletar projeto:', err);
+      return res.status(500).json({ mensagem: 'Erro ao deletar projeto' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ mensagem: 'Projeto não encontrado' });
+    }
+
+    res.json({ mensagem: 'Projeto deletado com sucesso' });
+  });
+};
+
