@@ -5,29 +5,37 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 3000;
+const path = require('path');
 
 app.use(cors()); // Adiciona o middleware CORS para permitir requisições de outros domínios
 app.use(express.json()); // Utilizei esse comando para que o Express entenda o corpo da requisição em JSON. Antes disso o servidor estava entendendo como "undefined".
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.urlencoded({ extended: true }));
 
 // Importando as rotas
 const usersRoutes = require('./routes/users');
 const projetosRoutes = require('./routes/projetos')
 const universidadeRoutes = require('./routes/universidades');
+const uploadRoutes = require('./routes/uploads');
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+//Rotas
+app.use('/api/users', usersRoutes);
+app.use('/api/projetos', projetosRoutes);
+app.use('/universidades', universidadeRoutes);
+
+//Rota para fazer upload da foto de perfil do usuário
+app.use('/upload-foto', uploadRoutes);
 
 // Rota simples para testar
 app.get('/', (req, res) => {
   res.send('O Servidor Express está funcionando!');
 });
 
-//Rotas
-app.use('/api/users', usersRoutes);
-app.use('/api/projetos', projetosRoutes);
-app.use('/universidades', universidadeRoutes);
-
-
 // Inicia o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
+
+
 

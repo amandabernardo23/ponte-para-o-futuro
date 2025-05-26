@@ -1,0 +1,140 @@
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexaregular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexa-light.otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Nexa" ;
+  src: url("assets/nexa-bold.otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: "Nexa";
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.menu-lateral {
+  width: 220px;
+  background-color: #dfe5f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.logo {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.menu-lateral ul {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-lateral li {
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.menu-lateral li.ativo {
+  font-weight: bold;
+}
+
+.btn-sair {
+  background-color: #00bcd4;
+  border: none;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.conteudo {
+  flex: 1;
+  padding: 30px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.subtitulo {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.mentor-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.mentor-img {
+  width: 70px;
+  border-radius: 50%;
+}
+
+.mentoria {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.mentoria-card {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.btn-azul {
+  background-color: #00bcd4;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.calendario-container {
+  width: 300px;
+}
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+#calendar div {
+  background: #0f1113;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#calendar div.selecionado {
+  background: #00bcd4;
+}
+

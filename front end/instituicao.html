@@ -10,11 +10,32 @@
 <body class="instituicao">
   <div class="dashboard">
     <aside class="sidebar">
-      <img src="assets/iconuser.png" alt="Foto da Instituição" class="profile-pic" />
+<!-- insere a foto de perfil do usuário -->
+     <form id="foto-form" enctype="multipart/form-data">
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label">
+      <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
+      <span class="icon-overlay">📷</span>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden>
+  </div>
+  <!-- Modal flutuante central -->
+<div id="foto-modal" class="modal hidden">
+  <div class="modal-content">
+    <p>Deseja salvar a nova foto de perfil?</p>
+    <div class="modal-buttons">
+      <button id="confirmar-btn" class="btn salvar">Salvar</button>
+      <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
+</form>
+
+<!-- insere a foto de perfil do usuário -->
       <p class="institution-name"></p>
        <button onclick="mostrarSecao('painel')">Painel Inicial</button>
        <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
-       <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetoss</button>
+       <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
        <button onclick="mostrarSecao('usuarios')">Alunos</button>
       <a href="login.html" class="back-button"> Sair </a>
     </aside>
@@ -159,6 +180,80 @@
     ativarCadastroProjeto();
   });
 </script>
+
+
+<!-- script para prewiew da foto de perfil e envio com fetch -->
+
+<script>
+  const fotoInput = document.getElementById('foto-input');
+  const previewImg = document.getElementById('preview-img');
+  const modal = document.getElementById('foto-modal');
+  const confirmarBtn = document.getElementById('confirmar-btn');
+  const cancelarBtn = document.getElementById('cancelar-btn');
+  let novaImagem = null;
+
+  fotoInput.addEventListener('change', () => {
+    const file = fotoInput.files[0];
+    if (file) {
+      novaImagem = file;
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        modal.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+confirmarBtn.addEventListener('click', async () => {
+  if (!novaImagem) return;
+
+  const formData = new FormData();
+  formData.append('foto', novaImagem);
+
+  // Pega o id do usuário do localStorage (ajuste conforme seu armazenamento)
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  if (!usuarioLogado || !usuarioLogado.id) {
+    alert('Usuário não identificado. Faça login novamente.');
+    return;
+  }
+  formData.append('userId', usuarioLogado.id);
+
+  try {
+    const res = await fetch('http://localhost:3000/upload-foto', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (data.caminho) {
+      previewImg.src = `/uploads/${data.caminho}`;
+
+      // Atualiza no localStorage para exibir depois
+      usuarioLogado.fotoPerfil = data.caminho;
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+    }
+
+    alert(data.message || 'Foto enviada com sucesso!');
+    modal.classList.add('hidden');
+    fotoInput.value = '';
+    novaImagem = null;
+  } catch (error) {
+    alert('Erro ao enviar a foto. Tente novamente.');
+    console.error(error);
+  }
+});
+
+  cancelarBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    novaImagem = null;
+    fotoInput.value = '';
+    // Se quiser restaurar a foto anterior aqui, descomente:
+    // previewImg.src = 'caminho/atual.jpg';
+  });
+</script>
+
 
 </body>
 </html>

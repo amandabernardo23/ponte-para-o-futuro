@@ -122,18 +122,15 @@ function criarRegistroHandler(urlRegistro) {
 // -----------------------
   // Após login
   
-    function aposLogin() {
+      function aposLogin() {
   if (typeof btnLogin !== "undefined" && btnLogin) btnLogin.style.display = "none";
   if (typeof btnRegister !== "undefined" && btnRegister) btnRegister.style.display = "none";
   if (typeof btnLogout !== "undefined" && btnLogout) btnLogout.style.display = "inline-block";
 
-  if (usuarioLogado.tipo === "aluno") {
-    if (typeof btnProjects !== "undefined" && btnProjects) btnProjects.style.display = "inline-block";
-    if (typeof btnDashboard !== "undefined" && btnDashboard) btnDashboard.style.display = "inline-block";
-    if (typeof btnSubmitProject !== "undefined" && btnSubmitProject) btnSubmitProject.style.display = "none";
-    mostrarSecao("projects");
-  } else if (usuarioLogado.tipo === "instituicao") {
+  if (usuarioLogado.tipo === "instituicao") {
     window.location.href = "instituicao.html";
+  } else if (usuarioLogado.tipo === "aluno") {
+    window.location.href = "/front end/aluno/aluno.html";
   }
 }
 //Tive que modificar essa function pois como esse botões não existem no login.html, tava quebrando antes de redirecionar pra outra página.
@@ -303,3 +300,38 @@ document.addEventListener("DOMContentLoaded", () => {
   ativarCadastroProjeto();
 
 });
+
+const idDoUsuario = localStorage.getItem('usuarioId'); // pega o ID do usuário logado
+previewImg.src = `/uploads/usuario-${idDoUsuario}.jpg`;
+const formData = new FormData();
+formData.append('foto', novaImagem);
+formData.append('userId', idDoUsuario);
+
+// carrega a foto do usuário (instituição.html)
+document.addEventListener('DOMContentLoaded', () => {
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  if (usuario && usuario.fotoPerfil) {
+    previewImg.src = `/uploads/${usuario.fotoPerfil}`;
+  } else {
+    previewImg.src = 'caminho/atual.jpg'; // foto padrão
+  }
+});
+
+//script para calendário na página mentoria.aluno
+const calendar = document.getElementById('calendar');
+const diasDoMes = 30; // Exemplo de mês com 30 dias
+let selecionado = null;
+
+for (let i = 1; i <= diasDoMes; i++) {
+  const dia = document.createElement('div');
+  dia.textContent = i;
+  dia.addEventListener('click', () => {
+    if (selecionado) {
+      selecionado.classList.remove('selecionado');
+    }
+    dia.classList.add('selecionado');
+    selecionado = dia;
+    alert(`Você selecionou o dia ${i} para agendar uma reunião.`);
+  });
+  calendar.appendChild(dia);
+}
