@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Página da Instituição</title>
+  <link rel="stylesheet" href="instituicao.css" />
+  <script src="script.js" defer></script>
+</head>
+<body class="instituicao">
+  <div class="dashboard">
+    <aside class="sidebar">
+<!-- insere a foto de perfil do usuário -->
+     <form id="foto-form" enctype="multipart/form-data">
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label">
+      <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
+      <span class="icon-overlay">📷</span>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden>
+  </div>
+  <!-- Modal flutuante central -->
+<div id="foto-modal" class="modal hidden">
+  <div class="modal-content">
+    <p>Deseja salvar a nova foto de perfil?</p>
+    <div class="modal-buttons">
+      <button id="confirmar-btn" class="btn salvar">Salvar</button>
+      <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
+</form>
+
+<!-- insere a foto de perfil do usuário -->
+      <p class="institution-name"></p>
+       <button onclick="mostrarSecao('painel')">Painel Inicial</button>
+       <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+       <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
+       <button onclick="mostrarSecao('usuarios')">Alunos</button>
+      <a href="login.html" class="back-button"> Sair </a>
+    </aside>
+
+     <main class="main-content">
+      <!-- Painel Inicial -->
+      <section id="painel" class="secao-dashboard active">
+        <h2>Bem-vindo(a) ao Painel da Instituição</h2>
+        <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+        <div class="dashboard-cards">
+          <div class="card">
+            <h3>Alunos Cadastrados</h3>
+            <p id="count-alunos"></p>
+          </div>
+          <div class="card">
+            <h3>Projetos Ativos</h3>
+            <p id="count-projetos"></p>
+          </div>
+          <div class="card">
+            <h3>Último Cadastro</h3>
+            <p id="last-cadastro"></p>
+          </div>
+        </div>
+      </section>
+
+     <section id="projetos" class="secao-dashboard">
+        <h2>Cadastro de Projetos</h2>
+        <form id="form-projetos" method="POST">
+          <input type="text" name="titulo" placeholder="Título do Projeto" required/>
+          <textarea name="descricao" placeholder="Descrição do Projeto" rows="4"></textarea>
+          <input type="date" name="data_inicio" placeholder="Data de início" required/>
+          <input type="date" name="data_termino" placeholder="Data do término" required/>
+          <button type="submit">Cadastrar Projeto</button>
+        </form>
+      </section> 
+
+      <section id="listar-projetos" class="secao-dashboard">
+        <h2>Projetos Cadastrados</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>  Id  </th>
+              <th>  Título  </th>
+              <th>  Descrição  </th>
+              <th>  Status  </th>
+              <th>  Data Início  </th>
+              <th>  Data Término  </th>
+            </tr>
+          </thead>
+          <tbody id="tabela-projetos">
+          <!-- Conteúdo será preenchido via JavaScript -->
+          </tbody>
+          </table>
+      </section>
+
+      <section id="usuarios" class="secao-dashboard">
+        
+        <h2>Alunos Cadastrados</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>  ID  </th>
+              <th>  Nome  </th>
+              <th>  Email  </th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-alunos">
+          <!-- Os alunos serão carregados aqui via script.js -->
+          </tbody>
+        </table>
+      </section> 
+    </main>
+
+  <script>
+    function mostrarSecao(secaoId) {
+      const secoes = document.querySelectorAll('.secao-dashboard');
+      secoes.forEach(secao => secao.classList.remove('active'));
+      document.getElementById(secaoId).classList.add('active');
+    }
+
+  </script>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
+
+    if (dados) {
+      const usuario = JSON.parse(dados);
+
+      // Exemplo: verificar o tipo
+      if (usuario.tipo !== "instituicao") {
+        alert("Acesso não autorizado.");
+        window.location.href = "login.html";
+      }
+
+      // Aqui você pode usar os dados do usuário normalmente
+      console.log("Usuário logado:", usuario.nome);
+    } else {
+      // Redireciona se não estiver logado
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
+
+<script>
+  function mostrarSecao(secaoId) {
+    const secoes = document.querySelectorAll('.secao-dashboard');
+    secoes.forEach(secao => secao.classList.remove('active'));
+    document.getElementById(secaoId)?.classList.add('active');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // Verifica se o tipo de usuário está correto
+    const tipoUsuario = localStorage.getItem("tipoUsuario");
+    if (tipoUsuario !== "instituicao") {
+      // Redireciona para a tela de login se não for do tipo "instituicao"
+      window.location.href = "login.html";
+      return;
+    }
+
+    const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
+
+    // Atualiza o nome no menu lateral
+    const nomeElemento = document.querySelector('.institution-name');
+    if (nomeElemento) {
+      nomeElemento.textContent = nomeInstituicao;
+    }
+
+    // Atualiza o título da seção principal
+    const painelTitulo = document.querySelector('#painel h2');
+    if (painelTitulo) {
+      painelTitulo.textContent = `Bem-vindo(a), ${nomeInstituicao}!`;
+    }
+  });
+</script>
+
+<!-- Ativa o cadastro de projeto com a URL correta -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
+    ativarCadastroProjeto();
+  });
+</script>
+
+
+<!-- script para prewiew da foto de perfil e envio com fetch -->
+
+<script>
+  const fotoInput = document.getElementById('foto-input');
+  const previewImg = document.getElementById('preview-img');
+  const modal = document.getElementById('foto-modal');
+  const confirmarBtn = document.getElementById('confirmar-btn');
+  const cancelarBtn = document.getElementById('cancelar-btn');
+  let novaImagem = null;
+
+  fotoInput.addEventListener('change', () => {
+    const file = fotoInput.files[0];
+    if (file) {
+      novaImagem = file;
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        modal.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+confirmarBtn.addEventListener('click', async () => {
+  if (!novaImagem) return;
+
+  const formData = new FormData();
+  formData.append('foto', novaImagem);
+
+  // Pega o id do usuário do localStorage (ajuste conforme seu armazenamento)
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  if (!usuarioLogado || !usuarioLogado.id) {
+    alert('Usuário não identificado. Faça login novamente.');
+    return;
+  }
+  formData.append('userId', usuarioLogado.id);
+
+  try {
+    const res = await fetch('http://localhost:3000/upload-foto', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (data.caminho) {
+      previewImg.src = `/uploads/${data.caminho}`;
+
+      // Atualiza no localStorage para exibir depois
+      usuarioLogado.fotoPerfil = data.caminho;
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+    }
+
+    alert(data.message || 'Foto enviada com sucesso!');
+    modal.classList.add('hidden');
+    fotoInput.value = '';
+    novaImagem = null;
+  } catch (error) {
+    alert('Erro ao enviar a foto. Tente novamente.');
+    console.error(error);
+  }
+});
+
+  cancelarBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    novaImagem = null;
+    fotoInput.value = '';
+    // Se quiser restaurar a foto anterior aqui, descomente:
+    // previewImg.src = 'caminho/atual.jpg';
+  });
+</script>
+
+
+</body>
+</html>
