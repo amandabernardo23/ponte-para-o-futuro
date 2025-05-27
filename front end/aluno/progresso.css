@@ -1,7 +1,23 @@
-body {
+/* Variáveis de cores para facilitar reutilização */
+:root {
+  --azul-escuro: #111827;
+  --azul-claro: #06b6d4;
+  --cinza-claro: #d1d5db;
+  --branco: #ffffff;
+}
+
+* {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f8f8f8;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body,
+html {
+  height: 100%;
+  background-color: var(--cinza-claro);
+  color: var(--azul-escuro);
 }
 
 .container {
@@ -9,112 +25,244 @@ body {
   height: 100vh;
 }
 
+/* Menu lateral */
 .menu-lateral {
-  width: 220px;
-  background: #e7f0fa;
+  width: 250px;
+  background-color: var(--azul-escuro);
+  color: var(--branco);
+  padding: 10px 20px; /* Reduzi padding para aproximar itens do topo */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-.logo img {
-  width: 60px;
+.menu-lateral .logo {
+  text-align: center;
+  margin-bottom: 4px;
 }
 
-.logo h2 {
-  font-size: 18px;
-  margin-top: 10px;
-  color: #0077c8;
-}
-
-.menu-lateral ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu-lateral li {
-  margin: 15px 0;
-  cursor: pointer;
-  color: #333;
-}
-
-.sair {
-  background: #00b4d8;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.conteudo {
-  flex-grow: 1;
-  padding: 40px;
-}
-
-h1 {
-  font-size: 24px;
+.menu-lateral .logo img {
+  max-width: 100px;
   margin-bottom: 10px;
 }
 
-.subtitulo {
-  color: #555;
-  margin-bottom: 30px;
+.menu-lateral nav ul {
+  list-style: none;
+  padding: 0;
 }
 
+.menu-lateral nav ul li {
+  margin: 15px 0;
+  /* Margem menor para aproximar os nomes */
+}
+
+.menu-lateral nav ul li a {
+  color: var(--branco);
+  text-decoration: none;
+  padding: 8px;
+  display: block;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.menu-lateral nav ul li a:hover {
+  background-color: var(--azul-claro);
+  color: var(--azul-escuro);
+}
+
+.menu-lateral .sair {
+  background-color: var(--azul-claro);
+  color: var(--azul-escuro);
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.menu-lateral .sair:hover {
+  background-color: #0891b2;
+}
+
+.toggle-menu {
+  display: none;
+}
+
+/* Estilos dos botões de status */
+.botao-status {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--branco);
+  transition: background-color 0.3s ease;
+  margin-left: 6px;
+}
+
+.botao-status.entregue {
+  background-color: #10b981; /* verde */
+}
+
+.botao-status.andamento {
+  background-color: #facc15; /* amarelo */
+  color: #111827;
+}
+
+.botao-status.pendente {
+  background-color: #ef4444; /* vermelho */
+}
+
+.botao-status.active {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.botao-status:hover {
+  opacity: 0.85;
+}
+
+/* Conteúdo principal */
+.conteudo {
+  flex: 1;
+  padding: 40px;
+  background-color: var(--cinza-claro);
+  overflow-y: auto;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: var(--azul-escuro);
+}
+
+.subtitulo {
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: var(--azul-escuro);
+}
+
+/* Etapas com botões */
 .etapas {
   list-style: none;
   padding: 0;
-  font-size: 18px;
+  margin-bottom: 30px;
 }
 
 .etapas li {
-  margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
-  width: 450px;
+  align-items: center;
+  background-color: var(--branco);
+  border: 1px solid var(--cinza-claro);
+  border-radius: 5px;
+  padding: 12px 20px;
+  margin-bottom: 10px;
 }
 
-.status {
-  padding: 5px 12px;
-  border-radius: 12px;
-  color: white;
-  font-weight: bold;
-}
-
-.verde {
-  background-color: #4caf50;
-}
-
-.amarelo {
-  background-color: #ffc107;
-  color: black;
-}
-
-.vermelho {
-  background-color: #f44336;
-}
-
+/* Barra de progresso */
 .progresso {
-  margin-top: 40px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: var(--azul-escuro);
 }
 
 .barra {
-  width: 300px;
-  background: #ccc;
-  border-radius: 15px;
-  overflow: hidden;
-  height: 30px;
+  background-color: var(--branco);
+  border: 1px solid var(--azul-claro);
+  border-radius: 6px;
+  height: 24px;
   margin-top: 10px;
+  overflow: hidden;
 }
 
 .barra-azul {
   height: 100%;
-  background: #00b4d8;
-  color: white;
+  background-color: var(--azul-claro);
   text-align: center;
-  line-height: 30px;
+  color: var(--branco);
+  line-height: 24px;
+  font-weight: bold;
 }
 
+/* Responsividade */
+@media (max-width: 768px) {
+  .menu-lateral {
+    position: absolute;
+    transform: translateX(-100%);
+    z-index: 1000;
+    height: 100vh;
+  }
+
+  .menu-lateral.active {
+    transform: translateX(0);
+  }
+
+  .toggle-menu {
+    display: block;
+    background: none;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .toggle-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--branco);
+    margin: 5px 0;
+  }
+}
+
+/* Estilo básico do menu lateral */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: var(--azul-escuro);
+  padding: 20px;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  transform: translateX(0); /* inicia aberto */
+}
+
+/* Quando o menu NÃO estiver ativo, ele fica escondido */
+.menu-lateral.inativo {
+  transform: translateX(-250px);
+}
+
+/* Botão toggle sempre visível */
+.toggle-menu {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100; /* acima do menu */
+}
+
+/* Os 3 tracinhos */
+.toggle-menu span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--branco);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Ajuste do conteúdo principal para dar espaço para o menu quando aberto */
+.conteudo {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Quando o menu está escondido, o conteúdo ocupa a largura total */
+.menu-lateral.inativo ~ .conteudo {
+  margin-left: 0;
+}

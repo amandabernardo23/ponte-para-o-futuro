@@ -4,34 +4,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projetos Disponíveis - Ponte para o Futuro</title>
-    <link rel="stylesheet" href="projetoaluno.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="projetos-disponiveis.css" />
   </head>
   <body>
     <div class="container">
       <aside class="menu-lateral">
-        <img src="logo.png" alt="Logo Ponte para o Futuro" class="logo" />
-        <nav>
-          <ul>
-            <li>Meus projetos</li>
-            <li>Mentoria</li>
-            <li class="ativo">Projetos disponíveis</li>
-          </ul>
-        </nav>
-        <button class="btn-sair">SAIR</button>
+        <img src="../logo.png" alt="Logo Ponte para o Futuro" class="logo" />
+       <nav>
+  <ul>
+    <li><a href="../aluno/meusprojetos.html">Meus projetos</a></li>
+    <li><a href="../aluno/mentorialuno.html">Mentoria</a></li>
+    <li><a href="../aluno/aluno.html">Meu perfil</a></li>
+    <li class="ativo" >Projetos disponíveis</></li>
+  </ul>
+</nav>
+
+        <a href="../login.html" class="btn-sair">SAIR</a>
+
       </aside>
 
       <main class="conteudo">
-        <div class="voltar"><a href="#">&#8592;</a></div>
+         <a href="../aluno/aluno.html" class="back-button">
+    <img src="../assets/seta-esquerda.png" class="seta-voltar" alt="Voltar" />
+    </a>
         <h1>Projetos disponíveis</h1>
 
         <div class="projeto">
           <div class="projeto-header">
-            <img src="icone-educador.png" alt="Ícone Educador" />
+            <img src="../uninassau.png" alt="Ícone Educador" />
             <h2>Educador Financeiro Digital para Jovens</h2>
           </div>
 
           <div class="objetivo">
-            <span class="icone-alerta">🔴</span>
             <strong>Objetivo:</strong>
             <p>
               Desenvolver uma plataforma web interativa voltada para jovens e
@@ -70,4 +80,3 @@
     </div>
   </body>
 </html>
-

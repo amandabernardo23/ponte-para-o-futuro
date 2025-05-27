@@ -1,64 +1,80 @@
-
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projetos Disponíveis - Ponte para o Futuro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="meusprojetos.css" />
-    <title>Ponte para o Futuro</title>
   </head>
   <body>
     <div class="container">
-     <aside class="sidebar">
-      <img src="../assets/logo-preto.png"
-        class="mb-10"
-      />
-      <nav class="menu">
-        <a class="pl-2 hover:underline" href="meusprojetos.html">Meus projetos</a>
-        <a class="pl-2 hover:underline" href="#">Mentoria</a>
-        <a class="pl-2 font-bold hover:underline" href="aluno.html">Meu perfil</a>
-        <a class="pl-2 hover:underline" href="#">Projetos disponíveis</a>
+      <aside class="menu-lateral">
+        <img src="../assets/logo-preto.png" alt="Logo Ponte para o Futuro" class="logo" />
+        <nav>
+          <ul>
+            <li>MEUS PROJETOS</li>
+            <li>MENTORIA</li>
+            <li class="ativo">PROJETOS DISPONIVEIS</li>
+          </ul>
+        </nav>
+        <button class="btn-sair">SAIR</button>
+      </aside>
 
-           <a href="aluno.html" class="back-button">
-    <img src="../assets/backbutton.png" alt="Voltar" />
+      <main class="conteudo">
 
-      </nav>
-      <a href="login.html" class="logout-button"> Sair </a>
-    </aside>
+        <a href="../aluno/aluno.html" class="back-button">
+    <img src="../assets/seta-esquerda.png" class="seta-voltar" alt="Voltar" />
+    </a>
+        <h1>Projetos disponíveis</h1>
 
-      <main class="main-content">
-        <h1>Meus projetos</h1>
-      <div class="project">
-  <div class="project-header">
-    <img src="../uninassau.png" alt="Logo Nassau" class="project-logo">
-    <div>
-      <h3>Painel de Indicadores de Eficiência Operacional (PIEO)</h3>
-      <p><strong>Duração:</strong> 3 meses</p>
-    </div>
-  </div>
+        <div class="projeto">
+          <div class="projeto-header">
+            <img src="../uninassau.png" alt="Ícone Educador" />
+            <h2>Educador Financeiro Digital para Jovens</h2>
+          </div>
 
-  <div class="project-body">
-    <p><strong>Objetivo do projeto:</strong><br>
-    Criar um sistema web interno onde gerentes possam visualizar indicadores operacionais em tempo real, medida de avaliação, plano de ação, treinar recursos e realizar a gestão da equipe.</p>
+          <div class="objetivo">
+            <strong>Objetivo:</strong>
+            <p>
+              Desenvolver uma plataforma web interativa voltada para jovens e
+              estudantes com simulações de finanças pessoais, metas de controle
+              com e para o usuário, planejamento de metas e primeiros
+              investimentos — tudo com linguagem simples e gamificação.
+            </p>
+          </div>
 
-    <p><strong>Tecnologias:</strong><br>
-    Stack: React.js | TypeScript | Tailwind CSS | Chart.js | Node.js | Spring Boot | MySQL | Axis/MongoDB</p>
+          <div class="escopos">
+            <div class="escopo">
+              <h3>Escopo do projeto</h3>
+              <ol>
+                <li>Login básico e perfil com metas financeiras</li>
+                <li>Simulador de economia</li>
+                <li>Resumo financeiro mensal e investimentos</li>
+                <li>Análise de desempenho: verde/amarelo/vermelho</li>
+                <li>Ranking entre os usuários do sistema</li>
+                <li>Exportação de plano financeiro pessoal</li>
+              </ol>
+            </div>
 
-    <div class="progress">
-      <div class="progress-bar" style="width: 50%;">50%</div>
-    </div>
-
-    <div class="project-actions">
-      <button class="btn visualizar">Visualizar etapas</button>
-       <a href="progresso.html" class="btn progress"> Acompanhar progresso </a>
-      
-    </div>
-  </div>
-</div>
+            <div class="tecnologias">
+              <h3>Stack:</h3>
+              <ul>
+                <li>React.js + Tailwind + Chart.js</li>
+                <li>Node.js e MongoDB</li>
+                <li>Integração com Passport.js</li>
+                <li>APIs de notícias e bolsas</li>
+                <li>Vercel + Railway</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </main>
     </div>
-    <script src="../script.js"></script>
   </body>
 </html>
-
