@@ -91,6 +91,7 @@ nav a:hover {
   color: #ffffff;
   margin-bottom: 30px;
   line-height: 1.5;
+  text-align: justify;
 }
 
 .btn {
@@ -136,7 +137,6 @@ footer {
   max-width: 100vw;
   left: 0;
   right: 0;
-
 }
 
 /* Responsividade */
@@ -190,7 +190,6 @@ footer {
 .text-blink {
   color: #06b6d4;
   font-weight: bold;
-  animation: blink 1.2s linear infinite;
 }
 
 @keyframes blink {
@@ -203,3 +202,26 @@ footer {
   }
 }
 
+.text-saibamais, p1, p2, p3{
+  text-align: justify;
+  font-size: 18px;
+  color: #ffffff;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.text-saibamais h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.text-saibamais h2 span {
+  color: #06b6d4;
+}
+
+.text-saibamais {
+    flex: 1;
+  max-width: 500px;
+}
