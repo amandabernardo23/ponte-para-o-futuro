@@ -213,7 +213,6 @@ function carregarProjetos() {
     });
 }
 
-
 function carregarAlunos() {
   fetch('http://localhost:3000/api/users') // ajuste a rota se necessário
     .then(response => response.json())
@@ -286,6 +285,114 @@ function mostrarSecao(secaoId) {
     atualizarPainelResumo(); // <- chama a função ao abrir o painel
   }
 
+ if (secaoId === 'solicitacoes') {
+    const carregarSolicitacoes = criarCarregadorSolicitacoes("http://localhost:3000/api/solicitacoes/pendentes");
+    const responderSolicitacao = criarResponderSolicitacao("http://localhost:3000/api/solicitacoes");
+    carregarSolicitacoes(responderSolicitacao); // <- chama ao abrir a seção de solicitações
+  }
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const previewImg = document.getElementById('previewImg');
+
+  if (previewImg) {
+    if (usuario && usuario.fotoPerfil) {
+      previewImg.src = `/uploads/${usuario.fotoPerfil}`;
+    } else {
+      previewImg.src = 'caminho/atual.jpg'; // foto padrão
+    }
+  }
+});
+
+//script para calendário na página mentoria.aluno
+const calendar = document.getElementById('calendar');
+if (calendar) {
+  const diasDoMes = 30; // Exemplo de mês com 30 dias
+  let selecionado = null;
+
+  for (let i = 1; i <= diasDoMes; i++) {
+    const dia = document.createElement('div');
+    dia.textContent = i;
+    dia.addEventListener('click', () => {
+      if (selecionado) {
+        selecionado.classList.remove('selecionado');
+      }
+      dia.classList.add('selecionado');
+      selecionado = dia;
+      alert(`Você selecionou o dia ${i} para agendar uma reunião.`);
+    });
+    calendar.appendChild(dia);
+  }
+}
+// Factory para carregar e exibir a tabela de solicitações
+function criarCarregadorSolicitacoes(apiUrl) {
+  return function carregarSolicitacoes(responderFunc) {
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(solicitacoes => {
+        const tabela = document.getElementById("tabela-solicitacoes");
+        tabela.innerHTML = "";
+
+        solicitacoes.forEach(s => {
+          const linha = document.createElement("tr");
+          linha.innerHTML = `
+            <td>${s.nome_aluno}</td>
+            <td>${s.titulo_projeto}</td>
+            <td>${s.status}</td>
+            <td><button class="btn-responder" data-id="${s.id}" data-aluno="${s.nome_aluno}" data-projeto="${s.titulo_projeto}">Responder</button></td>
+          `;
+          tabela.appendChild(linha);
+        });
+
+        document.querySelectorAll(".btn-responder").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            const aluno = btn.dataset.aluno;
+            const projeto = btn.dataset.projeto;
+
+            document.getElementById("aluno-nome").textContent = aluno;
+            document.getElementById("projeto-titulo").textContent = projeto;
+            document.getElementById("resposta-solicitacao").style.display = "block";
+
+            document.getElementById("btn-aprovar").onclick = () => {
+              const msg = document.getElementById("mensagem-resposta").value;
+              responderFunc(id, "aprovado", msg, carregarSolicitacoes(responderFunc));
+            };
+
+            document.getElementById("btn-negar").onclick = () => {
+              const msg = document.getElementById("mensagem-resposta").value;
+              responderFunc(id, "negado", msg, carregarSolicitacoes(responderFunc));
+            };
+          });
+        });
+      })
+      .catch(erro => {
+        console.error("Erro ao carregar solicitações:", erro);
+      });
+  };
+}
+
+// Factory para responder (PUT) uma solicitação
+function criarResponderSolicitacao(baseUrl) {
+  return function responderSolicitacao(id, status, mensagem, callbackRecarregar) {
+    fetch(`${baseUrl}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, mensagem }),
+    })
+      .then(res => res.json())
+      .then(() => {
+        alert(`Solicitação ${status === "aprovado" ? "aprovada" : "negada"} com sucesso!`);
+        document.getElementById("resposta-solicitacao").style.display = "none";
+        document.getElementById("mensagem-resposta").value = "";
+        callbackRecarregar(); // recarrega a tabela
+      })
+      .catch(erro => {
+        console.error("Erro ao enviar resposta:", erro);
+      });
+  };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -299,39 +406,8 @@ document.addEventListener("DOMContentLoaded", () => {
  const ativarCadastroProjeto = criarCadastroProjetoHandler("http://localhost:3000/api/projetos");
   ativarCadastroProjeto();
 
+ const carregarSolicitacoes = criarCarregadorSolicitacoes("http://localhost:3000/api/solicitacoes/pendentes");
+ const responderSolicitacao = criarResponderSolicitacao("http://localhost:3000/api/solicitacoes");
+
+  carregarSolicitacoes(responderSolicitacao); // carrega ao iniciar
 });
-
-const idDoUsuario = localStorage.getItem('usuarioId'); // pega o ID do usuário logado
-previewImg.src = `/uploads/usuario-${idDoUsuario}.jpg`;
-const formData = new FormData();
-formData.append('foto', novaImagem);
-formData.append('userId', idDoUsuario);
-
-// carrega a foto do usuário (instituição.html)
-document.addEventListener('DOMContentLoaded', () => {
-  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-  if (usuario && usuario.fotoPerfil) {
-    previewImg.src = `/uploads/${usuario.fotoPerfil}`;
-  } else {
-    previewImg.src = 'caminho/atual.jpg'; // foto padrão
-  }
-});
-
-//script para calendário na página mentoria.aluno
-const calendar = document.getElementById('calendar');
-const diasDoMes = 30; // Exemplo de mês com 30 dias
-let selecionado = null;
-
-for (let i = 1; i <= diasDoMes; i++) {
-  const dia = document.createElement('div');
-  dia.textContent = i;
-  dia.addEventListener('click', () => {
-    if (selecionado) {
-      selecionado.classList.remove('selecionado');
-    }
-    dia.classList.add('selecionado');
-    selecionado = dia;
-    alert(`Você selecionou o dia ${i} para agendar uma reunião.`);
-  });
-  calendar.appendChild(dia);
-}

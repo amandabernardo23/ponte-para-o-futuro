@@ -37,6 +37,7 @@
        <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
        <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
        <button onclick="mostrarSecao('usuarios')">Alunos</button>
+       <button onclick="mostrarSecao('solicitacoes')">Solicitações</button>
       <a href="login.html" class="back-button"> Sair </a>
     </aside>
 
@@ -107,6 +108,34 @@
           </tbody>
         </table>
       </section> 
+
+    <section id="solicitacoes" class="secao-dashboard">
+  <h1>Solicitações Pendentes</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Aluno</th>
+        <th>Projeto</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-solicitacoes">
+      <!-- Preenchido via JS -->
+    </tbody>
+  </table>
+
+  <div id="resposta-solicitacao" style="margin-top: 20px; display: none;">
+    <h2>Responder Solicitação</h2>
+    <p><strong>Aluno:</strong> <span id="aluno-nome"></span></p>
+    <p><strong>Projeto:</strong> <span id="projeto-titulo"></span></p>
+    <input type="text" id="mensagem-resposta" placeholder="Mensagem para o aluno" style="width: 300px;" />
+    <br /><br />
+    <button id="btn-aprovar">Aprovar</button>
+    <button id="btn-negar">Negar</button>
+  </div>
+</section>
+
     </main>
 
   <script>
@@ -139,7 +168,6 @@
     }
   });
 </script>
-
 
 <script>
   function mostrarSecao(secaoId) {
@@ -180,7 +208,6 @@
     ativarCadastroProjeto();
   });
 </script>
-
 
 <!-- script para prewiew da foto de perfil e envio com fetch -->
 
@@ -253,7 +280,5 @@ confirmarBtn.addEventListener('click', async () => {
     // previewImg.src = 'caminho/atual.jpg';
   });
 </script>
-
-
 </body>
 </html>

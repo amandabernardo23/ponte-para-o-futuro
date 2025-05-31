@@ -1,71 +1,223 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Ponte para o Futuro - Projetos</title>
-  </head>
-  <body>
-    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
-    <div class="container">
-      <aside class="sidebar active" id="sidebar">
-        <h2>PONTE PARA O <span>FUTURO</span></h2>
-        <nav>
-          <ul>
-            <li><a href="#">MEU PERFIL</a></li>
-            <li>
-              <a href="#" class="active">PROJETOS &gt; MAPA DE PROGRESSO</a>
-            </li>
-            <li><a href="#">MENTORIA</a></li>
-            <li><a href="#">CERTIFICADOS</a></li>
-          </ul>
-        </nav>
-        <button class="logout">SAIR</button>
-      </aside>
-
-      <main class="main-content">
-        <h1>MEUS PROJETOS</h1>
-        <div class="project">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Itau_logo.svg/1200px-Itau_logo.svg.png"
-            alt="Logo Itaú"
-          />
-          <h2>Painel de Indicadores de Eficiência Operacional (PIEO)</h2>
-          <p>Empresa: Itaú</p>
-          <p>Duração: 3 meses</p>
-
-          <h3>Objetivo do projeto:</h3>
-          <p>
-            Criar um sistema web interno onde gerentes possam visualizar
-            indicadores operacionais em tempo real, medida de avaliação, plano
-            de ação, treinar recursos e realizar a gestão da equipe.
-          </p>
-
-          <h3>Tecnologias:</h3>
-          <p>
-            Stack: React.js | TypeScript | Tailwind CSS | Chart.js | Node.js |
-            Spring Boot | MySQL | Axis/MongoDB
-          </p>
-
-          <div class="progress">
-            <div class="progress-bar" style="width: 50%">50%</div>
-          </div>
-
-          <button class="view-button">Visualizar etapas</button>
-        </div>
-      </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Ponte para o Futuro - Perfil</title>
+<link rel="stylesheet" href="aluno.css" />
+<script src="aluno.js" defer></script>
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+<!-- insere a foto de perfil do usuário -->
+     <form id="foto-form" enctype="multipart/form-data">
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label">
+      <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
+      <span class="icon-overlay">📷</span>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden>
+  </div>
+  <!-- Modal flutuante central -->
+<div id="foto-modal" class="modal hidden">
+  <div class="modal-content">
+    <p>Deseja salvar a nova foto de perfil?</p>
+    <div class="modal-buttons">
+      <button id="confirmar-btn" class="btn salvar">Salvar</button>
+      <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
     </div>
-    <script>
-      function toggleSidebar() {
-        const sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("active");
-      }
-    </script>
-  </body>
-</html>
+  </div>
+</div>
 
+</form>
+
+<!-- insere a foto de perfil do usuário -->
+      <p class="institution-name"></p>
+       <button onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
+       <button onclick="mostrarSecao('mentoria')">Mentoria</button>
+       <button onclick="mostrarSecao('projetos-disponiveis')">Projetos Disponíveis</button>
+       <button onclick="mostrarSecao('meus-projetos')">Meus Projetos</button>
+      <a href="login.html" class="back-button"> Sair </a>
+    </aside>
+
+     <main class="main-content">
+      <!-- Painel Inicial -->
+      <section id="meu-perfil" class="secao-dashboard active">
+        <h2>Bem-vindo(a) </h2>
+        <h2>Meu Perfil</h2>
+        <div class="dashboard-cards">
+        </div>
+      </section>
+
+     <section id="mentoria" class="secao-dashboard">
+          <div class="mentoria-card">
+            <div><strong>📅 HOJE - 15h00</strong></div>
+            <div>
+              <strong
+                >Painel de Indicadores de Eficiência Operacional (PIEO)</strong
+              >
+            </div>
+            <p>Apresentação do módulo de dashboards + gráficos</p>
+            <button class="btn-azul">Acessar chamada</button>
+          </div>
+            <button class="btn-azul">Agendar reunião</button>
+      </section> 
+
+      <section id="projetos-disponiveis" class="secao-dashboard">
+        <h2>Projetos Disponíveis</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>  Id  </th>
+              <th>  Título  </th>
+              <th>  Descrição  </th>
+              <th>  Status  </th>
+              <th>  Data Início  </th>
+              <th>  Data Término  </th>
+            </tr>
+          </thead>
+          <tbody id="tabela-projetos">
+          <!-- Conteúdo será preenchido via JavaScript -->
+          </tbody>
+          </table>
+      </section>
+
+      <section id="meus-projetos" class="secao-dashboard">
+        <h2>Meus Projetos</h2>
+        <table border="1">
+          <thead>
+            <tr><th>Título</th><th>Descrição</th><th>Status</th><th>Mensagem</th></tr>
+          </thead>
+          <tbody id="tabela-meus-projetos">
+            <!-- Carregado via JS -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+ <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
+
+    if (dados) {
+      const usuario = JSON.parse(dados);
+
+      // Verifica se o tipo de usuário está correto
+      if (usuario.tipo !== "aluno") {
+        alert("Acesso não autorizado.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Atualiza nome do usuário no menu lateral
+      const nomeElemento = document.querySelector('.institution-name');
+      if (nomeElemento) {
+        nomeElemento.textContent = usuario.nome || "Aluno";
+      }
+
+      // Atualiza título principal
+      const tituloPrincipal = document.querySelector('#meu-perfil h2');
+      if (tituloPrincipal) {
+        tituloPrincipal.textContent = `Bem-vindo(a), ${usuario.nome || "Aluno"}!`;
+      }
+
+      // Atualiza a foto de perfil (se existir)
+      if (usuario.fotoPerfil) {
+        const imgEl = document.getElementById('preview-img');
+        if (imgEl) imgEl.src = `/uploads/${usuario.fotoPerfil}`;
+      }
+
+    } else {
+      // Redireciona se não estiver logado
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
+<Script>
+function mostrarSecao(secaoId) {
+  const secoes = document.querySelectorAll('.secao-dashboard');
+  secoes.forEach(secao => secao.classList.remove('active'));
+
+  const secaoSelecionada = document.getElementById(secaoId);
+  if (secaoSelecionada) {
+    secaoSelecionada.classList.add('active');
+  }
+
+  // Executa funções de carregamento com base na seção
+  if (secaoId === 'projetos-disponiveis') {
+    carregarProjetos();
+  }
+  if (secaoId === 'meus-projetos') {
+    carregarMeusProjetos();
+  }
+}
+</Script>
+
+<script>
+  const fotoInput = document.getElementById('foto-input');
+  const previewImg = document.getElementById('preview-img');
+  const modal = document.getElementById('foto-modal');
+  const confirmarBtn = document.getElementById('confirmar-btn');
+  const cancelarBtn = document.getElementById('cancelar-btn');
+  let novaImagem = null;
+
+  fotoInput.addEventListener('change', () => {
+    const file = fotoInput.files[0];
+    if (file) {
+      novaImagem = file;
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        modal.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  confirmarBtn.addEventListener('click', async () => {
+    if (!novaImagem) return;
+
+    const formData = new FormData();
+    formData.append('foto', novaImagem);
+
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || !usuarioLogado.id) {
+      alert('Usuário não identificado. Faça login novamente.');
+      return;
+    }
+    formData.append('userId', usuarioLogado.id);
+
+    try {
+      const res = await fetch('http://localhost:3000/upload-foto', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.caminho) {
+        previewImg.src = `/uploads/${data.caminho}`;
+        usuarioLogado.fotoPerfil = data.caminho;
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+      }
+
+      alert(data.message || 'Foto enviada com sucesso!');
+      modal.classList.add('hidden');
+      fotoInput.value = '';
+      novaImagem = null;
+    } catch (error) {
+      alert('Erro ao enviar a foto. Tente novamente.');
+      console.error(error);
+    }
+  });
+
+  cancelarBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    novaImagem = null;
+    fotoInput.value = '';
+  });
+</script>
+</body>
+</html>

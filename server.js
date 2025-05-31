@@ -17,6 +17,7 @@ const usersRoutes = require('./routes/users');
 const projetosRoutes = require('./routes/projetos')
 const universidadeRoutes = require('./routes/universidades');
 const uploadRoutes = require('./routes/uploads');
+const solicitacoesRoutes = require('./routes/solicitacoes');
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //Rotas
@@ -27,6 +28,9 @@ app.use('/universidades', universidadeRoutes);
 //Rota para fazer upload da foto de perfil do usuário
 app.use('/upload-foto', uploadRoutes);
 
+//Rota de Solicitações
+app.use('/api/solicitacoes', solicitacoesRoutes);
+
 // Rota simples para testar
 app.get('/', (req, res) => {
   res.send('O Servidor Express está funcionando!');
@@ -36,6 +40,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
-
-
-
