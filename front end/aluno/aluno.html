@@ -1,64 +1,71 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="pt-BR">
+<html lang="pt-BR">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ponte para o Futuro - Perfil</title>
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    
-    <!-- CSS Externo -->
-    <link rel="stylesheet" href="aluno.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Ponte para o Futuro - Projetos</title>
   </head>
-  <body class="bg-[#f3f3f3] min-h-screen flex">
-    <aside class="sidebar">
-      <img src="../assets/logo-preto.png"
-        class="mb-10"
-      />
-      <nav class="menu">
-        <a class="pl-2 hover:underline" href="meusprojetos.html">Meus projetos</a>
-        <a class="pl-2 hover:underline" href="mentorialuno.html">Mentoria</a>
-        <a class="pl-2 font-bold hover:underline" href="aluno.html">Meu perfil</a>
-        <a class="pl-2 hover:underline" href="projetos-disponiveis.html">Projetos disponíveis</a>
-      </nav>
-      <a href="../login.html" class="back-button"> Sair </a>
-    </aside>
+  <body>
+    <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+    <div class="container">
+      <aside class="sidebar active" id="sidebar">
+        <h2>PONTE PARA O <span>FUTURO</span></h2>
+        <nav>
+          <ul>
+            <li><a href="#">MEU PERFIL</a></li>
+            <li>
+              <a href="#" class="active">PROJETOS &gt; MAPA DE PROGRESSO</a>
+            </li>
+            <li><a href="#">MENTORIA</a></li>
+            <li><a href="#">CERTIFICADOS</a></li>
+          </ul>
+        </nav>
+        <button class="logout">SAIR</button>
+      </aside>
 
-    <main class="flex-1 p-8 max-w-5xl">
-      <h1 class="text-base mb-6">Bem-vindo(a), Maria!</h1>
+      <main class="main-content">
+        <h1>MEUS PROJETOS</h1>
+        <div class="project">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Itau_logo.svg/1200px-Itau_logo.svg.png"
+            alt="Logo Itaú"
+          />
+          <h2>Painel de Indicadores de Eficiência Operacional (PIEO)</h2>
+          <p>Empresa: Itaú</p>
+          <p>Duração: 3 meses</p>
 
-      <section class="flex items-center gap-6 mb-6">
-        <img
-          src="https://storage.googleapis.com/a1aa/image/f905663e-ef40-4f41-4486-81b886da7b86.jpg"
-          alt="Foto de Maria Soares de Carvalho"
-          class="rounded-full w-20 h-20 object-cover"
-          width="80"
-          height="80"
-        />
-        <div>
-          <h2 class="text-lg font-semibold text-black leading-tight">Maria Soares de Carvalho</h2>
-          <p class="text-xs text-gray-600 mt-1">22 anos | 5º período de Ciência da Computação</p>
+          <h3>Objetivo do projeto:</h3>
+          <p>
+            Criar um sistema web interno onde gerentes possam visualizar
+            indicadores operacionais em tempo real, medida de avaliação, plano
+            de ação, treinar recursos e realizar a gestão da equipe.
+          </p>
+
+          <h3>Tecnologias:</h3>
+          <p>
+            Stack: React.js | TypeScript | Tailwind CSS | Chart.js | Node.js |
+            Spring Boot | MySQL | Axis/MongoDB
+          </p>
+
+          <div class="progress">
+            <div class="progress-bar" style="width: 50%">50%</div>
+          </div>
+
+          <button class="view-button">Visualizar etapas</button>
         </div>
-      </section>
-
-      <section class="mb-4">
-        <h3 class="secao-titulo">Formação Acadêmica</h3>
-        <div class="secao-dado">Faculdade Maurício de Nassau - Uninassau | 2023 - Atual</div>
-      </section>
-
-      <section class="mb-4">
-        <h3 class="secao-titulo">Interesses</h3>
-        <div class="secao-dado">JavaScript | React</div>
-      </section>
-
-      <section>
-        <h3 class="secao-titulo">Certificados Conquistados</h3>
-        <div class="bg-[#0a1426] rounded-md h-20 max-w-xl"></div>
-      </section>
-    </main>
+      </main>
+    </div>
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("active");
+      }
+    </script>
   </body>
 </html>
+
