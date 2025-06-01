@@ -229,3 +229,16 @@ footer {
 .mt-30 {
   margin-top: 30px;
 }
+
+.parceiros-html footer {
+background-color: #111827;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  margin-top: 210px;
+  width: 100%;
+  max-width: 100vw;
+  left: 0;
+  right: 0;
+ }

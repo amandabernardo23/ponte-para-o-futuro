@@ -17,7 +17,7 @@
       <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
       <span class="icon-overlay">📷</span>
     </label>
-    <input type="file" id="foto-input" name="foto" accept="image/*" hidden>
+    
   </div>
   <!-- Modal flutuante central -->
 <div id="foto-modal" class="modal hidden">
@@ -33,12 +33,16 @@
 
 <!-- insere a foto de perfil do usuário -->
       <p class="institution-name"></p>
-       <button onclick="mostrarSecao('painel')">Painel Inicial</button>
+      <button class="home" onclick="mostrarSecao('painel')">🏠</button>
        <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
        <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
        <button onclick="mostrarSecao('usuarios')">Alunos</button>
        <button onclick="mostrarSecao('solicitacoes')">Solicitações</button>
-      <a href="login.html" class="back-button"> Sair </a>
+       <button onclick="mostrarSecao('certificados')">Cadastrar Certificados</button>
+       <button onclick="mostrarSecao('perfil')">Meu Perfil</button>
+
+      <a href="login.html" class="logout"> Sair </a>
+
     </aside>
 
      <main class="main-content">
@@ -136,14 +140,85 @@
   </div>
 </section>
 
+<!-- Seção de Cadastro de Certificados -->
+<section id="certificados" class="secao-dashboard">
+   <div class="wrapper">
+          <form id="form-certificado" class="form-box">
+            <h1>Cadastrar Certificado</h1>
+            <p class="descricao">
+              Preencha os dados abaixo para registrar o certificado de conclusão de projeto.
+            </p>
+
+            <div class="input-group">
+              <label for="aluno">Nome do Aluno</label>
+              <input type="text" id="aluno" name="aluno" required />
+            </div>
+
+            <div class="input-group">
+              <label for="projeto">Nome do Projeto</label>
+              <input type="text" id="projeto" name="projeto" required />
+            </div>
+
+            <div class="input-group">
+              <label for="arquivo">Certificado (PDF)</label>
+              <input type="file" id="arquivo" name="arquivo" accept=".pdf" required />
+            </div>
+
+            <button type="submit">Cadastrar</button>
+
+            <div id="mensagem-sucesso" class="mensagem-sucesso" style="display: none">
+              ✅ Certificado cadastrado com sucesso!
+            </div>
+          </form>
+        </div>
+
+<!-- Perfil representante institucional  -->
+<section id="perfil" class="secao-dashboard">
+  <h1>Perfil Representante Institucional</h1>
+
+  <div class="profile">
+    <img
+      src="https://randomuser.me/api/portraits/women/68.jpg"
+      alt="Foto da representante"
+      class="profile-photo"
+    />
+    <h2>Marina Alves Costa</h2>
+    <p><strong>Cargo:</strong> Diretora Executiva</p>
+    <p><strong>Idade:</strong> 42 anos</p>
+    <p><strong>Email:</strong> marina.costa@instituicao.org</p>
+    <p><strong>Telefone:</strong> (11) 91234-5678</p>
+    <p><strong>Descrição:</strong> Marina possui mais de 15 anos de experiência em gestão educacional e projetos sociais, focada em conectar jovens talentos a oportunidades reais.</p>
+
+    <div class="projects-section">
+      <h2>Projetos Cadastrados</h2>
+
+      <div class="project">
+        <h3>Projeto de Inclusão Digital</h3>
+        <p><strong>Descrição:</strong> Curso de informática básica para jovens da comunidade local.</p>
+        <p><strong>Duração:</strong> 6 meses</p>
+        <p><strong>Status:</strong> Em andamento</p>
+      </div>
+
+      <div class="project">
+        <h3>Programa de Mentoria</h3>
+        <p><strong>Descrição:</strong> Mentoria individual para desenvolvimento profissional de estudantes.</p>
+        <p><strong>Duração:</strong> 12 meses</p>
+        <p><strong>Status:</strong> Finalizado</p>
+      </div>
+
+      <div class="project">
+        <h3>Feira de Talentos</h3>
+        <p><strong>Descrição:</strong> Evento anual para exposição de projetos acadêmicos e networking.</p>
+        <p><strong>Duração:</strong> 3 dias</p>
+        <p><strong>Status:</strong> Programado</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
     </main>
 
-  <script>
-    function mostrarSecao(secaoId) {
-      const secoes = document.querySelectorAll('.secao-dashboard');
-      secoes.forEach(secao => secao.classList.remove('active'));
-      document.getElementById(secaoId).classList.add('active');
-    }
 
   </script>
   
