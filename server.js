@@ -31,13 +31,14 @@ app.use('/upload-foto', uploadRoutes);
 //Rota de Solicitações
 app.use('/api/solicitacoes', solicitacoesRoutes);
 
-// Middleware para servir arquivos estáticos do front-end
+// Serve arquivos estáticos da pasta 'frontend'
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Rota para servir o index.html
-app.get('/', (req, res) => {
+// Rota fallback para index.html
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
+
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
