@@ -34,10 +34,15 @@ app.use('/api/solicitacoes', solicitacoesRoutes);
 // Serve arquivos estáticos da pasta 'frontend'
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Rota fallback para index.html
-app.get('*', (req, res) => {
+// Serve arquivos HTML diretamente
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'login.html'));
+});
+
 
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
