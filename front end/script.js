@@ -199,8 +199,8 @@ function carregarProjetos() {
         const linha = document.createElement('tr');
         linha.innerHTML = `
           <td>${p.id}</td>
-          <td>${p.título}</td>
-          <td>${p.descrição}</td>
+          <td>${p.titulo}</td>
+          <td>${p.descricao}</td>
           <td>${p.status}</td>
           <td>${new Date(p.data_inicio).toLocaleDateString()}</td>
           <td>${new Date(p.data_termino).toLocaleDateString()}</td>

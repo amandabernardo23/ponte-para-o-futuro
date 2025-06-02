@@ -18,7 +18,7 @@ exports.criarSolicitacao = (req, res) => {
 // Listar solicitações pendentes
 exports.listarPendentes = (req, res) => {
   const sql =  `
-    SELECT ap.id, u.nome AS nome_aluno, p.título AS titulo_projeto, ap.status
+    SELECT ap.id, u.nome AS nome_aluno, p.titulo AS titulo_projeto, ap.status
     FROM alunos_projetos ap
     JOIN usuarios u ON ap.aluno_id = u.id
     JOIN projetos p ON ap.projeto_id = p.id
@@ -54,7 +54,7 @@ exports.listarProjetosDoAluno = (req, res) => {
   const { alunoId } = req.query;
 
   const sql = `
-    SELECT p.título, p.descrição, sp.status, sp.mensagem_resposta
+    SELECT p.titulo, p.descricao, sp.status, sp.mensagem_resposta
     FROM alunos_projetos sp
     JOIN projetos p ON sp.projeto_id = p.id
     WHERE sp.aluno_id = ?

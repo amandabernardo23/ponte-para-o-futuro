@@ -2,7 +2,7 @@ const db = require('../config/database');
 
 // Controlador para listar os projetos cadastrados
 exports.listarProjetos = (req, res) => {
-  const sql = 'SELECT id, título, descrição, status, data_inicio, data_termino FROM projetos';
+  const sql = 'SELECT id, titulo, descricao, status, data_inicio, data_termino FROM projetos';
 
   db.query(sql, (err, results) => {
     if (err) {
@@ -22,7 +22,7 @@ exports.cadastrarProjeto = (req, res) => {
     return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios!' });
   }
 
-  const sql = 'INSERT INTO projetos (título, descrição, status, data_inicio, data_termino, id_universidade) VALUES (?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO projetos (titulo, descricao, status, data_inicio, data_termino, id_universidade) VALUES (?, ?, ?, ?, ?, ?)';
 
   db.query(sql, [titulo, descricao, status, data_inicio, data_termino, id_universidade], (err, result) => {
     if (err) {

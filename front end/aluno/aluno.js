@@ -68,8 +68,8 @@ async function carregarProjetos() {
       const linha = document.createElement('tr');
       linha.innerHTML = `
         <td>${p.id}</td>
-        <td>${p.título}</td>
-        <td>${p.descrição}</td>
+        <td>${p.titulo}</td>
+        <td>${p.descricao}</td>
         <td>${p.status || 'Disponível'}</td>
         <td>${new Date(p.data_inicio).toLocaleDateString()}</td>
         <td>${new Date(p.data_termino).toLocaleDateString()}</td>
@@ -142,8 +142,8 @@ function carregarMeusProjetos() {
         const linha = document.createElement("tr");
 
         linha.innerHTML = `
-          <td>${projeto.título}</td>
-          <td>${projeto.descrição}</td>
+          <td>${projeto.titulo}</td>
+          <td>${projeto.descricao}</td>
           <td>${projeto.status}</td>
           <td>${projeto.mensagem_resposta || "—"}</td>
         `;
