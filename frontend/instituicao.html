@@ -3,50 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title> Página da Instituição</title>
+  <title>Página da Instituição</title>
   <link rel="stylesheet" href="instituicao.css" />
   <script src="script.js" defer></script>
 </head>
 <body class="instituicao">
   <div class="dashboard">
     <aside class="sidebar">
-<!-- insere a foto de perfil do usuário -->
-     <form id="foto-form" enctype="multipart/form-data">
-  <div class="upload-container">
-    <label for="foto-input" class="upload-label">
-      <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
-      <span class="icon-overlay">📷</span>
-    </label>
-    
-  </div>
-  <!-- Modal flutuante central -->
-<div id="foto-modal" class="modal hidden">
-  <div class="modal-content">
-    <p>Deseja salvar a nova foto de perfil?</p>
-    <div class="modal-buttons">
-      <button id="confirmar-btn" class="btn salvar">Salvar</button>
-      <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
-    </div>
-  </div>
-</div>
-</form>
-
-<!-- insere a foto de perfil do usuário -->
+      <form id="foto-form" enctype="multipart/form-data">
+        <div class="upload-container">
+          <label for="foto-input" class="upload-label">
+            <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
+            <span class="icon-overlay">📷</span>
+          </label>
+        </div>
+        <div id="foto-modal" class="modal hidden">
+          <div class="modal-content">
+            <p>Deseja salvar a nova foto de perfil?</p>
+            <div class="modal-buttons">
+              <button id="confirmar-btn" class="btn salvar">Salvar</button>
+              <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
       <p class="institution-name"></p>
       <button class="home" onclick="mostrarSecao('painel')">🏠</button>
-       <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
-       <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
-       <button onclick="mostrarSecao('usuarios')">Alunos</button>
-       <button onclick="mostrarSecao('solicitacoes')">Solicitações</button>
-       <button onclick="mostrarSecao('certificados')">Cadastrar Certificados</button>
-       <button onclick="mostrarSecao('perfil')">Meu Perfil</button>
-
-      <a href="/login.html" class="logout"> Sair </a>
-
+      <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+      <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
+      <button onclick="mostrarSecao('usuarios')">Alunos</button>
+      <button onclick="mostrarSecao('solicitacoes')">Solicitações</button>
+      <button onclick="mostrarSecao('certificados')">Cadastrar Certificados</button>
+      <button onclick="mostrarSecao('perfil')">Meu Perfil</button>
+      <a href="login.html" class="logout"> Sair </a>
     </aside>
 
-     <main class="main-content">
-      <!-- Painel Inicial -->
+    <main class="main-content">
       <section id="painel" class="secao-dashboard active">
         <h2>Bem-vindo(a) ao Painel da Instituição</h2>
         <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
@@ -66,7 +58,7 @@
         </div>
       </section>
 
-     <section id="projetos" class="secao-dashboard">
+      <section id="projetos" class="secao-dashboard">
         <h2>Cadastro de Projetos</h2>
         <form id="form-projetos" method="POST">
           <input type="text" name="titulo" placeholder="Título do Projeto" required/>
@@ -75,149 +67,130 @@
           <input type="date" name="data_termino" placeholder="Data do término" required/>
           <button type="submit">Cadastrar Projeto</button>
         </form>
-      </section> 
+      </section>
 
       <section id="listar-projetos" class="secao-dashboard">
         <h2>Projetos Cadastrados</h2>
         <table border="1">
           <thead>
             <tr>
-              <th>  Id  </th>
-              <th>  Título  </th>
-              <th>  Descrição  </th>
-              <th>  Status  </th>
-              <th>  Data Início  </th>
-              <th>  Data Término  </th>
+              <th>Id</th>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Status</th>
+              <th>Data Início</th>
+              <th>Data Término</th>
             </tr>
           </thead>
-          <tbody id="tabela-projetos">
-          <!-- Conteúdo será preenchido via JavaScript -->
-          </tbody>
-          </table>
+          <tbody id="tabela-projetos"></tbody>
+        </table>
       </section>
 
       <section id="usuarios" class="secao-dashboard">
-        
         <h2>Alunos Cadastrados</h2>
         <table border="1">
           <thead>
             <tr>
-              <th>  ID  </th>
-              <th>  Nome  </th>
-              <th>  Email  </th>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
             </tr>
           </thead>
-          <tbody id="corpo-tabela-alunos">
-          <!-- Os alunos serão carregados aqui via script.js -->
-          </tbody>
+          <tbody id="corpo-tabela-alunos"></tbody>
         </table>
-      </section> 
+      </section>
 
-    <section id="solicitacoes" class="secao-dashboard">
-  <h1>Solicitações Pendentes</h1>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Aluno</th>
-        <th>Projeto</th>
-        <th>Status</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
-    <tbody id="tabela-solicitacoes">
-      <!-- Preenchido via JS -->
-    </tbody>
-  </table>
+      <section id="solicitacoes" class="secao-dashboard">
+        <h1>Solicitações Pendentes</h1>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Aluno</th>
+              <th>Projeto</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-solicitacoes"></tbody>
+        </table>
+        <div id="resposta-solicitacao" style="margin-top: 20px; display: none;">
+          <h2>Responder Solicitação</h2>
+          <p><strong>Aluno:</strong> <span id="aluno-nome"></span></p>
+          <p><strong>Projeto:</strong> <span id="projeto-titulo"></span></p>
+          <input type="text" id="mensagem-resposta" placeholder="Mensagem para o aluno" style="width: 300px;" />
+          <br /><br />
+          <button id="btn-aprovar">Aprovar</button>
+          <button id="btn-negar">Negar</button>
+        </div>
+      </section>
 
-  <div id="resposta-solicitacao" style="margin-top: 20px; display: none;">
-    <h2>Responder Solicitação</h2>
-    <p><strong>Aluno:</strong> <span id="aluno-nome"></span></p>
-    <p><strong>Projeto:</strong> <span id="projeto-titulo"></span></p>
-    <input type="text" id="mensagem-resposta" placeholder="Mensagem para o aluno" style="width: 300px;" />
-    <br /><br />
-    <button id="btn-aprovar">Aprovar</button>
-    <button id="btn-negar">Negar</button>
-  </div>
-</section>
-
-<!-- Seção de Cadastro de Certificados -->
-<section id="certificados" class="secao-dashboard">
-   <div class="wrapper">
+      <section id="certificados" class="secao-dashboard">
+        <div class="wrapper">
           <form id="form-certificado" class="form-box">
             <h1>Cadastrar Certificado</h1>
             <p class="descricao">
               Preencha os dados abaixo para registrar o certificado de conclusão de projeto.
             </p>
-
             <div class="input-group">
               <label for="aluno">Nome do Aluno</label>
               <input type="text" id="aluno" name="aluno" required />
             </div>
-
             <div class="input-group">
               <label for="projeto">Nome do Projeto</label>
               <input type="text" id="projeto" name="projeto" required />
             </div>
-
             <div class="input-group">
               <label for="arquivo">Certificado (PDF)</label>
               <input type="file" id="arquivo" name="arquivo" accept=".pdf" required />
             </div>
-
             <button type="submit">Cadastrar</button>
-
             <div id="mensagem-sucesso" class="mensagem-sucesso" style="display: none">
               ✅ Certificado cadastrado com sucesso!
             </div>
           </form>
         </div>
+      </section>
 
-<!-- Perfil representante institucional  -->
-<section id="perfil" class="secao-dashboard">
-  <h1>Perfil Representante Institucional</h1>
-
-  <div class="profile">
-    <img
-      src="https://randomuser.me/api/portraits/women/68.jpg"
-      alt="Foto da representante"
-      class="profile-photo"
-    />
-    <h2>Marina Alves Costa</h2>
-    <p><strong>Cargo:</strong> Diretora Executiva</p>
-    <p><strong>Idade:</strong> 42 anos</p>
-    <p><strong>Email:</strong> marina.costa@instituicao.org</p>
-    <p><strong>Telefone:</strong> (11) 91234-5678</p>
-    <p><strong>Descrição:</strong> Marina possui mais de 15 anos de experiência em gestão educacional e projetos sociais, focada em conectar jovens talentos a oportunidades reais.</p>
-
-    <div class="projects-section">
-      <h2>Projetos Cadastrados</h2>
-
-      <div class="project">
-        <h3>Projeto de Inclusão Digital</h3>
-        <p><strong>Descrição:</strong> Curso de informática básica para jovens da comunidade local.</p>
-        <p><strong>Duração:</strong> 6 meses</p>
-        <p><strong>Status:</strong> Em andamento</p>
-      </div>
-
-      <div class="project">
-        <h3>Programa de Mentoria</h3>
-        <p><strong>Descrição:</strong> Mentoria individual para desenvolvimento profissional de estudantes.</p>
-        <p><strong>Duração:</strong> 12 meses</p>
-        <p><strong>Status:</strong> Finalizado</p>
-      </div>
-
-      <div class="project">
-        <h3>Feira de Talentos</h3>
-        <p><strong>Descrição:</strong> Evento anual para exposição de projetos acadêmicos e networking.</p>
-        <p><strong>Duração:</strong> 3 dias</p>
-        <p><strong>Status:</strong> Programado</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
+      <section id="perfil" class="secao-dashboard">
+        <h1>Meu Perfil</h1>
+        <form id="form-perfil" enctype="multipart/form-data">
+          <div class="profile-edit">
+            <label for="foto-perfil" class="foto-container">
+              <div id="foto-preview" class="foto-preview">
+                <i class="icon-user"></i>
+              </div>
+            </label>
+            <input type="file" id="foto-perfil" name="foto" accept="image/*" style="display: none;" />
+          </div>
+          <div class="input-group">
+            <label for="nome">Nome Completo</label>
+            <input type="text" id="nome" name="nome" required />
+          </div>
+          <div class="input-group">
+            <label for="instituicao">Instituição</label>
+            <input type="text" id="instituicao" name="instituicao" required />
+          </div>
+          <div class="input-group">
+            <label for="idade">Idade</label>
+            <input type="number" id="idade" name="idade" required />
+          </div>
+          <div class="input-group">
+            <label for="formacao">Formação</label>
+            <input type="text" id="formacao" name="formacao" required />
+          </div>
+          <div class="input-group">
+            <label for="descricao">Descrição Profissional</label>
+            <textarea id="descricao" name="descricao" rows="4" required></textarea>
+          </div>
+          <button type="submit">Salvar Perfil</button>
+        </form>
+        <div class="projects-section">
+          <h2>Meus Projetos</h2>
+          <div id="meus-projetos"></div>
+        </div>
+      </section>
     </main>
+  </div>
 
 
   </script>
