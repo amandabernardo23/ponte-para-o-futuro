@@ -190,26 +190,36 @@ function criarCadastroProjetoHandler(urlRegistroProjeto) {
 // Function para carregar os projetos
 function carregarProjetos() {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-  const userId = usuarioLogado?.id;
+  const usuarioId = usuarioLogado?.id;
 
-  if (!userId) {
-    console.error('Erro: ID do usuário não encontrado no localStorage');
-    alert('Erro: Usuário não identificado.');
+  // Verifica se o usuário está logado e tem um ID
+  if (!usuarioId) {
+    console.error('Erro: Usuário não logado ou ID não encontrado.');
+    alert('Por favor, faça login novamente.');
+    window.location.href = 'login.html';
     return;
   }
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos?userId=${userId}`)
-    .then(res => res.json())
+  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/projetos')
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Erro ao buscar projetos: ' + res.status);
+      }
+      return res.json();
+    })
     .then(projetos => {
       const tabela = document.getElementById('tabela-projetos');
       tabela.innerHTML = ''; // Limpa a tabela
 
-      if (projetos.length === 0) {
-        tabela.innerHTML = '<tr><td colspan="6">Nenhum projeto encontrado para sua universidade.</td></tr>';
+      // Filtra os projetos para exibir apenas os que têm id_universidade igual ao id do usuário
+      const projetosFiltrados = projetos.filter(p => p.id_universidade === usuarioId);
+
+      if (projetosFiltrados.length === 0) {
+        tabela.innerHTML = `<tr><td colspan="6">Nenhum projeto encontrado para sua universidade.</td></tr>`;
         return;
       }
 
-      projetos.forEach(p => {
+      projetosFiltrados.forEach(p => {
         const linha = document.createElement('tr');
         linha.innerHTML = `
           <td>${p.id}</td>
@@ -224,7 +234,7 @@ function carregarProjetos() {
     })
     .catch(erro => {
       console.error('Erro ao buscar projetos:', erro);
-      alert('Erro ao carregar projetos.');
+      alert('Erro ao carregar projetos. Tente novamente.');
     });
 }
 
