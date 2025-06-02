@@ -2,7 +2,7 @@ const db = require('../config/database');
 
 // Controlador para listar os projetos cadastrados
 exports.listarProjetos = (req, res) => {
-  const sql = 'SELECT id, titulo, descricao, status, data_inicio, data_termino FROM projetos';
+  const sql = 'SELECT id, titulo, descricao, status, data_inicio, data_termino FROM projetos WHERE id_universidade = ? ';
 
   db.query(sql, (err, results) => {
     if (err) {

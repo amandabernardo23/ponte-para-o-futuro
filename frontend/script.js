@@ -189,11 +189,25 @@ function criarCadastroProjetoHandler(urlRegistroProjeto) {
 
 // Function para carregar os projetos
 function carregarProjetos() {
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/projetos') // ou o caminho da sua API no Railway
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const userId = usuarioLogado?.id;
+
+  if (!userId) {
+    console.error('Erro: ID do usuário não encontrado no localStorage');
+    alert('Erro: Usuário não identificado.');
+    return;
+  }
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos?userId=${userId}`)
     .then(res => res.json())
     .then(projetos => {
       const tabela = document.getElementById('tabela-projetos');
-      tabela.innerHTML = ''; // limpa a tabela
+      tabela.innerHTML = ''; // Limpa a tabela
+
+      if (projetos.length === 0) {
+        tabela.innerHTML = '<tr><td colspan="6">Nenhum projeto encontrado para sua universidade.</td></tr>';
+        return;
+      }
 
       projetos.forEach(p => {
         const linha = document.createElement('tr');
@@ -210,6 +224,7 @@ function carregarProjetos() {
     })
     .catch(erro => {
       console.error('Erro ao buscar projetos:', erro);
+      alert('Erro ao carregar projetos.');
     });
 }
 
