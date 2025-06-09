@@ -172,16 +172,16 @@
       const usuario = JSON.parse(dados);
 
       // Exemplo: verificar o tipo
-      if (usuario.tipo !== "instituicao") {
+      if (usuario.tipo !== "mentor") {
         alert("Acesso não autorizado.");
-        window.location.href = "login.html";
+        window.location.href = "/login";
       }
 
       // Aqui você pode usar os dados do usuário normalmente
       console.log("Usuário logado:", usuario.nome);
     } else {
       // Redireciona se não estiver logado
-      window.location.href = "login.html";
+      window.location.href = "/login";
     }
   });
 </script>
