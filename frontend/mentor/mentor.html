@@ -194,7 +194,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     // Verifica se o tipo de usuário está correto
     const tipoUsuario = localStorage.getItem("tipoUsuario");
-    if (tipoUsuario !== "instituicao") {
+    if (tipoUsuario !== "mentor") {
       // Redireciona para a tela de login se não for do tipo "instituicao"
       window.location.href = "login.html";
       return;
