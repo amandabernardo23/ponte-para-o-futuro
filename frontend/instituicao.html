@@ -13,18 +13,10 @@
       <form id="foto-form" enctype="multipart/form-data">
         <div class="upload-container">
           <label for="foto-input" class="upload-label">
-            <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
+            <img id="preview-img" class="profile-pic" src="assets/iconuser.png" alt="Foto de perfil" />
           </label>
         </div>
-        <div id="foto-modal" class="modal hidden">
-          <div class="modal-content">
-            <p>Deseja salvar a nova foto de perfil?</p>
-            <div class="modal-buttons">
-              <button id="confirmar-btn" class="btn salvar">Salvar</button>
-              <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
-            </div>
-          </div>
-        </div>
+      
       </form>
       <p class="institution-name"></p>
       <button class="home" onclick="mostrarSecao('painel')">🏠</button>
@@ -160,11 +152,7 @@
     <div class="profile-edit">
       <label for="foto-perfil" style="cursor: pointer;">
         <img
-          id="foto-preview"
-          src="https://via.placeholder.com/150"
-          class="profile-photo"
-          alt="Foto do perfil"
-        />
+          id="preview-img" class="profile-pic" src="assets/iconuser.png" alt="Foto de perfil" />
       </label>
       <input
         type="file"
