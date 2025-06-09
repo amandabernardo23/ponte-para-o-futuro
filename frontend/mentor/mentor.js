@@ -16,7 +16,7 @@ function abrirFormulario(idProjetoHtml, tituloProjeto) {
       <button onclick="enviarConvite('${idProjetoHtml}', ${idProjetoHtml.replace('projeto', '')})">Enviar</button>
     `;
     const linha = document.querySelector(`#linha-${idProjetoHtml}`);
-    linha.insertAdjacentElement('afterend', div); // insere o form após a linha da tabela
+    linha?.insertAdjacentElement('afterend', div); // evitar erro caso linha seja null
   }
 
   // Buscar alunos vinculados
@@ -26,19 +26,6 @@ function abrirFormulario(idProjetoHtml, tituloProjeto) {
       window.alunosDoProjeto = alunos.map(a => a.id);
       console.log('Alunos do projeto:', alunos);
     });
-}
-
-async function enviarMensagem(event) {
-  event.preventDefault();
-  const input = document.getElementById('mensagem');
-  const texto = input.value;
-  await fetch('/api/mensagens', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ texto, remetente: 'mentor' }) // ou 'aluno'
-  });
-  input.value = '';
-  carregarMensagens();
 }
 
 function enviarConvite(idProjetoHtml, idProjeto) {
@@ -166,20 +153,6 @@ function enviarConvite(idProjeto) {
   });
 }
 
-async function carregarMensagens() {
-  const res = await fetch('/api/mensagens');
-  const mensagens = await res.json();
-  const container = document.getElementById('mensagens');
-  container.innerHTML = '';
-
-  mensagens.forEach(msg => {
-    const div = document.createElement('div');
-    div.classList.add('mensagem', msg.remetente === 'mentor' ? 'mentor' : 'aluno');
-    div.textContent = msg.texto;
-    container.appendChild(div);
-  });
-
-  container.scrollTop = container.scrollHeight;
-}
-setInterval(carregarMensagens, 3000); // atualiza a cada 3s
-carregarMensagens(); // carrega inicialmente
+window.onload = function () {
+  carregarProjetos();
+};
