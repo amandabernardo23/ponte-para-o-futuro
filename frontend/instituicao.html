@@ -14,7 +14,6 @@
         <div class="upload-container">
           <label for="foto-input" class="upload-label">
             <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
-            <span class="icon-overlay">📷</span>
           </label>
         </div>
         <div id="foto-modal" class="modal hidden">
@@ -151,50 +150,72 @@
         </div>
       </section>
 
-      <section id="perfil" class="secao-dashboard">
-        <h1>Meu Perfil</h1>
-        <form id="form-perfil" enctype="multipart/form-data">
-          <div class="profile-edit">
-            <label for="foto-perfil" class="foto-container">
-              <div id="foto-preview" class="foto-preview">
-                <i class="icon-user"></i>
-              </div>
-            </label>
-            <input type="file" id="foto-perfil" name="foto" accept="image/*" style="display: none;" />
-          </div>
-          <div class="input-group">
-            <label for="nome">Nome Completo</label>
-            <input type="text" id="nome" name="nome" required />
-          </div>
-          <div class="input-group">
-            <label for="instituicao">Instituição</label>
-            <input type="text" id="instituicao" name="instituicao" required />
-          </div>
-          <div class="input-group">
-            <label for="idade">Idade</label>
-            <input type="number" id="idade" name="idade" required />
-          </div>
-          <div class="input-group">
-            <label for="formacao">Formação</label>
-            <input type="text" id="formacao" name="formacao" required />
-          </div>
-          <div class="input-group">
-            <label for="descricao">Descrição Profissional</label>
-            <textarea id="descricao" name="descricao" rows="4" required></textarea>
-          </div>
-          <button type="submit">Salvar Perfil</button>
-        </form>
-        <div class="projects-section">
-          <h2>Meus Projetos</h2>
-          <div id="meus-projetos"></div>
-        </div>
-      </section>
+    <section id="perfil" class="secao-dashboard">
+  <h1>Meu Perfil</h1>
+
+  <form id="form-perfil" enctype="multipart/form-data">
+    <!-- ID oculto do usuário -->
+    <input type="hidden" id="usuario_id" value="21" />
+
+    <div class="profile-edit">
+      <label for="foto-perfil" style="cursor: pointer;">
+        <img
+          id="foto-preview"
+          src="https://via.placeholder.com/150"
+          class="profile-photo"
+          alt="Foto do perfil"
+        />
+      </label>
+      <input
+        type="file"
+        id="foto-perfil"
+        name="foto"
+        accept="image/*"
+        style="display: none;"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" name="nome" required />
+    </div>
+    <div class="input-group">
+      <label for="instituicao">Instituição</label>
+      <input type="text" id="instituicao" name="instituicao" required />
+    </div>
+    <div class="input-group">
+      <label for="idade">Idade</label>
+      <input type="number" id="idade" name="idade" required />
+    </div>
+    <div class="input-group">
+      <label for="formacao">Formação</label>
+      <input type="text" id="formacao" name="formacao" required />
+    </div>
+    <div class="input-group">
+      <label for="descricao">Descrição Profissional</label>
+      <textarea id="descricao" name="descricao" rows="4" required></textarea>
+    </div>
+
+    <button type="submit" id="btn-salvar">Salvar Perfil</button>
+  </form>
+
+  <div class="projects-section">
+    <h2>Meus Projetos</h2>
+    <div id="meus-projetos"></div>
+  </div>
+</section>
     </main>
   </div>
 
 
-  </script>
-  
+<script src="js/factoryPerfil.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    carregarPerfil();
+    document.getElementById('form-perfil').addEventListener('submit', salvarPerfil);
+  });
+</script>
+
   <script>
   document.addEventListener("DOMContentLoaded", () => {
     const dados = localStorage.getItem("usuarioLogado");
@@ -233,7 +254,10 @@
       return;
     }
 
+    
+
     const nomeInstituicao = localStorage.getItem("instituicaoNome") || "Instituição";
+
 
     // Atualiza o nome no menu lateral
     const nomeElemento = document.querySelector('.institution-name');
@@ -258,75 +282,22 @@
 </script>
 
 <!-- script para prewiew da foto de perfil e envio com fetch -->
-
 <script>
-  const fotoInput = document.getElementById('foto-input');
-  const previewImg = document.getElementById('preview-img');
-  const modal = document.getElementById('foto-modal');
-  const confirmarBtn = document.getElementById('confirmar-btn');
-  const cancelarBtn = document.getElementById('cancelar-btn');
-  let novaImagem = null;
-
-  fotoInput.addEventListener('change', () => {
-    const file = fotoInput.files[0];
-    if (file) {
-      novaImagem = file;
+  document.getElementById('foto-perfil').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = e => {
-        previewImg.src = e.target.result;
-        modal.classList.remove('hidden');
+      reader.onload = function (e) {
+        document.getElementById('foto-preview').src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   });
 
-confirmarBtn.addEventListener('click', async () => {
-  if (!novaImagem) return;
-
-  const formData = new FormData();
-  formData.append('foto', novaImagem);
-
-  // Pega o id do usuário do localStorage (ajuste conforme seu armazenamento)
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-  if (!usuarioLogado || !usuarioLogado.id) {
-    alert('Usuário não identificado. Faça login novamente.');
-    return;
-  }
-  formData.append('userId', usuarioLogado.id);
-
-  try {
-    const res = await fetch('http://localhost:3000/upload-foto', {
-      method: 'POST',
-      body: formData
-    });
-
-    const data = await res.json();
-
-    if (data.caminho) {
-      previewImg.src = `/uploads/${data.caminho}`;
-
-      // Atualiza no localStorage para exibir depois
-      usuarioLogado.fotoPerfil = data.caminho;
-      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
-    }
-
-    alert(data.message || 'Foto enviada com sucesso!');
-    modal.classList.add('hidden');
-    fotoInput.value = '';
-    novaImagem = null;
-  } catch (error) {
-    alert('Erro ao enviar a foto. Tente novamente.');
-    console.error(error);
-  }
-});
-
-  cancelarBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
-    novaImagem = null;
-    fotoInput.value = '';
-    // Se quiser restaurar a foto anterior aqui, descomente:
-    // previewImg.src = 'caminho/atual.jpg';
+  document.getElementById('foto-preview').addEventListener('click', () => {
+    document.getElementById('foto-perfil').click();
   });
 </script>
+
 </body>
 </html>
