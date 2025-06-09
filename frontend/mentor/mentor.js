@@ -27,16 +27,27 @@ function abrirFormulario(idProjetoHtml, tituloProjeto) {
     });
 }
 
-function enviarConvite(idProjetoHtml, idProjeto) {
-  const data = document.getElementById(`data-${idProjetoHtml}`).value;
-  const hora = document.getElementById(`hora-${idProjetoHtml}`).value;
-  const link = document.getElementById(`link-${idProjetoHtml}`).value;
+function enviarConvite(idProjeto) {
+  const data = document.getElementById(`data-${idProjeto}`).value;
+  const hora = document.getElementById(`hora-${idProjeto}`).value;
+  const link = document.getElementById(`link-${idProjeto}`).value;
   const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
   const idMentor = usuario?.id;
 
-  const dataHora = `${data} ${hora}`;
+  if (!data || !hora || !link) {
+    alert("Preencha todos os campos!");
+    return;
+  }
 
-  const reunioes = window.alunosDoProjeto.map(idAluno => ({
+  const dataHora = `${data} ${hora}`;
+  const alunos = window.alunosDoProjeto?.[idProjeto] || [];
+
+  if (alunos.length === 0) {
+    alert("Nenhum aluno vinculado ao projeto.");
+    return;
+  }
+
+  const reunioes = alunos.map(idAluno => ({
     id_mentor: idMentor,
     id_projeto: idProjeto,
     id_aluno: idAluno,
@@ -44,20 +55,23 @@ function enviarConvite(idProjetoHtml, idProjeto) {
     link_reuniao: link
   }));
 
-  fetch('https://ponte-para-o-futuro-production.up.railway.app/api/reunioes', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  fetch("https://ponte-para-o-futuro-production.up.railway.app/api/reunioes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(reunioes)
   })
-  .then(res => res.json())
-  .then(data => {
-    alert('Reunião agendada com sucesso!');
-    document.getElementById(`formulario-${idProjetoHtml}`).remove(); // fecha formulário
-  })
-  .catch(err => {
-    console.error('Erro ao agendar:', err);
-    alert('Erro ao agendar reunião.');
-  });
+    .then(res => {
+      if (!res.ok) throw new Error("Erro ao enviar.");
+      return res.json();
+    })
+    .then(() => {
+      alert("Reunião agendada com sucesso!");
+      document.getElementById(`formulario-${idProjeto}`).remove(); // remove formulário se quiser
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Erro ao agendar reunião.");
+    });
 }
 
 // Function para carregar os projetos
@@ -154,63 +168,58 @@ function enviarConvite(idProjetoHtml, idProjeto) {
 }
 
 function mentorarProjeto(idProjeto, titulo) {
-  // 1. Salva no localStorage
+  // Salvar localmente para persistência
   let mentorados = JSON.parse(localStorage.getItem('projetosMentorados')) || [];
   if (!mentorados.includes(idProjeto)) {
     mentorados.push(idProjeto);
     localStorage.setItem('projetosMentorados', JSON.stringify(mentorados));
   }
 
-  // 2. Desabilita o botão
+  // Desabilitar o botão
   const botao = document.getElementById(`btn-mentorar-${idProjeto}`);
   if (botao) {
     botao.disabled = true;
     botao.textContent = "Mentorando";
   }
 
-  // 3. Adiciona o formulário à seção de reuniões
-  const reuniaoSection = document.getElementById("reunioes-projetos");
-  const container = document.createElement("div");
-  container.className = "reuniao-card";
-  container.innerHTML = `
-    <div class="projeto-card">
-      <span class="titulo-projeto">${titulo}</span>
-    </div>
-    <div id="formulario-projeto${idProjeto}" class="formulario-reuniao">
-      <label>Data:</label>
-      <input type="date" id="data-projeto${idProjeto}">
-      
-      <label>Hora:</label>
-      <input type="time" id="hora-projeto${idProjeto}">
-      
-      <label>Link do Google Meet:</label>
-      <input type="url" id="link-projeto${idProjeto}" placeholder="https://meet.google.com/...">
-      
-      <button onclick="enviarConvite('projeto${idProjeto}', ${idProjeto})">Enviar</button>
-    </div>
-  `;
-  reuniaoSection.appendChild(container);
-
-  // 4. Buscar alunos vinculados
+  // Buscar alunos vinculados ao projeto
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjeto}`)
     .then(res => res.json())
-    .then(alunos => {
-      window.alunosDoProjeto = alunos.map(a => a.id);
-      console.log('Alunos do projeto:', alunos);
+    .then(data => {
+      const alunos = data.map(obj => obj.id_aluno);
+      window.alunosDoProjeto = window.alunosDoProjeto || {};
+      window.alunosDoProjeto[idProjeto] = alunos;
+
+      // Criar o card de agendamento
+      const reuniaoSection = document.getElementById("reunioes-projetos");
+      const container = document.createElement("div");
+      container.className = "reuniao-card";
+
+      container.innerHTML = `
+        <div class="projeto-card">
+          <h3>${titulo}</h3>
+          <p><strong>Alunos vinculados (IDs):</strong> ${alunos.join(", ")}</p>
+        </div>
+        <div class="formulario-reuniao" id="formulario-${idProjeto}">
+          <label>Data:</label>
+          <input type="date" id="data-${idProjeto}">
+          
+          <label>Hora:</label>
+          <input type="time" id="hora-${idProjeto}">
+          
+          <label>Link do Google Meet:</label>
+          <input type="url" id="link-${idProjeto}" placeholder="https://meet.google.com/...">
+          
+          <button onclick="enviarConvite(${idProjeto})">Agendar Reunião</button>
+        </div>
+      `;
+      reuniaoSection.appendChild(container);
+    })
+    .catch(err => {
+      console.error("Erro ao buscar alunos:", err);
+      alert("Erro ao buscar alunos do projeto.");
     });
 }
-const mentorados = JSON.parse(localStorage.getItem('projetosMentorados')) || [];
-mentorados.forEach(id => {
-  const projeto = projetos.find(p => p.id === id);
-  if (projeto) {
-    const btn = document.getElementById(`btn-mentorar-${id}`);
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = "Mentorando";
-    }
-    mentorarProjeto(id, projeto.titulo); // reativa a interface
-  }
-});
 
 window.onload = function () {
   carregarProjetos();

@@ -23,6 +23,7 @@ exports.criarReuniao = (req, res) => {
   });
 };
 
+// Listar alunos vinculados a um projeto
 exports.listarAlunosDoProjeto = (req, res) => {
   const { id_projeto } = req.params;
 
