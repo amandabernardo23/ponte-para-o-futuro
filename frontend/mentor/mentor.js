@@ -168,6 +168,7 @@ function enviarConvite(idProjetoHtml, idProjeto) {
 }
 
 function mentorarProjeto(idProjeto, titulo) {
+  console.log('ID do projeto recebido:', idProjeto);
   // Salvar localmente para persistência
   let mentorados = JSON.parse(localStorage.getItem('projetosMentorados')) || [];
   if (!mentorados.includes(idProjeto)) {
