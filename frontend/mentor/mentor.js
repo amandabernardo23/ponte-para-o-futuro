@@ -46,5 +46,7 @@ async function enviarMensagem(event) {
   carregarMensagens();
 }
 
+
+
 setInterval(carregarMensagens, 3000); // atualiza a cada 3s
 carregarMensagens(); // carrega inicialmente

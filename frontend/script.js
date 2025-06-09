@@ -131,6 +131,8 @@ function criarRegistroHandler(urlRegistro) {
     window.location.href = "instituicao.html";
   } else if (usuarioLogado.tipo === "aluno") {
     window.location.href = "/aluno/aluno.html";
+  } else if (usuarioLogado.tipo === "mentor") {
+    window.location.href = "/mentor/mentor.html"
   }
 }
 //Tive que modificar essa function pois como esse botões não existem no login.html, tava quebrando antes de redirecionar pra outra página.
