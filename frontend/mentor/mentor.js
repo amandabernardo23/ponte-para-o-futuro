@@ -85,25 +85,23 @@ function carregarProjetos() {
       const tabela = document.getElementById('tabela-projetos');
       tabela.innerHTML = ''; // Limpa a tabela
 
-      // Filtra os projetos para exibir apenas os que têm id_universidade igual ao id do usuário
-      const projetosFiltrados = projetos.filter(p => p.id_universidade === usuarioId);
-
-      if (projetosFiltrados.length === 0) {
-        tabela.innerHTML = `<tr><td colspan="6">Nenhum projeto encontrado para sua universidade.</td></tr>`;
+     if (projetos.length === 0) {
+        tabela.innerHTML = `<tr><td colspan="6">Nenhum projeto encontrado.</td></tr>`;
         return;
       }
 
-      projetosFiltrados.forEach(p => {
+      projetos.forEach(p => {
         const linha = document.createElement('tr');
+        linha.id = `linha-projeto${p.id}`;
         linha.innerHTML = `
-        <td>${p.id}</td>
-        <td>${p.titulo}</td>
-        <td>${p.descricao}</td>
-        <td>${p.status}</td>
-        <td>${new Date(p.data_inicio).toLocaleDateString()}</td>
-        <td>${new Date(p.data_termino).toLocaleDateString()}</td>
-        <td><button onclick="abrirFormulario('projeto${p.id}', '${p.titulo}')">Mentorar</button></td>
-          `;
+          <td>${p.id}</td>
+          <td>${p.titulo}</td>
+          <td>${p.descricao}</td>
+          <td>${p.status}</td>
+          <td>${new Date(p.data_inicio).toLocaleDateString()}</td>
+          <td>${new Date(p.data_termino).toLocaleDateString()}</td>
+          <td><button onclick="abrirFormulario('projeto${p.id}', '${p.titulo}')">Mentorar</button></td>
+        `;
         tabela.appendChild(linha);
       });
     })
