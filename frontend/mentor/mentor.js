@@ -186,7 +186,7 @@ function mentorarProjeto(idProjeto, titulo) {
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjeto}`)
     .then(res => res.json())
     .then(data => {
-      const alunos = data.map(obj => obj.id_aluno);
+      const alunos = data.map(obj => obj.id);
       window.alunosDoProjeto = window.alunosDoProjeto || {};
       window.alunosDoProjeto[idProjeto] = alunos;
 
