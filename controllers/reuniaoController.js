@@ -1,3 +1,4 @@
+const pool = require('../config/database');
 const Reuniao = require('../models/reuniao');
 
 exports.criarReuniao = (req, res) => {
