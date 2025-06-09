@@ -29,7 +29,7 @@ exports.listarAlunosDoProjeto = (req, res) => {
 
   const sql = `
     SELECT u.id, u.nome, u.email
-    FROM projetos_alunos pa
+    FROM alunos_projetos pa
     JOIN usuarios u ON pa.id_aluno = u.id
     WHERE pa.id_projeto = ?
   `;
