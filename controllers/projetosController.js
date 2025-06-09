@@ -1,10 +1,10 @@
-const db = require('../config/database');
+const pool = require('../config/database');
 
 // Controlador para listar os projetos cadastrados
 exports.listarProjetos = (req, res) => {
   const sql = 'SELECT id, titulo, descricao, status, data_inicio, data_termino, id_universidade FROM projetos';
 
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error('Erro ao buscar projetos:', err);
       return res.status(500).json({ mensagem: 'Erro ao buscar projetos' });
@@ -24,7 +24,7 @@ exports.cadastrarProjeto = (req, res) => {
 
   const sql = 'INSERT INTO projetos (titulo, descricao, status, data_inicio, data_termino, id_universidade) VALUES (?, ?, ?, ?, ?, ?)';
 
-  db.query(sql, [titulo, descricao, status, data_inicio, data_termino, id_universidade], (err, result) => {
+  pool.query(sql, [titulo, descricao, status, data_inicio, data_termino, id_universidade], (err, result) => {
     if (err) {
       console.error('Erro ao cadastrar projeto:', err);
       return res.status(500).json({ mensagem: 'Erro ao cadastrar projeto' });
@@ -39,7 +39,7 @@ exports.deletarProjeto = (req, res) => {
 
   const sql = 'DELETE FROM projetos WHERE id = ?';
 
-  db.query(sql, [id], (err, result) => {
+  pool.query(sql, [id], (err, result) => {
     if (err) {
       console.error('Erro ao deletar projeto:', err);
       return res.status(500).json({ mensagem: 'Erro ao deletar projeto' });

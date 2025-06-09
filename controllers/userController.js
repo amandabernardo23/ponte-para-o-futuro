@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const pool = require('../config/database');
 const bcrypt = require('bcryptjs');
 
 // Cadastrar usuários
@@ -17,7 +17,7 @@ exports.cadastrarUsuario = (req, res) => {
     }
 
     const sql = 'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)';
-    db.query(sql, [nome, email, hash, tipo], (err, result) => {
+    pool.query(sql, [nome, email, hash, tipo], (err, result) => {
       if (err) {
         console.error('Erro ao cadastrar usuário:', err);
         return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário' });
@@ -31,7 +31,7 @@ exports.cadastrarUsuario = (req, res) => {
 exports.listarUsuarios = (req, res) => {
   const sql = 'SELECT id, nome, email, tipo, status FROM usuarios';
 
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error('Erro ao buscar usuários:', err);
       return res.status(500).json({ mensagem: 'Erro ao buscar usuários' });
@@ -45,7 +45,7 @@ exports.buscarUsuarioPorId = (req, res) => {
   const { id } = req.params;
   const sql = 'SELECT id, nome, email, tipo, status FROM usuarios WHERE id = ?';
 
-  db.query(sql, [id], (err, results) => {
+  pool.query(sql, [id], (err, results) => {
     if (err) {
       console.error('Erro ao buscar usuário:', err);
       return res.status(500).json({ mensagem: 'Erro ao buscar usuário' });
@@ -70,7 +70,7 @@ exports.atualizarUsuario = (req, res) => {
     }
 
     const sql = 'UPDATE usuarios SET nome = ?, email = ?, senha = ?, tipo = ? WHERE id = ?';
-    db.query(sql, [nome, email, hash, tipo, id], (err, result) => {
+    pool.query(sql, [nome, email, hash, tipo, id], (err, result) => {
       if (err) {
         console.error('Erro ao atualizar usuário:', err);
         return res.status(500).json({ mensagem: 'Erro ao atualizar usuário' });
@@ -85,7 +85,7 @@ exports.deletarUsuario = (req, res) => {
   const { id } = req.params;
   const sql = 'DELETE FROM usuarios WHERE id = ?';
 
-  db.query(sql, [id], (err, result) => {
+  pool.query(sql, [id], (err, result) => {
     if (err) {
       console.error('Erro ao deletar usuário:', err);
       return res.status(500).json({ mensagem: 'Erro ao deletar usuário' });
@@ -99,7 +99,7 @@ exports.loginUsuario = (req, res) => {
   const { 'login-username': email, 'login-password': senha } = req.body;
 
   const sql = 'SELECT * FROM usuarios WHERE email = ?';
-  db.query(sql, [email], (err, results) => {
+  pool.query(sql, [email], (err, results) => {
     if (err) {
       console.error('Erro ao buscar usuário:', err);
       return res.status(500).json({ mensagem: 'Erro no servidor' });

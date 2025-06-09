@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const pool = require('../config/database');
 
 
 // Criar nova solicitação
@@ -6,7 +6,7 @@ exports.criarSolicitacao = (req, res) => {
   const { aluno_id, projeto_id } = req.body;
   const sql = 'INSERT INTO alunos_projetos (aluno_id, projeto_id) VALUES (?, ?)';
   
-  db.query(sql, [aluno_id, projeto_id], (err) => {
+  pool.query(sql, [aluno_id, projeto_id], (err) => {
     if (err) {
       console.error('Erro ao registrar solicitação:', err);
       return res.status(500).json({ mensagem: 'Erro ao registrar solicitação' });
@@ -25,7 +25,7 @@ exports.listarPendentes = (req, res) => {
     WHERE ap.status = 'solicitado' AND u.tipo = 'aluno'
   `;
   
- db.query(sql, (err, results) => {
+ pool.query(sql, (err, results) => {
   if (err) {
     console.error('Erro ao buscar solicitações pendentes:', err);
     return res.status(500).json({ mensagem: 'Erro ao buscar solicitações pendentes' });
@@ -41,7 +41,7 @@ exports.responderSolicitacao = (req, res) => {
   const { status, mensagem } = req.body;
   const sql = 'UPDATE alunos_projetos SET status = ?, mensagem_resposta = ? WHERE id = ?';
 
-  db.query(sql, [status, mensagem, id], (err) => {
+  pool.query(sql, [status, mensagem, id], (err) => {
     if (err) {
       console.error('Erro ao atualizar solicitação:', err);
       return res.status(500).json({ mensagem: 'Erro ao atualizar solicitação' });
@@ -61,7 +61,7 @@ exports.listarProjetosDoAluno = (req, res) => {
      AND sp.status IN ('aprovado', 'negado')
   `;
 
-  db.query(sql, [alunoId], (err, results) => {
+  pool.query(sql, [alunoId], (err, results) => {
     if (err) {
       console.error('Erro ao listar projetos do aluno:', err);
       return res.status(500).json({ erro: 'Erro interno ao buscar projetos do aluno' });
@@ -79,7 +79,7 @@ exports.listarProjetosSolicitadosDoAluno = (req, res) => {
     WHERE aluno_id = ?
   `;
 
-  db.query(query, [alunoId], (err, results) => {
+  pool.query(query, [alunoId], (err, results) => {
     if (err) {
       console.error('Erro ao buscar solicitações do aluno:', err);
       return res.status(500).json({ erro: 'Erro ao buscar solicitações do aluno.' });

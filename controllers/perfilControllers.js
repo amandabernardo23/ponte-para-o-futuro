@@ -1,4 +1,4 @@
-const db = require('../config/database')
+const pool = require('../config/database')
 
 exports.salvarPerfil = async (req, res) => {
   try {
@@ -7,17 +7,17 @@ exports.salvarPerfil = async (req, res) => {
     const foto = req.file ? req.file.filename : null;
 
     // Verifica se já existe perfil
-    const [rows] = await db.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId]);
+    const [rows] = await pool.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId]);
 
     if (rows.length > 0) {
       // Atualiza perfil existente
-      await db.query(
+      await pool.query(
         `UPDATE perfis SET idade = ?, instituicao = ?, formacao = ?, descricao = ?, foto_perfil = ? WHERE usuario_id = ?`,
         [idade, instituicao, formacao, descricao, foto, usuarioId]
       );
     } else {
       // Insere novo perfil
-      await db.query(
+      await pool.query(
         `INSERT INTO perfis (usuario_id, idade, instituicao, formacao, descricao, foto_perfil) VALUES (?, ?, ?, ?, ?, ?)`,
         [usuarioId, idade, instituicao, formacao, descricao, foto]
       );
@@ -37,7 +37,7 @@ exports.buscarPerfil = async (req, res) => {
     const { usuarioId } = req.params;
 
     // Junta dados de usuarios (nome, email) com dados de perfis
-    const [rows] = await db.query(`
+    const [rows] = await pool.query(`
       SELECT 
         u.nome,
         p.idade,
@@ -75,7 +75,7 @@ exports.listarProjetos = (req, res) => {
     WHERE id_universidade = ?
   `;
 
-  db.query(sql, [usuarioId], (err, results) => {
+  pool.query(sql, [usuarioId], (err, results) => {
     if (err) {
       console.error('Erro ao buscar projetos:', err);
       return res.status(500).json({ mensagem: 'Erro ao buscar projetos' });
