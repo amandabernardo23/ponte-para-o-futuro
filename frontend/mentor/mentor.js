@@ -112,13 +112,19 @@ function carregarProjetos() {
     });
 }
 
-function enviarConvite(idProjeto) {
-  const data = document.getElementById(`data-${idProjeto}`).value;
-  const hora = document.getElementById(`hora-${idProjeto}`).value;
-  const link = document.getElementById(`link-${idProjeto}`).value;
+function enviarConvite(idProjetoHtml, idProjeto) {
+  const data = document.getElementById(`data-${idProjetoHtml}`).value;
+  const hora = document.getElementById(`hora-${idProjetoHtml}`).value;
+  const link = document.getElementById(`link-${idProjetoHtml}`).value;
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const idMentor = usuario?.id;
+
+  if (!data || !hora || !link) {
+    alert('Preencha todos os campos.');
+    return;
+  }
 
   const dataHora = `${data} ${hora}`;
-  const idMentor = localStorage.getItem('id'); // ou como você estiver armazenando o login
 
   const reunioes = window.alunosDoProjeto.map(idAluno => ({
     id_mentor: idMentor,
@@ -128,22 +134,41 @@ function enviarConvite(idProjeto) {
     link_reuniao: link
   }));
 
-  // Enviar todos os registros de reunião (um por aluno)
   fetch('https://ponte-para-o-futuro-production.up.railway.app/api/reunioes', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(reunioes)
-  }).then(res => {
-    if (res.ok) alert('Reunião agendada com sucesso!');
-    else alert('Erro ao agendar.');
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Erro ao enviar');
+    return res.json();
+  })
+  .then(() => {
+    alert('Reunião agendada com sucesso!');
+    document.getElementById(`formulario-${idProjetoHtml}`).remove(); // opcional: remove o formulário
+  })
+  .catch(err => {
+    console.error('Erro:', err);
+    alert('Erro ao agendar reunião.');
   });
 }
 
 function mentorarProjeto(idProjeto, titulo) {
-  const botao = document.getElementById(`btn-mentorar-${idProjeto}`);
-  botao.disabled = true;
-  botao.textContent = "Mentorando";
+  // 1. Salva no localStorage
+  let mentorados = JSON.parse(localStorage.getItem('projetosMentorados')) || [];
+  if (!mentorados.includes(idProjeto)) {
+    mentorados.push(idProjeto);
+    localStorage.setItem('projetosMentorados', JSON.stringify(mentorados));
+  }
 
+  // 2. Desabilita o botão
+  const botao = document.getElementById(`btn-mentorar-${idProjeto}`);
+  if (botao) {
+    botao.disabled = true;
+    botao.textContent = "Mentorando";
+  }
+
+  // 3. Adiciona o formulário à seção de reuniões
   const reuniaoSection = document.getElementById("reunioes-projetos");
   const container = document.createElement("div");
   container.className = "reuniao-card";
@@ -166,7 +191,7 @@ function mentorarProjeto(idProjeto, titulo) {
   `;
   reuniaoSection.appendChild(container);
 
-  // Buscar alunos vinculados
+  // 4. Buscar alunos vinculados
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjeto}`)
     .then(res => res.json())
     .then(alunos => {
@@ -174,6 +199,19 @@ function mentorarProjeto(idProjeto, titulo) {
       console.log('Alunos do projeto:', alunos);
     });
 }
+const mentorados = JSON.parse(localStorage.getItem('projetosMentorados')) || [];
+mentorados.forEach(id => {
+  const projeto = projetos.find(p => p.id === id);
+  if (projeto) {
+    const btn = document.getElementById(`btn-mentorar-${id}`);
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Mentorando";
+    }
+    mentorarProjeto(id, projeto.titulo); // reativa a interface
+  }
+});
+
 window.onload = function () {
   carregarProjetos();
 };
