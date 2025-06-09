@@ -22,7 +22,7 @@ const reunioesRoutes = require('./routes/reunioes');
 
 //Rotas
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/reunioes', reunioesRoutes);
+app.use('/api/reunioes', reunioesRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
