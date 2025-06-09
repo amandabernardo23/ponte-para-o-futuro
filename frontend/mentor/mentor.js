@@ -99,7 +99,9 @@ function carregarProjetos() {
           <td>${p.status}</td>
           <td>${new Date(p.data_inicio).toLocaleDateString()}</td>
           <td>${new Date(p.data_termino).toLocaleDateString()}</td>
-          <td><button onclick="abrirFormulario('projeto${p.id}', '${p.titulo}')">Mentorar</button></td>
+          <td>
+          <button id="btn-mentorar-${p.id}" onclick="mentorarProjeto(${p.id}, '${p.titulo}')">Mentorar</button>
+          </td>
         `;
         tabela.appendChild(linha);
       });
@@ -135,6 +137,42 @@ function enviarConvite(idProjeto) {
     if (res.ok) alert('Reunião agendada com sucesso!');
     else alert('Erro ao agendar.');
   });
+}
+
+function mentorarProjeto(idProjeto, titulo) {
+  const botao = document.getElementById(`btn-mentorar-${idProjeto}`);
+  botao.disabled = true;
+  botao.textContent = "Mentorando";
+
+  const reuniaoSection = document.getElementById("reunioes-projetos");
+  const container = document.createElement("div");
+  container.className = "reuniao-card";
+  container.innerHTML = `
+    <div class="projeto-card">
+      <span class="titulo-projeto">${titulo}</span>
+    </div>
+    <div id="formulario-projeto${idProjeto}" class="formulario-reuniao">
+      <label>Data:</label>
+      <input type="date" id="data-projeto${idProjeto}">
+      
+      <label>Hora:</label>
+      <input type="time" id="hora-projeto${idProjeto}">
+      
+      <label>Link do Google Meet:</label>
+      <input type="url" id="link-projeto${idProjeto}" placeholder="https://meet.google.com/...">
+      
+      <button onclick="enviarConvite('projeto${idProjeto}', ${idProjeto})">Enviar</button>
+    </div>
+  `;
+  reuniaoSection.appendChild(container);
+
+  // Buscar alunos vinculados
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjeto}`)
+    .then(res => res.json())
+    .then(alunos => {
+      window.alunosDoProjeto = alunos.map(a => a.id);
+      console.log('Alunos do projeto:', alunos);
+    });
 }
 window.onload = function () {
   carregarProjetos();
