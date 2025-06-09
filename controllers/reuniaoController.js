@@ -26,19 +26,21 @@ exports.criarReuniao = (req, res) => {
 // Listar alunos vinculados a um projeto
 exports.listarAlunosDoProjeto = (req, res) => {
   const { id_projeto } = req.params;
+  console.log('Buscando alunos do projeto ID:', id_projeto);
 
   const sql = `
-    SELECT u.id, u.nome, u.email
+    SELECT u.id, u.nome,
     FROM alunos_projetos pa
-    JOIN usuarios u ON pa.id_aluno = u.id
-    WHERE pa.id_projeto = ?
+    JOIN usuarios u ON pa.aluno_id = u.id
+    WHERE pa.projeto_id = ? AND pa.status = 'aprovado'
   `;
 
   pool.query(sql, [id_projeto], (err, results) => {
     if (err) {
-      console.error('Erro ao buscar alunos:', err);
+      console.error('Erro ao buscar alunos do projeto:', err);
       return res.status(500).json({ error: 'Erro ao buscar alunos do projeto' });
     }
+
     res.json(results);
   });
 };
