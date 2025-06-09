@@ -41,22 +41,3 @@ exports.listarAlunosDoProjeto = (req, res) => {
     res.json(results);
   });
 };
-
-exports.buscarAlunosDoProjeto = (req, res) => {
-  const idProjeto = req.params.idProjeto;
-
-  const sql = `
-    SELECT u.id, u.nome, u.email
-    FROM projetos_alunos pa
-    JOIN usuarios u ON pa.id_aluno = u.id
-    WHERE pa.id_projeto = ?
-  `;
-
-  pool.query(sql, [idProjeto], (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar alunos:', err);
-      return res.status(500).json({ error: 'Erro ao buscar alunos' });
-    }
-    res.json(results);
-  });
-};
