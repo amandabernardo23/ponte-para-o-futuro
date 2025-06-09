@@ -33,12 +33,11 @@ exports.listarAlunosDoProjeto = (req, res) => {
   SELECT u.id, u.nome, u.email
   FROM alunos_projetos pa
   JOIN usuarios u ON pa.aluno_id = u.id
-  WHERE pa.projeto_id = ? AND pa.status = 'aprovado'
-`;
+  WHERE pa.projeto_id = ? AND pa.status = 'aprovado'`;
 
   pool.query(sql, [id_projeto], (err, results) => {
     if (err) {
-      console.error('Erro ao buscar alunos do projeto:', err.sqlMessage || err.message || err);
+      console.error('Erro ao buscar alunos do projeto:', err?.sqlMessage || err?.message || err);
       return res.status(500).json({ error: 'Erro ao buscar alunos do projeto' });
     }
 
