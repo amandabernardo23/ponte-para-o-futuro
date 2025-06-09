@@ -409,3 +409,47 @@ table tr:nth-child(even) {
 .btn-azul:hover {
   background-color: #01458a;
 }
+
+#meus-projetos {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(204, 65, 65, 0.08);
+  margin-bottom: 2rem;
+}
+
+.tabela-container {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.tabela-projetos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.tabela-projetos thead {
+  background-color: #e6f0fa;
+}
+
+.tabela-projetos th,
+.tabela-projetos td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabela-projetos tbody tr:hover {
+  background-color: #f1f7ff;
+  transition: background-color 0.2s ease;
+}
+
+.tabela-projetos th {
+  font-weight: 600;
+  color: #1a1a1a;
+}
