@@ -29,11 +29,11 @@ exports.listarAlunosDoProjeto = (req, res) => {
   console.log('Buscando alunos do projeto ID:', id_projeto);
 
   const sql = `
-    SELECT u.id, u.nome,
-    FROM alunos_projetos pa
-    JOIN usuarios u ON pa.aluno_id = u.id
-    WHERE pa.projeto_id = ? AND pa.status = 'aprovado'
-  `;
+  SELECT u.id, u.nome, u.email
+  FROM alunos_projetos pa
+  JOIN usuarios u ON pa.aluno_id = u.id
+  WHERE pa.projeto_id = ? AND pa.status = 'aprovado'
+`;
 
   pool.query(sql, [id_projeto], (err, results) => {
     if (err) {
