@@ -1,119 +1,146 @@
+mapaprogresso.html
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mapa de Progresso</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../aluno/progresso.css" />
+    <title>Ponte para o Futuro - Mapa de Progresso</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <button class="menu-toggle" aria-label="Toggle menu">☰ Menu</button>
     <div class="container">
-      <aside class="sidebar" role="navigation" aria-label="Menu lateral">
-        <h2>Ponte para o <span>Futuro</span></h2>
+      <!-- MENU LATERAL -->
+      <aside class="menu-lateral active" id="menuLateral">
+        <div class="logo">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/5/56/Itau_logo_2023.svg"
+            alt="Logo Itaú"
+          />
+          <h2>Ponte para o Futuro</h2>
+        </div>
+
         <nav>
           <ul>
-            <li><a href="perfil.html">Meu Perfil</a></li>
-            <li>
-              <a
-                href="#"
-                id="projetos-toggle"
-                aria-expanded="true"
-                aria-controls="submenu-projetos"
-                class="active"
-              >
-                Projetos <span class="submenu-toggle rotated">▶</span>
-              </a>
-              <ul
-                class="submenu open"
-                id="submenu-projetos"
-                role="region"
-                aria-label="Submenu Projetos"
-              >
-                <li>
-                  <a href="mapa-progresso.html" class="active"
-                    >Mapa de Progresso</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li><a href="mentoria.html">Mentoria</a></li>
-            <li><a href="certificados.html">Certificados</a></li>
+            <li><a href="#">MEUS PROJETOS</a></li>
+            <li><a href="#">MENTORIA</a></li>
+            <li><a href="#">MEU PERFIL </a></li>
+            <li><a href="#">PROJETOS DISPONÍVEIS</a></li>
           </ul>
         </nav>
-        <button class="logout">Sair</button>
+
+        <button class="sair">SAIR</button>
+
+        <button class="toggle-menu" id="toggleMenu" aria-label="Alternar menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </aside>
 
-      <main class="main-content">
-        <h1>MAPA DE PROGRESSO</h1>
+      <!-- CONTEÚDO PRINCIPAL -->
+      <main class="conteudo">
+        <h1>Mapa de Progresso - Etapas</h1>
         <p class="subtitulo">
-          Acompanhe o andamento das suas etapas do projeto
+          Painel de Indicadores de Eficiência Operacional (PIEO)
         </p>
 
-        <ul class="etapas">
+        <ul class="etapas" id="etapas">
           <li>
-            <h3>1. Introdução ao Projeto</h3>
-            <div class="progress">
-              <div class="progress-bar" style="width: 100%">100%</div>
+            <span>Planejamento:</span>
+            <div class="botoes-status">
+              <button class="botao-status entregue active">Entregue</button>
+              <button class="botao-status andamento">Em andamento</button>
+              <button class="botao-status pendente">Pendente</button>
             </div>
-            <button class="view-button" disabled>Concluído</button>
           </li>
           <li>
-            <h3>2. Levantamento de Requisitos</h3>
-            <div class="progress">
-              <div class="progress-bar" style="width: 70%">70%</div>
+            <span>Protótipo em Figma:</span>
+            <div class="botoes-status">
+              <button class="botao-status entregue active">Entregue</button>
+              <button class="botao-status andamento">Em andamento</button>
+              <button class="botao-status pendente">Pendente</button>
             </div>
-            <button class="view-button">Em andamento</button>
           </li>
           <li>
-            <h3>3. Protótipo no Figma</h3>
-            <div class="progress">
-              <div class="progress-bar" style="width: 40%">40%</div>
+            <span>Setup do projeto:</span>
+            <div class="botoes-status">
+              <button class="botao-status entregue">Entregue</button>
+              <button class="botao-status andamento active">
+                Em andamento
+              </button>
+              <button class="botao-status pendente">Pendente</button>
             </div>
-            <button class="view-button">Em andamento</button>
           </li>
           <li>
-            <h3>4. Desenvolvimento das Telas</h3>
-            <div class="progress">
-              <div class="progress-bar" style="width: 10%">10%</div>
+            <span>Login e base do frontend:</span>
+            <div class="botoes-status">
+              <button class="botao-status entregue">Entregue</button>
+              <button class="botao-status andamento">Em andamento</button>
+              <button class="botao-status pendente active">Pendente</button>
             </div>
-            <button class="view-button">Não iniciado</button>
+          </li>
+          <li>
+            <span>Módulo de dashboards e gráficos:</span>
+            <div class="botoes-status">
+              <button class="botao-status entregue">Entregue</button>
+              <button class="botao-status andamento">Em andamento</button>
+              <button class="botao-status pendente active">Pendente</button>
+            </div>
           </li>
         </ul>
+
+        <div class="progresso">
+          Progresso do Projeto:
+          <div class="barra">
+            <div class="barra-azul" id="barraProgresso">0%</div>
+          </div>
+        </div>
       </main>
     </div>
 
     <script>
-      // Toggle menu mobile
-      const menuToggle = document.querySelector(".menu-toggle");
-      const sidebar = document.querySelector(".sidebar");
-      menuToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
+      const toggleMenuBtn = document.getElementById("toggleMenu");
+      const menuLateral = document.getElementById("menuLateral");
+
+      toggleMenuBtn.addEventListener("click", () => {
+        menuLateral.classList.toggle("active");
       });
 
-      // Toggle submenu projetos
-      const projetosToggle = document.getElementById("projetos-toggle");
-      const submenuProjetos = document.getElementById("submenu-projetos");
-      const arrow = projetosToggle.querySelector(".submenu-toggle");
+      const barra = document.getElementById("barraProgresso");
 
-      projetosToggle.addEventListener("click", (e) => {
-        e.preventDefault();
-        const isOpen = submenuProjetos.classList.toggle("open");
-        projetosToggle.setAttribute("aria-expanded", isOpen);
-        arrow.classList.toggle("rotated", isOpen);
-      });
+      function atualizarProgresso() {
+        const grupos = document.querySelectorAll(".botoes-status");
+        let progressoTotal = 0;
 
-      // Fecha o menu ao clicar em link (mobile)
-      sidebar.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          sidebar.classList.remove("active");
+        grupos.forEach((grupo) => {
+          const selecionado = grupo.querySelector(".active");
+          if (selecionado.classList.contains("entregue")) {
+            progressoTotal += 1;
+          } else if (selecionado.classList.contains("andamento")) {
+            progressoTotal += 0.5;
+          }
+        });
+
+        const totalEtapas = grupos.length;
+        const porcentagem = Math.round((progressoTotal / totalEtapas) * 100);
+
+        barra.style.width = `${porcentagem}%`;
+        barra.textContent = `${porcentagem}%`;
+      }
+
+      document.querySelectorAll(".botao-status").forEach((botao) => {
+        botao.addEventListener("click", () => {
+          const grupo = botao.parentElement;
+          grupo
+            .querySelectorAll(".botao-status")
+            .forEach((b) => b.classList.remove("active"));
+          botao.classList.add("active");
+          atualizarProgresso();
         });
       });
+
+      atualizarProgresso();
     </script>
   </body>
 </html>
-

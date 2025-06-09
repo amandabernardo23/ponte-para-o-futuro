@@ -1,224 +1,268 @@
+/* Variáveis de cores para facilitar reutilização */
+:root {
+  --azul-escuro: #111827;
+  --azul-claro: #06b6d4;
+  --cinza-claro: #d1d5db;
+  --branco: #ffffff;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
 }
-body {
-  background-color: #ffffff; /* Fundo branco */
-  color: #1e293b; /* Cor texto escuro */
+
+body,
+html {
+  height: 100%;
+  background-color: var(--cinza-claro);
+  color: var(--azul-escuro);
 }
 
 .container {
   display: flex;
   height: 100vh;
-  overflow: hidden;
 }
 
-/* Sidebar */
-.sidebar {
-  background-color: #1e293b; /* menu escuro */
-  color: #f1f5f9;
-  padding: 20px;
-  width: 260px;
-  transition: transform 0.3s ease-in-out;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 1000;
-  user-select: none;
-}
-.sidebar h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-.sidebar h2 span {
-  color: #38bdf8;
-}
-
-/* Menu principal */
-nav ul {
-  list-style: none;
-}
-
-nav ul li {
-  margin: 16px 0;
-  position: relative;
-}
-
-nav ul li > a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
+/* Menu lateral */
+.menu-lateral {
+  width: 250px;
+  background-color: var(--azul-escuro);
+  color: var(--branco);
+  padding: 10px 20px; /* Reduzi padding para aproximar itens do topo */
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding-right: 8px;
-  transition: color 0.3s;
-}
-
-nav ul li > a:hover,
-nav ul li > a.active {
-  color: #38bdf8;
-  font-weight: 700;
-}
-
-/* Ícone seta para submenu */
-.submenu-toggle {
-  font-size: 14px;
-  user-select: none;
   transition: transform 0.3s ease;
 }
 
-.submenu-toggle.rotated {
-  transform: rotate(90deg);
+.menu-lateral .logo {
+  text-align: center;
+  margin-bottom: 4px;
 }
 
-/* Submenu */
-.submenu {
+.menu-lateral .logo img {
+  max-width: 100px;
+  margin-bottom: 10px;
+}
+
+.menu-lateral nav ul {
   list-style: none;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-  margin-left: 15px;
-}
-.submenu.open {
-  max-height: 200px;
+  padding: 0;
 }
 
-.submenu li {
-  margin: 10px 0;
+.menu-lateral nav ul li {
+  margin: 15px 0;
+  /* Margem menor para aproximar os nomes */
 }
-.submenu li a {
-  color: #a0aec0;
-  font-weight: 400;
-  font-size: 14px;
-  padding-left: 10px;
-  display: block;
+
+.menu-lateral nav ul li a {
+  color: var(--branco);
   text-decoration: none;
-  transition: color 0.3s;
-}
-.submenu li a:hover,
-.submenu li a.active {
-  color: #38bdf8;
-  font-weight: 600;
+  padding: 8px;
+  display: block;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
-/* Botão logout */
-.logout {
-  background-color: #ef4444;
-  color: white;
+.menu-lateral nav ul li a:hover {
+  background-color: var(--azul-claro);
+  color: var(--azul-escuro);
+}
+
+.menu-lateral .sair {
+  background-color: var(--azul-claro);
+  color: var(--azul-escuro);
   border: none;
-  padding: 10px 15px;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
-  margin-top: 30px;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-  width: 100%;
-  font-weight: 600;
-}
-.logout:hover {
-  background-color: #dc2626;
+  transition: background-color 0.2s ease;
 }
 
-/* Botão toggle menu mobile */
-.menu-toggle {
+.menu-lateral .sair:hover {
+  background-color: #0891b2;
+}
+
+.toggle-menu {
   display: none;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: #1e293b;
-  color: white;
+}
+
+/* Estilos dos botões de status */
+.botao-status {
+  padding: 8px 16px;
   border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
+  border-radius: 4px;
+  font-weight: bold;
   cursor: pointer;
-  z-index: 1100;
-  font-size: 16px;
-  user-select: none;
+  color: var(--branco);
+  transition: background-color 0.3s ease;
+  margin-left: 6px;
+}
+
+.botao-status.entregue {
+  background-color: #10b981; /* verde */
+}
+
+.botao-status.andamento {
+  background-color: #facc15; /* amarelo */
+  color: #111827;
+}
+
+.botao-status.pendente {
+  background-color: #ef4444; /* vermelho */
+}
+
+.botao-status.active {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.botao-status:hover {
+  opacity: 0.85;
 }
 
 /* Conteúdo principal */
-.main-content {
+.conteudo {
   flex: 1;
-  padding: 40px 30px;
-  background-color: #ffffff; /* Fundo branco */
-  color: #1e293b; /* Texto escuro */
+  padding: 40px;
+  background-color: var(--cinza-claro);
   overflow-y: auto;
-  box-shadow: inset 0 0 20px #f0f4f8;
-  border-radius: 10px;
 }
 
 h1 {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 28px;
-  color: #1e293b;
+  color: var(--azul-escuro);
 }
 
 .subtitulo {
-  margin-bottom: 40px;
-  color: #64748b;
-  font-weight: 500;
-  font-size: 16px;
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: var(--azul-escuro);
 }
 
+/* Etapas com botões */
 .etapas {
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+  padding: 0;
+  margin-bottom: 30px;
 }
 
 .etapas li {
-  border: 1px solid #cbd5e1;
-  border-radius: 12px;
-  padding: 25px;
-  background-color: #f8fafc;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--branco);
+  border: 1px solid var(--cinza-claro);
+  border-radius: 5px;
+  padding: 12px 20px;
+  margin-bottom: 10px;
 }
 
-.etapas li:hover {
-  transform: translateY(-4px);
-}
-
-.etapas h3 {
-  margin-bottom: 15px;
-  color: #334155;
-  font-weight: 600;
-}
-
-.progress {
-  background-color: #e2e8f0;
-  border-radius: 20px;
-  overflow: hidden;
-  height: 20px;
-  margin-bottom: 15px;
-}
-
-.progress-bar {
-  background-color: #38bdf8;
-  height: 100%;
-  border-radius: 20px 0 0 20px;
-  text-align: center;
-  color: white;
-  line-height: 20px;
-  font-weight: 600;
-  transition: width 0.4s ease;
-  white-space: nowrap;
-  padding-right: 10px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.view-button {
-  background-color: #0ea5e9;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 8px;
+/* Barra de progresso */
+.progresso {
   font-weight: bold;
-  transition: background-color 0.3s;
-  user-select: none;
+  margin-top: 20px;
+  color: var(--azul-escuro);
+}
+
+.barra {
+  background-color: var(--branco);
+  border: 1px solid var(--azul-claro);
+  border-radius: 6px;
+  height: 24px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.barra-azul {
+  height: 100%;
+  background-color: var(--azul-claro);
+  text-align: center;
+  color: var(--branco);
+  line-height: 24px;
+  font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .menu-lateral {
+    position: absolute;
+    transform: translateX(-100%);
+    z-index: 1000;
+    height: 100vh;
+  }
+
+  .menu-lateral.active {
+    transform: translateX(0);
+  }
+
+  .toggle-menu {
+    display: block;
+    background: none;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  .toggle-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--branco);
+    margin: 5px 0;
+  }
+}
+
+/* Estilo básico do menu lateral */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  background-color: var(--azul-escuro);
+  padding: 20px;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  transform: translateX(0); /* inicia aberto */
+}
+
+/* Quando o menu NÃO estiver ativo, ele fica escondido */
+.menu-lateral.inativo {
+  transform: translateX(-250px);
+}
+
+/* Botão toggle sempre visível */
+.toggle-menu {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100; /* acima do menu */
+}
+
+/* Os 3 tracinhos */
+.toggle-menu span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--branco);
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Ajuste do conteúdo principal para dar espaço para o menu quando aberto */
+.conteudo {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Quando o menu está escondido, o conteúdo ocupa a largura total */
+.menu-lateral.inativo ~ .conteudo {
+  margin-left: 0;
 }

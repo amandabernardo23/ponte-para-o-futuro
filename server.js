@@ -16,15 +16,17 @@ app.use(express.urlencoded({ extended: true }));
 const usersRoutes = require('./routes/users');
 const projetosRoutes = require('./routes/projetos')
 const universidadeRoutes = require('./routes/universidades');
+const uploadRoutes = require('./routes/uploads');
 const solicitacoesRoutes = require('./routes/solicitacoes');
-const perfilRoutes = require('./routes/perfil');
 
-app.use('/api/perfil', perfilRoutes);
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //Rotas
 app.use('/api/users', usersRoutes);
 app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
+
+//Rota para fazer upload da foto de perfil do usuário
+app.use('/upload-foto', uploadRoutes);
 
 //Rota de Solicitações
 app.use('/api/solicitacoes', solicitacoesRoutes);
@@ -46,5 +48,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
-
-

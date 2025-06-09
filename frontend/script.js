@@ -420,61 +420,6 @@ function criarResponderSolicitacao(baseUrl) {
   };
 }
 
-function carregarPerfil() {
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-  if (!usuarioLogado || !usuarioLogado.id) {
-    console.error('Usuário não logado.');
-    return;
-  }
-
-  const usuarioId = usuarioLogado.id;
-
-  fetch(`http://localhost:3000/api/perfil/perfil/${usuarioId}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data && !data.error) {
-        document.getElementById('usuario_id').value = usuarioId;
-        document.getElementById('nome').value = data.nome || '';
-        document.getElementById('instituicao').value = data.instituicao || '';
-        document.getElementById('idade').value = data.idade || '';
-        document.getElementById('formacao').value = data.formacao || '';
-        document.getElementById('descricao').value = data.descricao || '';
-        if (data.foto_perfil) {
-          document.getElementById('foto-preview').src = `/uploads/${data.foto_perfil}`;
-        }
-      } else {
-        console.log('Perfil não encontrado. Permitido cadastrar novo.');
-        document.getElementById('usuario_id').value = usuarioId; // mesmo se não houver perfil
-      }
-    })
-    .catch(error => {
-      console.error('Erro ao carregar perfil:', error);
-    });
-}
-
-
-function salvarPerfil(event) {
-  event.preventDefault();
-
-  const formData = new FormData(document.getElementById('form-perfil'));
-  const usuarioId = document.getElementById('usuario_id').value;
-  formData.append('usuario_id', usuarioId);
-
-  fetch('http://localhost:3000/api/perfil/perfil', {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.mensagem || 'Perfil salvo com sucesso!');
-      // Recarrega perfil após salvar
-      carregarPerfil(usuarioId);
-    })
-    .catch(error => {
-      console.error('Erro ao salvar perfil:', error);
-    });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
 
  const ativarLogin = criarLoginHandler("https://ponte-para-o-futuro-production.up.railway.app/api/users/login"); 
