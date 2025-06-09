@@ -16,6 +16,8 @@
             <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
             <span class="icon-overlay">📷</span>
           </label>
+          <!-- Campo input FALTANDO -->
+          <input type="file" id="foto-input" name="foto" accept="image/*" style="display: none;" />
         </div>
         <div id="foto-modal" class="modal hidden">
           <div class="modal-content">
@@ -192,11 +194,11 @@
   }
 
   window.addEventListener('DOMContentLoaded', () => {
-    // Verifica se o tipo de usuário está correto
     const tipoUsuario = localStorage.getItem("tipoUsuario");
+
     if (tipoUsuario !== "mentor") {
       // Redireciona para a tela de login se não for do tipo "instituicao"
-      window.location.href = "login.html";
+      window.location.href = "/login";
       return;
     }
 
