@@ -150,7 +150,6 @@ function enviarConvite(idProjeto) {
     else alert('Erro ao agendar.');
   });
 }
-
 window.onload = function () {
   carregarProjetos();
 };
