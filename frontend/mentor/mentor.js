@@ -16,10 +16,9 @@ function abrirFormulario(idProjetoHtml, tituloProjeto) {
       <button onclick="enviarConvite('${idProjetoHtml}', ${idProjetoHtml.replace('projeto', '')})">Enviar</button>
     `;
     const linha = document.querySelector(`#linha-${idProjetoHtml}`);
-    linha?.insertAdjacentElement('afterend', div); // evitar erro caso linha seja null
+    linha.insertAdjacentElement('afterend', div);
   }
 
-  // Buscar alunos vinculados
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjetoHtml.replace('projeto', '')}`)
     .then(res => res.json())
     .then(alunos => {
@@ -108,19 +107,6 @@ function carregarProjetos() {
     .catch(erro => {
       console.error('Erro ao buscar projetos:', erro);
       alert('Erro ao carregar projetos. Tente novamente.');
-    });
-}
-
-function abrirFormulario(idProjeto) {
-  document.querySelector(`#formulario-${idProjeto}`).style.display = 'block';
-
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjeto}`)
-    .then(res => res.json())
-    .then(alunos => {
-      // Aqui você pode exibir os alunos ou guardar os IDs para enviar no agendamento
-      console.log('Alunos do projeto:', alunos);
-      // por exemplo:
-      window.alunosDoProjeto = alunos.map(a => a.id); 
     });
 }
 
