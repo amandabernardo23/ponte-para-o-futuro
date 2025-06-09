@@ -37,7 +37,7 @@ exports.listarAlunosDoProjeto = (req, res) => {
 
   pool.query(sql, [id_projeto], (err, results) => {
     if (err) {
-      console.error('Erro ao buscar alunos do projeto:', err);
+      console.error('Erro ao buscar alunos do projeto:', err.sqlMessage || err.message || err);
       return res.status(500).json({ error: 'Erro ao buscar alunos do projeto' });
     }
 
