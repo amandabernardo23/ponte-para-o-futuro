@@ -31,6 +31,7 @@
       </form>
       <p class="institution-name"></p>
       <button class="home" onclick="mostrarSecao('painel')">🏠</button>
+      <button onclick="mostrarSecao('listar-projetos')">Projetos Disponiveis</button>
       <button onclick="mostrarSecao('renioes')">Reniões</button>
       <button onclick="mostrarSecao('duvida')">Tira-Dúvidas</button>
       <button onclick="mostrarSecao('avaliacao')">Avaliações</button>
@@ -51,6 +52,23 @@
             <p id="count-projetos"></p>
           </div>
         </div>
+      </section>
+
+      <section id="listar-projetos" class="secao-dashboard">
+        <h2>Projetos Cadastrados</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Status</th>
+              <th>Data Início</th>
+              <th>Data Término</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-projetos"></tbody>
+        </table>
       </section>
 
       <section id="renioes" class="secao-dashboard">

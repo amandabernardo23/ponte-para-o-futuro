@@ -22,3 +22,41 @@ exports.criarReuniao = (req, res) => {
     res.status(201).json({ mensagem: 'Reunião agendada com sucesso!' });
   });
 };
+
+exports.listarAlunosDoProjeto = (req, res) => {
+  const { id_projeto } = req.params;
+
+  const sql = `
+    SELECT u.id, u.nome, u.email
+    FROM projetos_alunos pa
+    JOIN usuarios u ON pa.id_aluno = u.id
+    WHERE pa.id_projeto = ?
+  `;
+
+  pool.query(sql, [id_projeto], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar alunos:', err);
+      return res.status(500).json({ error: 'Erro ao buscar alunos do projeto' });
+    }
+    res.json(results);
+  });
+};
+
+exports.buscarAlunosDoProjeto = (req, res) => {
+  const idProjeto = req.params.idProjeto;
+
+  const sql = `
+    SELECT u.id, u.nome, u.email
+    FROM projetos_alunos pa
+    JOIN usuarios u ON pa.id_aluno = u.id
+    WHERE pa.id_projeto = ?
+  `;
+
+  pool.query(sql, [idProjeto], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar alunos:', err);
+      return res.status(500).json({ error: 'Erro ao buscar alunos' });
+    }
+    res.json(results);
+  });
+};
