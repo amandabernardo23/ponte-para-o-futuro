@@ -46,7 +46,41 @@ async function enviarMensagem(event) {
   carregarMensagens();
 }
 
+//Function para agendar reuniões
+function enviarConvite(idProjetoHtml, idAluno) {
+  const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const id_mentor = usuario.id; // ou usuario.id_usuario, dependendo da sua estrutura
 
+  const id_projeto = parseInt(idProjetoHtml.replace('projeto', ''));
+
+  const data = document.getElementById(`data-${idProjetoHtml}`).value;
+  const hora = document.getElementById(`hora-${idProjetoHtml}`).value;
+  const link = document.getElementById(`link-${idProjetoHtml}`).value;
+
+  const reuniao = {
+    id_mentor,
+    id_projeto,
+    id_aluno: idAluno,
+    data,
+    hora,
+    link_reuniao: link
+  };
+
+  fetch('https://ponte-para-o-futuro-production.up.railway.app/reunioes/agendar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(reuniao)
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.mensagem || 'Reunião agendada com sucesso!');
+    // (opcional) fechar formulário, atualizar tela etc.
+  })
+  .catch(err => {
+    console.error('Erro ao agendar:', err);
+    alert('Erro ao agendar reunião.');
+  });
+}
 
 setInterval(carregarMensagens, 3000); // atualiza a cada 3s
 carregarMensagens(); // carrega inicialmente

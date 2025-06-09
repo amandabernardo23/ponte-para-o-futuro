@@ -18,9 +18,11 @@ const projetosRoutes = require('./routes/projetos')
 const universidadeRoutes = require('./routes/universidades');
 const uploadRoutes = require('./routes/uploads');
 const solicitacoesRoutes = require('./routes/solicitacoes');
+const reunioesRoutes = require('./routes/reunioes');
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 //Rotas
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/reunioes', reunioesRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
