@@ -13,12 +13,13 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-pool.connect((err) => {
-    if (err) {
-      console.error('Erro de conexão:', err.stack);
-      return;
-    }
-    console.log('Conectado ao banco de dados');
-  });
+// Testa a conexão ao iniciar
+pool.query('SELECT 1', (err) => {
+  if (err) {
+    console.error('Erro ao conectar ao banco de dados:', err.message);
+  } else {
+    console.log('Conectado ao banco de dados com sucesso');
+  }
+});
 
 module.exports = pool;
