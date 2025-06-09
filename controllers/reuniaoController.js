@@ -40,9 +40,8 @@ exports.listarAlunosDoProjeto = (req, res) => {
       console.error('Erro ao buscar alunos do projeto:', err?.sqlMessage || err?.message || err);
       return res.status(500).json({ error: 'Erro ao buscar alunos do projeto' });
     } if (result.length === 0) {
-  res.status(200).json([]); // <-- aqui
+  res.status(200).json([]);
 }
-
-    res.json(results);
+res.json(results);
   });
 };

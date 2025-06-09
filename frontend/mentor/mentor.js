@@ -21,9 +21,9 @@ function abrirFormulario(idProjetoHtml, tituloProjeto) {
 
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/reunioes/alunos/${idProjetoHtml.replace('projeto', '')}`)
     .then(res => res.json())
-    .then(alunos => {
-      window.alunosDoProjeto = alunos.map(a => a.id);
-      console.log('Alunos do projeto:', alunos);
+    .then(data => {
+      console.log("Resposta recebida da API:", data);  // <-- Adicione aqui
+      const alunos = data.map(obj => obj.id_aluno);
     });
 }
 
