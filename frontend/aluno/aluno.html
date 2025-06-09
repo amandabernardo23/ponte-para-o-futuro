@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Ponte para o Futuro - Perfil</title>
-<link rel="stylesheet" href="../instituicao.css" />
+<link rel="stylesheet" href="aluno.css" />
 <script src="aluno.js" defer></script>
 </head>
 <body>
@@ -34,18 +34,31 @@
 
 <!-- insere a foto de perfil do usuário -->
       <p class="institution-name"></p>
-       <button onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
+      <button class="home" onclick="mostrarSecao('painel')">🏠</button>
        <button onclick="mostrarSecao('mentoria')">Mentoria</button>
        <button onclick="mostrarSecao('projetos-disponiveis')">Projetos Disponíveis</button>
        <button onclick="mostrarSecao('meus-projetos')">Meus Projetos</button>
+       <button onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
+        <button onclick="mostrarSecao('mapa-progresso')">Meu Progresso</button>
       <a href="/login.html" class="back-button"> Sair </a>
     </aside>
 
      <main class="main-content">
       <!-- Painel Inicial -->
-      <section id="meu-perfil" class="secao-dashboard active">
-        <h2>Bem-vindo(a) </h2>
-        <h2>Meu Perfil</h2>
+      <section id="painel" class="secao-dashboard active">
+        <h2>Bem-vindo(a) a página do Aluno! </h2>
+        <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+        <div class="dashboard-cards">
+          <div class="card">
+            <h3>Projetos Ativos</h3>
+            <p id="count-projetos"></p>
+          </div>
+          <div class="card">
+            <h3>Mentorias agendadas</h3>
+            <p id="last-cadastro"></p>
+          </div>
+        </div>
+
         <div class="dashboard-cards">
         </div>
       </section>
@@ -94,6 +107,118 @@
           </tbody>
         </table>
       </section>
+
+<section id="mapa-progresso" class="secao-dashboard">
+  <h1>Mapa de Progresso - Etapas</h1>
+  <p class="subtitulo">
+    Painel de Indicadores de Eficiência Operacional (PIEO)
+  </p>
+
+  <ul class="etapas" id="etapas">
+    <li>
+      <span>Planejamento:</span>
+      <div class="botoes-status">
+        <button class="botao-status entregue active">Entregue</button>
+        <button class="botao-status andamento">Em andamento</button>
+        <button class="botao-status pendente">Pendente</button>
+      </div>
+    </li>
+    <li>
+      <span>Protótipo em Figma:</span>
+      <div class="botoes-status">
+        <button class="botao-status entregue active">Entregue</button>
+        <button class="botao-status andamento">Em andamento</button>
+        <button class="botao-status pendente">Pendente</button>
+      </div>
+    </li>
+    <li>
+      <span>Setup do projeto:</span>
+      <div class="botoes-status">
+        <button class="botao-status entregue">Entregue</button>
+        <button class="botao-status andamento active">Em andamento</button>
+        <button class="botao-status pendente">Pendente</button>
+      </div>
+    </li>
+    <li>
+      <span>Login e base do frontend:</span>
+      <div class="botoes-status">
+        <button class="botao-status entregue">Entregue</button>
+        <button class="botao-status andamento">Em andamento</button>
+        <button class="botao-status pendente active">Pendente</button>
+      </div>
+    </li>
+    <li>
+      <span>Módulo de dashboards e gráficos:</span>
+      <div class="botoes-status">
+        <button class="botao-status entregue">Entregue</button>
+        <button class="botao-status andamento">Em andamento</button>
+        <button class="botao-status pendente active">Pendente</button>
+      </div>
+    </li>
+  </ul>
+
+  <div class="progresso">
+    Progresso do Projeto:
+    <div class="barra">
+      <div class="barra-azul" id="barraProgresso">0%</div>
+    </div>
+  </div>
+
+      </section>
+
+       <section id="perfil" class="secao-dashboard">
+  <h1>Meu Perfil</h1>
+
+  <form id="form-perfil" enctype="multipart/form-data">
+    <!-- ID oculto do usuário -->
+    <input type="hidden" id="usuario_id" value="21" />
+
+    <div class="profile-edit">
+      <label for="foto-perfil" style="cursor: pointer;">
+        <img
+          id="preview-img" class="profile-pic" src="assets/iconuser.png" alt="Foto de perfil" />
+      </label>
+      <input
+        type="file"
+        id="foto-perfil"
+        name="foto"
+        accept="image/*"
+        style="display: none;"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" name="nome" required />
+    </div>
+    <div class="input-group">
+      <label for="instituicao">Instituição</label>
+      <input type="text" id="instituicao" name="instituicao" required />
+    </div>
+    <div class="input-group">
+      <label for="idade">Idade</label>
+      <input type="number" id="idade" name="idade" required />
+    </div>
+    <div class="input-group">
+      <label for="formacao">Formação</label>
+      <input type="text" id="formacao" name="formacao" required />
+    </div>
+    <div class="input-group">
+      <label for="descricao">Descrição Profissional</label>
+      <textarea id="descricao" name="descricao" rows="4" required></textarea>
+    </div>
+
+    <button type="submit" id="btn-salvar">Salvar Perfil</button>
+  </form>
+
+  <div class="projects-section">
+    <h2>Meus Projetos</h2>
+    <div id="meus-projetos"></div>
+  </div>
+</section>
+    </main>
+  </div>
+
     </main>
 
  <script>
@@ -135,7 +260,7 @@
   });
 </script>
 
-<Script>
+<script>
 function mostrarSecao(secaoId) {
   const secoes = document.querySelectorAll('.secao-dashboard');
   secoes.forEach(secao => secao.classList.remove('active'));
@@ -153,7 +278,7 @@ function mostrarSecao(secaoId) {
     carregarMeusProjetos();
   }
 }
-</Script>
+</script>
 
 <script>
   const fotoInput = document.getElementById('foto-input');
@@ -219,5 +344,50 @@ function mostrarSecao(secaoId) {
     fotoInput.value = '';
   });
 </script>
+
+ <script>
+      const toggleMenuBtn = document.getElementById("toggleMenu");
+      const menuLateral = document.getElementById("menuLateral");
+
+      toggleMenuBtn.addEventListener("click", () => {
+        menuLateral.classList.toggle("active");
+      });
+
+      const barra = document.getElementById("barraProgresso");
+
+      function atualizarProgresso() {
+        const grupos = document.querySelectorAll(".botoes-status");
+        let progressoTotal = 0;
+
+        grupos.forEach((grupo) => {
+          const selecionado = grupo.querySelector(".active");
+          if (selecionado.classList.contains("entregue")) {
+            progressoTotal += 1;
+          } else if (selecionado.classList.contains("andamento")) {
+            progressoTotal += 0.5;
+          }
+        });
+
+        const totalEtapas = grupos.length;
+        const porcentagem = Math.round((progressoTotal / totalEtapas) * 100);
+
+        barra.style.width = `${porcentagem}%`;
+        barra.textContent = `${porcentagem}%`;
+      }
+
+      document.querySelectorAll(".botao-status").forEach((botao) => {
+        botao.addEventListener("click", () => {
+          const grupo = botao.parentElement;
+          grupo
+            .querySelectorAll(".botao-status")
+            .forEach((b) => b.classList.remove("active"));
+          botao.classList.add("active");
+          atualizarProgresso();
+        });
+      });
+
+      atualizarProgresso();
+    </script>
+    
 </body>
 </html>

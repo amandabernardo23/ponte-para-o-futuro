@@ -1,157 +1,69 @@
+/* Reset e base */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Nexa';
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
-  background-color: #f4f1f1
-}
-
-@font-face {
-  font-family: "Nexa" ;
-  src: url("assets/nexaregular.otf");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Nexa" ;
-  src: url("assets/nexa-light.otf");
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Nexa" ;
-  src: url("assets/nexa-bold.otf");
-  font-weight: 700;
-  font-style: normal;
-}
-
-body.instituicao, .dashboard {
-  display: flex;
-  width: 100%;
-  margin: 0;
+  background-color: #f8fafc;
+  color: #1e293b;
   height: 100vh;
-  font-family: 'Nexa';
+  overflow: hidden;
 }
 
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
 .sidebar {
-  background-color: #d3d3d3;
-  width: 12rem;
+  background-color: #1e293b;
+  color: #f1f5f9;
+  padding: 20px;
+  width: 260px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 1rem;
-  user-select: none;
-  font-weight: 400;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.institution-name {
   font-size: 20px;
-}
-
-.profile-pic {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-bottom: 15px;
-  object-fit: cover;
-}
-
-.sidebar p {
-  margin: 10px 0;
   font-weight: bold;
-}
-
-.institution-name, p {
-  color: #111827;
-  font-weight: 700;
-  font-size: large;
-
-}
-
-.sidebar button {
-  width: 100%;
-  padding: 10px;
-  background-color: #00bfff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 8px 0;
-}
-
-.sidebar button:hover {
-  background-color: #009acd;
-}
-
-.back-button {
-  margin-top: auto;
-  color: white;
-  text-decoration: none;
-  font-weight: 400;
-  font-size: small;
-  background-color: #009acd;
-   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-   width: 50%;
-  padding: 8px;
+  margin: 10px 0 20px;
   text-align: center;
 }
 
-.main-content {
-  flex: 1;
-  padding: 40px;
-  overflow-y: auto;
-}
-
-.secao-dashboard {
-  display: none;
-}
-
-.secao-dashboard.active {
-  display: block;
-}
-
-form input, form textarea, form select {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-form label {
-  font-weight: bold;
-  margin-top: 10px;
-  display: block;
-}
-
-form button {
-  background-color: #00bfff;
-  color: white;
-  padding: 10px 20px;
+.sidebar button,
+.sidebar a.back-button {
+  background: none;
   border: none;
-  font-weight: bold;
-  border-radius: 5px;
+  color: #cbd5e1;
+  font-size: 16px;
+  margin: 10px 0;
   cursor: pointer;
+  text-align: center;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+  text-decoration: none;
 }
 
-form button:hover {
-  background-color: #008ecc;
+.sidebar button:hover,
+.sidebar a.back-button:hover {
+  background-color: #334155;
+  color: #38bdf8;
 }
 
-h2 {
-  color: #111827;
-  margin-bottom: 20px;
-}
-
+/* Foto de perfil */
 .upload-container {
   position: relative;
-  display: inline-block;
-  cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .profile-pic {
@@ -159,81 +71,269 @@ h2 {
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
+  border: 3px solid #38bdf8;
   transition: opacity 0.3s ease;
-  background-color: #111827;
+  background-color: #1e293b;
 }
 
 .icon-overlay {
   position: absolute;
-  bottom: 10px;
-  right: 20px;
-  color: white;
-  border-radius: 30%;
-  padding: 0px;
+  bottom: 0;
+  right: 0;
+  background-color: #1e293b;
+  color: #38bdf8;
+  border-radius: 50%;
+  padding: 4px 6px;
+  font-size: 14px;
   cursor: pointer;
-  pointer-events: none;
 }
 
-.hidden {
+/* Modal da foto */
+.modal.hidden {
   display: none;
 }
 
-/* Modal geral */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   z-index: 999;
 }
 
-/* Conteúdo do modal */
-.modal-content {
-  background-color: white;
-  padding: 30px 40px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* Botões */
 .modal-buttons {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .btn {
   padding: 10px 20px;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .btn.salvar {
-  background-color: #00bfff;
+  background-color: #0ea5e9;
   color: white;
 }
 
 .btn.cancelar {
-  background-color: #d4d4d4;
-  color: #333;
+  background-color: #ef4444;
+  color: white;
 }
 
-.hidden {
-  display: none;
+/* Conteúdo principal */
+.main-content {
+  flex: 1;
+  padding: 40px 30px;
+  overflow-y: auto;
+  background-color: #f8fafc;
 }
+
 .secao-dashboard {
   display: none;
 }
 
 .secao-dashboard.active {
   display: block;
+}
+
+h2, h1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #0ea5e9;
+}
+
+/* Formulários */
+form input,
+form textarea,
+form select,
+form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+}
+
+form button {
+  background-color: #0ea5e9;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #0284c7;
+}
+
+/* Tabelas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+table th,
+table td {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+table th {
+  background-color: #f1f5f9;
+}
+
+table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Variáveis de cores - mantidas globais, caso já existam no aluno.css, pode remover */
+:root {
+  --azul-escuro: #111827;
+  --azul-claro: #06b6d4;
+  --cinza-claro: #d1d5db;
+  --branco: #ffffff;
+}
+
+/* Reset e fonte aplicados globalmente no aluno.css, removidos daqui */
+
+/* Estilos específicos para o mapa de progresso dentro da section #mapa-progresso */
+#mapa-progresso {
+  background-color: var(--cinza-claro);
+  color: var(--azul-escuro);
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 900px;
+  margin: 0 auto 40px auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto", sans-serif;
+}
+
+#mapa-progresso h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: var(--azul-escuro);
+}
+
+#mapa-progresso .subtitulo {
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: var(--azul-escuro);
+}
+
+/* Lista de etapas */
+#mapa-progresso .etapas {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+#mapa-progresso .etapas li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--branco);
+  border: 1px solid var(--cinza-claro);
+  border-radius: 5px;
+  padding: 12px 20px;
+  margin-bottom: 10px;
+  color: var(--azul-escuro);
+}
+
+/* Botões de status */
+#mapa-progresso .botao-status {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--branco);
+  transition: background-color 0.3s ease;
+  margin-left: 6px;
+}
+
+#mapa-progresso .botao-status.entregue {
+  background-color: #10b981; /* verde */
+}
+
+#mapa-progresso .botao-status.andamento {
+  background-color: #facc15; /* amarelo */
+  color: #111827;
+}
+
+#mapa-progresso .botao-status.pendente {
+  background-color: #ef4444; /* vermelho */
+}
+
+#mapa-progresso .botao-status.active {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+#mapa-progresso .botao-status:hover {
+  opacity: 0.85;
+}
+
+/* Barra de progresso */
+#mapa-progresso .progresso {
+  font-weight: bold;
+  margin-top: 20px;
+  color: var(--azul-escuro);
+}
+
+#mapa-progresso .barra {
+  background-color: var(--branco);
+  border: 1px solid var(--azul-claro);
+  border-radius: 6px;
+  height: 24px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+#mapa-progresso .barra-azul {
+  height: 100%;
+  background-color: var(--azul-claro);
+  text-align: center;
+  color: var(--branco);
+  line-height: 24px;
+  font-weight: bold;
+  width: 0%; /* Inicial */
+  transition: width 0.4s ease;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #mapa-progresso {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  #mapa-progresso .etapas li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #mapa-progresso .botao-status {
+    margin: 6px 6px 0 0;
+  }
 }
