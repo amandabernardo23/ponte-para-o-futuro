@@ -9,25 +9,37 @@
 </head>
 <body class="instituicao">
   <div class="dashboard">
-    <aside class="sidebar">
-      <form id="foto-form" enctype="multipart/form-data">
-        <div class="upload-container">
-          <label for="foto-input" class="upload-label">
-            <img id="preview-img" class="profile-pic" src="assets/iconuser.png" alt="Foto de perfil" />
-          </label>
-        </div>
-      
-      </form>
-      <p class="institution-name"></p>
-      <button class="home" onclick="mostrarSecao('painel')">🏠</button>
-      <button onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
-      <button onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
-      <button onclick="mostrarSecao('usuarios')">Alunos</button>
-      <button onclick="mostrarSecao('solicitacoes')">Solicitações</button>
-      <button onclick="mostrarSecao('certificados')">Cadastrar Certificados</button>
-      <button onclick="mostrarSecao('perfil')">Meu Perfil</button>
-      <a href="login.html" class="logout"> Sair </a>
-    </aside>
+   <aside class="sidebar">
+ <form id="foto-form" enctype="multipart/form-data" class="foto-form">
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label" style="cursor: pointer;">
+      <div class="profile-pic-container">
+        <img
+          id="preview-img"
+          class="profile-pic"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          alt="Foto de perfil"
+        />
+        <span class="icon-overlay">📷</span>
+      </div>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
+  </div>
+</form>
+
+  <p class="institution-name">Instituição</p>
+
+  <nav class="menu-buttons">
+    <button class="home" onclick="mostrarSecao('painel')">🏠</button>
+    <button onclick="mostrarSecao('projetos')"> Cadastro de Projetos</button>
+    <button onclick="mostrarSecao('listar-projetos')"> Visualizar Projetos</button>
+    <button onclick="mostrarSecao('usuarios')"> Alunos</button>
+    <button onclick="mostrarSecao('solicitacoes')"> Solicitações</button>
+    <button onclick="mostrarSecao('certificados')"> Certificados</button>
+    <button onclick="mostrarSecao('perfil')"> Meu Perfil</button>
+    <a href="login.html" class="logout"> Sair</a>
+  </nav>
+</aside>
 
     <main class="main-content">
       <section id="painel" class="secao-dashboard active">
