@@ -16,7 +16,6 @@
             <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
             <span class="icon-overlay">📷</span>
           </label>
-          <!-- Campo input FALTANDO -->
           <input type="file" id="foto-input" name="foto" accept="image/*" style="display: none;" />
         </div>
         <div id="foto-modal" class="modal hidden">
@@ -31,8 +30,8 @@
       </form>
       <p class="institution-name"></p>
       <button class="home" onclick="mostrarSecao('painel')">🏠</button>
-      <button onclick="mostrarSecao('listar-projetos')">Projetos Disponiveis</button>
-      <button onclick="mostrarSecao('renioes')">Reniões</button>
+      <button onclick="mostrarSecao('listar-projetos')">Projetos Disponíveis</button>
+      <button onclick="mostrarSecao('reunioes')">Reuniões</button>
       <button onclick="mostrarSecao('duvida')">Tira-Dúvidas</button>
       <button onclick="mostrarSecao('avaliacao')">Avaliações</button>
       <a href="login.html" class="logout"> Sair </a>
@@ -71,74 +70,78 @@
         </table>
       </section>
 
-      <section id="renioes" class="secao-dashboard">
-          <h2>Agendamento de Reuniões</h2>
-          <div id="reunioes-projetos"></div> <!-- Projetos mentorados aparecerão aqui -->
-        </div>
-        
-        <div id="formulario-projeto456" class="formulario-reuniao" style="display: none;">
-            <label>Data:</label>
-            <input type="date" id="data-projeto456">
-            
-            <label>Hora:</label>
-            <input type="time" id="hora-projeto456">
-            
-            <label>Link do Google Meet:</label>
-            <input type="url" id="link-projeto456" placeholder="https://meet.google.com/...">
-            
-            <button onclick="enviarConvite('projeto456')">Enviar</button>
-        </div>
-     </section>
+      <section id="reunioes" class="secao-dashboard">
+        <h2>Agendamento de Reuniões</h2>
+        <div id="reunioes-projetos"></div> <!-- Projetos mentorados aparecerão aqui -->
 
-     <section id="duvida" class="secao-dashboard">
-            <div class="wrapper">
-                <div id="chat-container" class="chat-container">
-                <h2 style="text-align: center;">Tira-Dúvidas</h2>
+        <div id="formulario-projeto456" class="formulario-reuniao">
+          <label>Data:</label>
+          <input type="date" id="data-projeto456">
+
+          <label>Hora:</label>
+          <input type="time" id="hora-projeto456">
+
+          <label>Link do Google Meet:</label>
+          <input type="url" id="link-projeto456" placeholder="https://meet.google.com/...">
+
+          <button onclick="enviarConvite('projeto456')">Enviar</button>
+        </div>
+      </section>
+
+      <section id="duvida" class="secao-dashboard">
+        <div class="wrapper">
+          <div id="chat-container" class="chat-container">
+            <h2 style="text-align: center;">Tira-Dúvidas</h2>
 
             <div id="mensagens" class="mensagens"></div>
 
             <form id="form-chat" onsubmit="enviarMensagem(event)">
-                <input type="text" id="mensagem" placeholder="Digite sua mensagem..." required>
-                <button type="submit">Enviar</button>
+              <input type="text" id="mensagem" placeholder="Digite sua mensagem..." required>
+              <button type="submit">Enviar</button>
             </form>
-            </div>
-            </div>
-     </section>
+          </div>
+        </div>
+      </section>
 
-     <section id="avaliacao" class="secao-dashboard">
-        <h2 style = "color: #00aaff">Avaliações</h2>
+      <section id="avaliacao" class="secao-dashboard">
+        <h2 style="color: #00aaff">Avaliações</h2>
         <div class="wrapper">
-            <div class="projeto-avaliacao">
+          <div class="projeto-avaliacao">
             <h3>Projeto: Nome do Projeto 1</h3>
 
             <div class="aluno-avaliacao">
-                <p>Aluno: João Silva</p>
-                <div class="estrelas" data-aluno-id="1">
+              <p>Aluno: João Silva</p>
+              <div class="estrelas" data-aluno-id="1">
                 <span class="estrela" data-valor="1">&#9734;</span>
                 <span class="estrela" data-valor="2">&#9734;</span>
                 <span class="estrela" data-valor="3">&#9734;</span>
                 <span class="estrela" data-valor="4">&#9734;</span>
                 <span class="estrela" data-valor="5">&#9734;</span>
-                </div>
-                <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
+              </div>
+              <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
             </div>
 
             <div class="aluno-avaliacao">
-                <p>Aluno: Maria Souza</p>
-                <div class="estrelas" data-aluno-id="2">
+              <p>Aluno: Maria Souza</p>
+              <div class="estrelas" data-aluno-id="2">
                 <span class="estrela" data-valor="1">&#9734;</span>
                 <span class="estrela" data-valor="2">&#9734;</span>
                 <span class="estrela" data-valor="3">&#9734;</span>
                 <span class="estrela" data-valor="4">&#9734;</span>
                 <span class="estrela" data-valor="5">&#9734;</span>
-                </div>
-                <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
+              </div>
+              <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
             </div>
-            </div>
+          </div>
         </div>
-     </section>
+      </section>
     </main>
   </div>
+</body>
+</html>
+
+
+
   <script>
         document.querySelectorAll('.estrelas').forEach(container => {
             const estrelas = container.querySelectorAll('.estrela');
