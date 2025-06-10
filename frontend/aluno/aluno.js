@@ -133,7 +133,7 @@ function carregarMeusProjetos() {
       const tabela = document.getElementById("tabela-meus-projetos");
       const contadorProjetos = document.getElementById("count-projetos");
 
-      tabela.innerHTML = ""; // Limpa qualquer linha existente
+      tabela.innerHTML = "";
 
       if (projetos.length === 0) {
         tabela.innerHTML = `<tr><td colspan="4">Nenhum projeto encontrado.</td></tr>`;
@@ -141,14 +141,9 @@ function carregarMeusProjetos() {
         return;
       }
 
-      let ativos = 0;
+      contadorProjetos.textContent = projetos.length.toString(); // <- total
 
       projetos.forEach(projeto => {
-        // Aqui você define o que conta como “ativo”
-        if (projeto.status === "Aprovado" || projeto.status === "Ativo") {
-          ativos++;
-        }
-
         const linha = document.createElement("tr");
         linha.innerHTML = `
           <td>${projeto.titulo}</td>
@@ -158,8 +153,6 @@ function carregarMeusProjetos() {
         `;
         tabela.appendChild(linha);
       });
-
-      contadorProjetos.textContent = ativos.toString();
     })
     .catch(erro => {
       console.error("Erro ao carregar projetos:", erro);
@@ -189,8 +182,8 @@ function contarProjetosAtivos() {
         }
       });
 
-      const contadorProjetos = document.getElementById("count-projetos");
-      if (contadorProjetos) contadorProjetos.textContent = ativos.toString();
+      const contadorAtivos = document.getElementById("count-projetos");
+      if (contadorAtivos) contadorAtivos.textContent = ativos.toString();
     })
     .catch(erro => {
       console.error("Erro ao contar projetos ativos:", erro);
