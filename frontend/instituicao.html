@@ -31,23 +31,50 @@
 
     <main class="main-content">
       <section id="painel" class="secao-dashboard active">
-        <h2>Bem-vindo(a) ao Painel da Instituição</h2>
-        <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
-        <div class="dashboard-cards">
-          <div class="card">
-            <h3>Alunos Cadastrados</h3>
-            <p id="count-alunos"></p>
-          </div>
-          <div class="card">
-            <h3>Projetos Ativos</h3>
-            <p id="count-projetos"></p>
-          </div>
-          <div class="card">
-            <h3>Último Cadastro</h3>
-            <p id="last-cadastro"></p>
-          </div>
-        </div>
-      </section>
+  <h2>Bem-vindo(a) ao Painel da Instituição</h2>
+  <p>Este é o seu centro de controle. Abaixo, você encontra informações úteis e um resumo geral.</p>
+
+  <!-- Cards principais -->
+  <div class="dashboard-cards">
+    <div class="card">
+      <h3>Alunos Cadastrados</h3>
+      <p id="count-alunos">0</p>
+    </div>
+    <div class="card">
+      <h3>Projetos Ativos</h3>
+      <p id="count-projetos">0</p>
+    </div>
+    <div class="card">
+      <h3>Último Cadastro</h3>
+      <p id="last-cadastro">--</p>
+    </div>
+  </div>
+
+  <!-- Ações rápidas -->
+  <h3 style="margin-top: 2rem;">Ações rápidas</h3>
+  <div class="dashboard-cards">
+    <div class="card card-acao">
+      <h4>Gerenciar Projetos</h4>
+      <p>Cadastre novos projetos ou edite os existentes.</p>
+      <button class="btn-acao" onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+    </div>
+    <div class="card card-acao">
+      <h4>Acompanhar Alunos</h4>
+      <p>Veja o progresso e envolvimento dos alunos vinculados.</p>
+      <button class="btn-acao" onclick="mostrarSecao('usuarios')">Alunos</button>
+    </div>
+  </div>
+
+  <!-- Sugestões úteis -->
+  <h3 style="margin-top: 2rem;">Sugestões para sua instituição</h3>
+  <ul class="sugestoes-lista">
+    <li>📢 Divulgue seus projetos para atrair mais alunos</li>
+    <li>📈 Analise o envolvimento dos alunos em cada projeto</li>
+    <li>📩 Use o painel para entrar em contato com mentores ou alunos</li>
+    <li>🔐 Mantenha seu perfil institucional sempre atualizado</li>
+  </ul>
+</section>
+
 
       <section id="projetos" class="secao-dashboard">
         <h2>Cadastro de Projetos</h2>
