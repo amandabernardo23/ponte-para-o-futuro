@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "index.html"; // ajuste conforme a página inicial
     }
   });
+  mostrarSecao("painel"); 
 });
 
 async function carregarProjetos() {
