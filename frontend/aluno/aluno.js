@@ -117,7 +117,7 @@ function solicitarAcesso(projetoId, botao) {
 // Function para carregar os projetos vinculados ao id do aluno
 function carregarMeusProjetos() {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-  const alunoId = usuarioLogado.id;
+  const alunoId = usuarioLogado?.id;
 
   if (!alunoId) {
     alert("Aluno não identificado.");
@@ -131,30 +131,38 @@ function carregarMeusProjetos() {
     })
     .then(projetos => {
       const tabela = document.getElementById("tabela-meus-projetos");
+      const contadorProjetos = document.getElementById("count-projetos");
+
       tabela.innerHTML = ""; // Limpa qualquer linha existente
 
       if (projetos.length === 0) {
         tabela.innerHTML = `<tr><td colspan="4">Nenhum projeto encontrado.</td></tr>`;
+        contadorProjetos.textContent = "0";
         return;
       }
 
-      projetos.forEach(projeto => {
-        const linha = document.createElement("tr");
+      let ativos = 0;
 
+      projetos.forEach(projeto => {
+        // Aqui você define o que conta como “ativo”
+        if (projeto.status === "Aprovado" || projeto.status === "Ativo") {
+          ativos++;
+        }
+
+        const linha = document.createElement("tr");
         linha.innerHTML = `
           <td>${projeto.titulo}</td>
           <td>${projeto.descricao}</td>
           <td>${projeto.status}</td>
           <td>${projeto.mensagem_resposta || "—"}</td>
         `;
-
         tabela.appendChild(linha);
       });
+
+      contadorProjetos.textContent = ativos.toString();
     })
     .catch(erro => {
       console.error("Erro ao carregar projetos:", erro);
       alert("Erro ao carregar projetos.");
     });
 }
-
-
