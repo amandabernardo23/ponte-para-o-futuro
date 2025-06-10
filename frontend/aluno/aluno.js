@@ -82,7 +82,6 @@ async function carregarProjetos() {
   }
 }
 
-
 //Function para solicitar o acesso ao projeto
 function solicitarAcesso(projetoId, botao) {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
@@ -195,16 +194,6 @@ function mostrarSecao(secaoId) {
   secaoSelecionada?.classList.add('active');
 
   if (secaoId === 'painel') {
-    contarProjetosAtivos(); // <- chama a função ao abrir o painel
-  }
-function mostrarSecao(secaoId) {
-  const secoes = document.querySelectorAll('.secao-dashboard');
-  secoes.forEach(secao => secao.classList.remove('active'));
-
-  const secaoSelecionada = document.getElementById(secaoId);
-  secaoSelecionada?.classList.add('active');
-
-  if (secaoId === 'painel') {
     contarProjetosAtivos(); // Atualiza só quando necessário
   }
 
@@ -215,4 +204,4 @@ function mostrarSecao(secaoId) {
   if (secaoId ===  'projetos-disponiveis'){
     carregarProjetos();
   }
-}}
+}
