@@ -11,21 +11,20 @@
   <div class="dashboard">
   <aside class="sidebar">
   <!-- Container da foto com ícone de câmera -->
-  <form id="foto-form" enctype="multipart/form-data" class="foto-form">
-    <div class="upload-container">
-      <label for="foto-input" class="upload-label">
-        <div class="profile-pic-container">
-          <img
-            id="preview-img"
-            class="profile-pic"
-            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-            alt="Foto de perfil"
-          />
-          <span class="icon-overlay">📷</span>
-        </div>
-      </label>
-      <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
-    </div>
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label" style="cursor: pointer;">
+      <div class="profile-pic-container">
+        <img
+          id="preview-img"
+          class="profile-pic"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          alt="Foto de perfil"
+        />
+        <span class="icon-overlay">📷</span>
+      </div>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
+  </div>
 
     <!-- Modal flutuante central -->
     <div id="foto-modal" class="modal hidden">
