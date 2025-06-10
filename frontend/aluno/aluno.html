@@ -9,39 +9,48 @@
 </head>
 <body>
   <div class="dashboard">
-    <aside class="sidebar">
-<!-- insere a foto de perfil do usuário -->
-     <form id="foto-form" enctype="multipart/form-data">
-  <div class="upload-container">
-    <label for="foto-input" class="upload-label">
-      <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
-      <span class="icon-overlay">📷</span>
-    </label>
-    <input type="file" id="foto-input" name="foto" accept="image/*" hidden>
-  </div>
-  <!-- Modal flutuante central -->
-<div id="foto-modal" class="modal hidden">
-  <div class="modal-content">
-    <p>Deseja salvar a nova foto de perfil?</p>
-    <div class="modal-buttons">
-      <button id="confirmar-btn" class="btn salvar">Salvar</button>
-      <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+  <aside class="sidebar">
+  <!-- Container da foto com ícone de câmera -->
+  <form id="foto-form" enctype="multipart/form-data" class="foto-form">
+    <div class="upload-container">
+      <label for="foto-input" class="upload-label">
+        <div class="profile-pic-container">
+          <img
+            id="preview-img"
+            class="profile-pic"
+            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+            alt="Foto de perfil"
+          />
+          <span class="icon-overlay">📷</span>
+        </div>
+      </label>
+      <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
     </div>
-  </div>
-</div>
 
-</form>
+    <!-- Modal flutuante central -->
+    <div id="foto-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Deseja salvar a nova foto de perfil?</p>
+        <div class="modal-buttons">
+          <button id="confirmar-btn" class="btn salvar">Salvar</button>
+          <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
 
-<!-- insere a foto de perfil do usuário -->
-      <p class="institution-name"></p>
-      <button class="home" onclick="mostrarSecao('painel')">🏠</button>
-       <button onclick="mostrarSecao('mentoria')">Mentoria</button>
-       <button onclick="mostrarSecao('projetos-disponiveis')">Projetos Disponíveis</button>
-       <button onclick="mostrarSecao('meus-projetos')">Meus Projetos</button>
-       <button onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
-        <button onclick="mostrarSecao('mapa-progresso')">Meu Progresso</button>
-      <a href="/login.html" class="back-button"> Sair </a>
-    </aside>
+  <p class="institution-name">Nome do Aluno</p>
+
+  <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('mentoria')">Mentoria</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('projetos-disponiveis')">Projetos Disponíveis</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('meus-projetos')">Meus Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('mapa-progresso')">Meu Progresso</button>
+
+  <a href="/login.html" class="back-button">Sair</a>
+</aside>
+
 
      <main class="main-content">
       <!-- Painel Inicial -->
