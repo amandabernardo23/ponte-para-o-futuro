@@ -82,10 +82,6 @@ async function carregarProjetos() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  carregarProjetos();
-  carregarMeusProjetos();
-});
 
 //Function para solicitar o acesso ao projeto
 function solicitarAcesso(projetoId, botao) {
@@ -201,4 +197,22 @@ function mostrarSecao(secaoId) {
   if (secaoId === 'painel') {
     contarProjetosAtivos(); // <- chama a função ao abrir o painel
   }
-}
+function mostrarSecao(secaoId) {
+  const secoes = document.querySelectorAll('.secao-dashboard');
+  secoes.forEach(secao => secao.classList.remove('active'));
+
+  const secaoSelecionada = document.getElementById(secaoId);
+  secaoSelecionada?.classList.add('active');
+
+  if (secaoId === 'painel') {
+    contarProjetosAtivos(); // Atualiza só quando necessário
+  }
+
+  if (secaoId === 'meus-projetos') {
+    carregarMeusProjetos(); // Só quando o aluno clica na seção dos projetos
+  }
+
+  if (secaoId ===  'projetos-disponiveis'){
+    carregarProjetos();
+  }
+}}
