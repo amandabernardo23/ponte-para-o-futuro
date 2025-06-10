@@ -181,56 +181,45 @@
 
       </section>
 
-       <section id="perfil" class="secao-dashboard">
-  <h1>Meu Perfil</h1>
+ <section id="meu-perfil" class="secao-dashboard">
+  <h2 class="secao-titulo">Meu Perfil</h2>
 
-  <form id="form-perfil" enctype="multipart/form-data">
-    <!-- ID oculto do usuário -->
-    <input type="hidden" id="usuario_id" value="21" />
-
-    <div class="profile-edit">
-      <label for="foto-perfil" style="cursor: pointer;">
-        <img
-          id="preview-img" class="profile-pic" src="assets/iconuser.png" alt="Foto de perfil" />
-      </label>
-      <input
-        type="file"
-        id="foto-perfil"
-        name="foto"
-        accept="image/*"
-        style="display: none;"
-      />
+  <form id="form-perfil" class="form-perfil" enctype="multipart/form-data">
+    <div class="form-topo">
+      <div class="foto-preview">
+        <img id="preview-img" src="../assets/iconuser.png" alt="Foto de perfil" />
+        <input type="file" id="foto-perfil" name="foto_perfil" accept="image/*" />
+      </div>
     </div>
 
-    <div class="input-group">
-      <label for="nome">Nome Completo</label>
-      <input type="text" id="nome" name="nome" required />
-    </div>
-    <div class="input-group">
-      <label for="instituicao">Instituição</label>
-      <input type="text" id="instituicao" name="instituicao" required />
-    </div>
-    <div class="input-group">
-      <label for="idade">Idade</label>
-      <input type="number" id="idade" name="idade" required />
-    </div>
-    <div class="input-group">
-      <label for="formacao">Formação</label>
-      <input type="text" id="formacao" name="formacao" required />
-    </div>
-    <div class="input-group">
-      <label for="descricao">Descrição Profissional</label>
-      <textarea id="descricao" name="descricao" rows="4" required></textarea>
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="curso">Curso</label>
+        <input type="text" id="curso" name="curso" required />
+      </div>
     </div>
 
-    <button type="submit" id="btn-salvar">Salvar Perfil</button>
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="instituicao">Instituição</label>
+        <input type="text" id="instituicao" name="instituicao" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="4" required></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-azul">Salvar Perfil</button>
   </form>
-
-  <div class="projects-section">
-    <h2>Meus Projetos</h2>
-    <div id="meus-projetos"></div>
-  </div>
 </section>
+
     </main>
   </div>
 
