@@ -275,7 +275,7 @@
         const imgEl = document.getElementById('preview-img');
         if (imgEl) imgEl.src = `/uploads/${usuario.fotoPerfil}`;
       }
-
+      carregarProjetos();
     } else {
       // Redireciona se não estiver logado
       window.location.href = "login.html";

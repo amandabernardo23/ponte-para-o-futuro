@@ -166,3 +166,34 @@ function carregarMeusProjetos() {
       alert("Erro ao carregar projetos.");
     });
 }
+
+function contarProjetosAtivos() {
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const alunoId = usuarioLogado?.id;
+
+  if (!alunoId) {
+    alert("Aluno não identificado.");
+    return;
+  }
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/solicitacoes/projetos-do-aluno?alunoId=${alunoId}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao buscar projetos.");
+      return response.json();
+    })
+    .then(projetos => {
+      let ativos = 0;
+      projetos.forEach(projeto => {
+        if (projeto.status === "Aprovado" || projeto.status === "Ativo") {
+          ativos++;
+        }
+      });
+
+      const contadorProjetos = document.getElementById("count-projetos");
+      if (contadorProjetos) contadorProjetos.textContent = ativos.toString();
+    })
+    .catch(erro => {
+      console.error("Erro ao contar projetos ativos:", erro);
+      alert("Erro ao contar projetos ativos.");
+    });
+}
