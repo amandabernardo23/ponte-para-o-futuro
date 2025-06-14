@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página da Instituição</title>
-  <link rel="stylesheet" href="instituicao.css" />
+  <link rel="stylesheet" href="aluno/aluno.css" />
   <script src="script.js" defer></script>
 </head>
 <body class="instituicao">
   <div class="dashboard">
    <aside class="sidebar">
- <form id="foto-form" enctype="multipart/form-data" class="foto-form">
+  <!-- Container da foto com ícone de câmera -->
   <div class="upload-container">
     <label for="foto-input" class="upload-label" style="cursor: pointer;">
       <div class="profile-pic-container">
@@ -25,20 +25,29 @@
     </label>
     <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
   </div>
-</form>
 
-  <p class="institution-name">Instituição</p>
+    <!-- Modal flutuante central -->
+    <div id="foto-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Deseja salvar a nova foto de perfil?</p>
+        <div class="modal-buttons">
+          <button id="confirmar-btn" class="btn salvar">Salvar</button>
+          <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
 
-  <nav class="menu-buttons">
-    <button class="home" onclick="mostrarSecao('painel')">🏠</button>
-    <button onclick="mostrarSecao('projetos')"> Cadastro de Projetos</button>
-    <button onclick="mostrarSecao('listar-projetos')"> Visualizar Projetos</button>
-    <button onclick="mostrarSecao('usuarios')"> Alunos</button>
-    <button onclick="mostrarSecao('solicitacoes')"> Solicitações</button>
-    <button onclick="mostrarSecao('certificados')"> Certificados</button>
-    <button onclick="mostrarSecao('perfil')"> Meu Perfil</button>
-    <a href="login.html" class="logout"> Sair</a>
-  </nav>
+  <p class="institution-name">Nome da Instituição</p>
+
+  <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('projetos')">Cadastro de Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Visualizar Projetos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('usuarios')">Alunos</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('solicitacoes')">Solicitações</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('certificados')">Certificados</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('perfil')">Meu Perfil</button>
+  <a href="/login.html" class="back-button">Sair</a>
 </aside>
 
     <main class="main-content">
@@ -89,6 +98,10 @@
 
 
       <section id="projetos" class="secao-dashboard">
+
+         <a href="/" class="voltar-button">
+    <img src="/frontend/assets/seta-para-a-esquerda.png" alt="Voltar" />
+  </a>
         <h2>Cadastro de Projetos</h2>
         <form id="form-projetos" method="POST">
           <input type="text" name="titulo" placeholder="Título do Projeto" required/>
@@ -117,6 +130,11 @@
       </section>
 
       <section id="usuarios" class="secao-dashboard">
+        
+            <a href="/" class="voltar-button">
+    <img src="/frontend/assets/seta-para-a-esquerda.png" alt="Voltar" />
+  </a>
+
         <h2>Alunos Cadastrados</h2>
         <table border="1">
           <thead>
@@ -191,7 +209,7 @@
     <div class="profile-edit">
       <label for="foto-perfil" style="cursor: pointer;">
         <img
-          id="preview-img" class="profile-pic" src="assets/iconuser.png" alt="Foto de perfil" />
+          id="preview-img" class="profile-pic-form" src="assets/iconuser.png" alt="Foto de perfil" />
       </label>
       <input
         type="file"
