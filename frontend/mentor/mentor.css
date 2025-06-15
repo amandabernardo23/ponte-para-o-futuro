@@ -656,3 +656,58 @@ textarea {
   border-bottom: 1px solid #eee;
   font-size: 0.95rem;
 }
+
+.formulario-reuniao {
+  margin-top: 20px;
+  background-color: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.formulario-reuniao .input-group {
+  margin-bottom: 15px;
+}
+
+.formulario-reuniao label {
+  display: block;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.formulario-reuniao input[type="date"],
+.formulario-reuniao input[type="time"],
+.formulario-reuniao input[type="url"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.formulario-reuniao input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+}
+
+.btn-agendar {
+  background-color: #0ea5e9;
+  color: white;
+  padding: 12px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-agendar:hover {
+  background-color: #0284c7;
+}
+

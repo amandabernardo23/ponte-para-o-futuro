@@ -70,23 +70,39 @@
         </table>
       </section>
 
-      <section id="reunioes" class="secao-dashboard">
-        <h2>Agendamento de Reuniões</h2>
-        <div id="reunioes-projetos"></div> <!-- Projetos mentorados aparecerão aqui -->
+    <section id="reunioes" class="secao-dashboard active">
+  <div class="card">
+    <h2>Agendamento de Reuniões</h2>
+    <div id="reunioes-projetos"></div> <!-- Projetos mentorados aparecerão aqui -->
 
-        <div id="formulario-projeto456" class="formulario-reuniao">
-          <label>Data:</label>
-          <input type="date" id="data-projeto456">
+    <form id="formulario-projeto456" class="formulario-reuniao">
+      <div class="input-group">
+        <label for="data-projeto456">Data:</label>
+        <input type="date" id="data-projeto456" required />
+      </div>
 
-          <label>Hora:</label>
-          <input type="time" id="hora-projeto456">
+      <div class="input-group">
+        <label for="hora-projeto456">Hora:</label>
+        <input type="time" id="hora-projeto456" required />
+      </div>
 
-          <label>Link do Google Meet:</label>
-          <input type="url" id="link-projeto456" placeholder="https://meet.google.com/...">
+      <div class="input-group">
+        <label for="link-projeto456">Link do Google Meet:</label>
+        <input
+          type="url"
+          id="link-projeto456"
+          placeholder="https://meet.google.com/..."
+          required
+        />
+      </div>
 
-          <button onclick="enviarConvite('projeto456')">Enviar</button>
-        </div>
-      </section>
+      <button type="button" class="btn-agendar" onclick="enviarConvite('projeto456')">
+        Enviar Convite
+      </button>
+    </form>
+  </div>
+</section>
+
 
       <section id="duvida" class="secao-dashboard">
         <div class="wrapper">
