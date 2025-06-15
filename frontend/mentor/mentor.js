@@ -225,3 +225,46 @@ function mentorarProjeto(idProjeto, titulo) {
 window.onload = function () {
   carregarProjetos();
 };
+
+document.querySelectorAll('.estrelas').forEach(wrapper => {
+  const estrelas = wrapper.querySelectorAll('.estrela');
+
+  estrelas.forEach(estrela => {
+    estrela.addEventListener('click', () => {
+      const valorSelecionado = parseInt(estrela.dataset.valor);
+
+      // Marca as estrelas até o valor selecionado
+      estrelas.forEach((star, i) => {
+        if (i < valorSelecionado) {
+          star.classList.add('ativa');
+          star.textContent = '★'; // estrela cheia
+        } else {
+          star.classList.remove('ativa');
+          star.textContent = '☆'; // estrela vazia
+        }
+      });
+
+      // Salvar o valor da avaliação no dataset do wrapper (ou envie para backend aqui)
+      wrapper.dataset.avaliacao = valorSelecionado;
+
+      // Exemplo: console.log para debug
+      console.log(`Avaliação do aluno ${wrapper.dataset.alunoId}: ${valorSelecionado} estrelas`);
+    });
+
+    // Opcional: efeito hover para mostrar pré-visualização da avaliação
+    estrela.addEventListener('mouseenter', () => {
+      const hoverValor = parseInt(estrela.dataset.valor);
+      estrelas.forEach((star, i) => {
+        star.textContent = i < hoverValor ? '★' : '☆';
+      });
+    });
+
+    estrela.addEventListener('mouseleave', () => {
+      // Restaura as estrelas conforme a avaliação selecionada (se houver)
+      const aval = parseInt(wrapper.dataset.avaliacao) || 0;
+      estrelas.forEach((star, i) => {
+        star.textContent = i < aval ? '★' : '☆';
+      });
+    });
+  });
+});

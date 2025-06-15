@@ -4,38 +4,50 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página do Mentor</title>
-  <link rel="stylesheet" href="mentor.css" />
+  <link rel="stylesheet" href="/frontend/aluno/aluno.css" />
   <script src="mentor.js" defer></script>
 </head>
 <body class="instituicao">
   <div class="dashboard">
-    <aside class="sidebar">
-      <form id="foto-form" enctype="multipart/form-data">
-        <div class="upload-container">
-          <label for="foto-input" class="upload-label">
-            <img id="preview-img" class="profile-pic" src="http://localhost:3000/uploads/usuario-123.jpg" alt="">
-            <span class="icon-overlay">📷</span>
-          </label>
-          <input type="file" id="foto-input" name="foto" accept="image/*" style="display: none;" />
+     <aside class="sidebar">
+  <!-- Container da foto com ícone de câmera -->
+  <div class="upload-container">
+    <label for="foto-input" class="upload-label" style="cursor: pointer;">
+      <div class="profile-pic-container">
+        <img
+          id="preview-img"
+          class="profile-pic"
+          src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+          alt="Foto de perfil"
+        />
+        <span class="icon-overlay">📷</span>
+      </div>
+    </label>
+    <input type="file" id="foto-input" name="foto" accept="image/*" hidden />
+  </div>
+
+    <!-- Modal flutuante central -->
+    <div id="foto-modal" class="modal hidden">
+      <div class="modal-content">
+        <p>Deseja salvar a nova foto de perfil?</p>
+        <div class="modal-buttons">
+          <button id="confirmar-btn" class="btn salvar">Salvar</button>
+          <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
         </div>
-        <div id="foto-modal" class="modal hidden">
-          <div class="modal-content">
-            <p>Deseja salvar a nova foto de perfil?</p>
-            <div class="modal-buttons">
-              <button id="confirmar-btn" class="btn salvar">Salvar</button>
-              <button id="cancelar-btn" class="btn cancelar">Cancelar</button>
-            </div>
-          </div>
-        </div>
-      </form>
-      <p class="institution-name"></p>
-      <button class="home" onclick="mostrarSecao('painel')">🏠</button>
-      <button onclick="mostrarSecao('listar-projetos')">Projetos Disponíveis</button>
-      <button onclick="mostrarSecao('reunioes')">Reuniões</button>
-      <button onclick="mostrarSecao('duvida')">Tira-Dúvidas</button>
-      <button onclick="mostrarSecao('avaliacao')">Avaliações</button>
-      <a href="login.html" class="logout"> Sair </a>
-    </aside>
+      </div>
+    </div>
+  </form>
+
+  <p class="institution-name">Nome da Instituição</p>
+
+  <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Projetos Disponíveis</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('reunioes')">Reuniões</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('duvida')">Tira-Dúvidas</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('avaliacao')">Avaliações</button>
+  <button class="sidebar-btn" onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
+  <a href="/login.html" class="back-button">Sair</a>
+</aside>
 
     <main class="main-content">
       <section id="painel" class="secao-dashboard active">
@@ -105,52 +117,91 @@
 
 
       <section id="duvida" class="secao-dashboard">
-        <div class="wrapper">
-          <div id="chat-container" class="chat-container">
-            <h2 style="text-align: center;">Tira-Dúvidas</h2>
+  <div class="wrapper">
+    <div id="chat-container" class="chat-container">
+      <h2>Tira-Dúvidas</h2>
 
-            <div id="mensagens" class="mensagens"></div>
+      <div id="mensagens" class="mensagens"></div>
 
-            <form id="form-chat" onsubmit="enviarMensagem(event)">
-              <input type="text" id="mensagem" placeholder="Digite sua mensagem..." required>
-              <button type="submit">Enviar</button>
-            </form>
-          </div>
+      <form id="form-chat" onsubmit="enviarMensagem(event)" class="form-chat">
+        <input type="text" id="mensagem" placeholder="Digite sua mensagem..." required autocomplete="off" />
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+</section>
+<section id="avaliacao" class="secao-dashboard">
+  <h2>Avaliações</h2>
+  <div class="wrapper">
+    <div class="projeto-avaliacao">
+      <h3>Projeto: Nome do Projeto </h3>
+
+      <div class="aluno-avaliacao">
+        <p>Aluno: João Silva</p>
+        <div class="estrelas" data-aluno-id="1">
+          <span class="estrela" data-valor="1">&#9734;</span>
+          <span class="estrela" data-valor="2">&#9734;</span>
+          <span class="estrela" data-valor="3">&#9734;</span>
+          <span class="estrela" data-valor="4">&#9734;</span>
+          <span class="estrela" data-valor="5">&#9734;</span>
         </div>
-      </section>
+        <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
+      </div>
 
-      <section id="avaliacao" class="secao-dashboard">
-        <h2 style="color: #00aaff">Avaliações</h2>
-        <div class="wrapper">
-          <div class="projeto-avaliacao">
-            <h3>Projeto: Nome do Projeto 1</h3>
-
-            <div class="aluno-avaliacao">
-              <p>Aluno: João Silva</p>
-              <div class="estrelas" data-aluno-id="1">
-                <span class="estrela" data-valor="1">&#9734;</span>
-                <span class="estrela" data-valor="2">&#9734;</span>
-                <span class="estrela" data-valor="3">&#9734;</span>
-                <span class="estrela" data-valor="4">&#9734;</span>
-                <span class="estrela" data-valor="5">&#9734;</span>
-              </div>
-              <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
-            </div>
-
-            <div class="aluno-avaliacao">
-              <p>Aluno: Maria Souza</p>
-              <div class="estrelas" data-aluno-id="2">
-                <span class="estrela" data-valor="1">&#9734;</span>
-                <span class="estrela" data-valor="2">&#9734;</span>
-                <span class="estrela" data-valor="3">&#9734;</span>
-                <span class="estrela" data-valor="4">&#9734;</span>
-                <span class="estrela" data-valor="5">&#9734;</span>
-              </div>
-              <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
-            </div>
-          </div>
+      <div class="aluno-avaliacao">
+        <p>Aluno: Maria Souza</p>
+        <div class="estrelas" data-aluno-id="2">
+          <span class="estrela" data-valor="1">&#9734;</span>
+          <span class="estrela" data-valor="2">&#9734;</span>
+          <span class="estrela" data-valor="3">&#9734;</span>
+          <span class="estrela" data-valor="4">&#9734;</span>
+          <span class="estrela" data-valor="5">&#9734;</span>
         </div>
-      </section>
+        <textarea placeholder="Comentário sobre o aluno..." rows="2"></textarea>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="meu-perfil" class="secao-dashboard">
+  <h2 class="secao-titulo">Meu Perfil</h2>
+
+  <form id="form-perfil" class="form-perfil" enctype="multipart/form-data">
+    <div class="form-topo">
+      <div class="foto-preview">
+        <img id="preview-img" src="../assets/iconuser.png" alt="Foto de perfil" />
+        <input type="file" id="foto-perfil" name="foto_perfil" accept="image/*" />
+      </div>
+    </div>
+
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="curso">Cargo</label>
+        <input type="text" id="curso" name="curso" required />
+      </div>
+    </div>
+
+    <div class="form-linha">
+      <div class="form-campo">
+        <label for="instituicao">Empresa</label>
+        <input type="text" id="instituicao" name="instituicao" required />
+      </div>
+
+      <div class="form-campo">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" name="descricao" rows="4" required></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-azul">Salvar Perfil</button>
+  </form>
+</section>
+
     </main>
   </div>
 </body>

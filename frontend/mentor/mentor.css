@@ -11,7 +11,7 @@ body {
   color: #1e293b;
 }
 
-.dashboard {
+.dashboard, .container {
   display: flex;
   height: 100vh;
   overflow: hidden;
@@ -28,6 +28,11 @@ body {
   flex-direction: column;
   align-items: center;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1000;
+  user-select: none;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 .institution-name {
@@ -117,25 +122,6 @@ body {
   font-weight: bold;
 }
 
-.logout {
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  margin-top: 30px;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-  width: 100%;
-  font-weight: 600;
-  text-decoration: none;
-  text-align: center;
-}
-.logout:hover {
-  background-color: #dc2626;
-}
-
-
 .salvar {
   background-color: #0ea5e9;
   color: white;
@@ -146,13 +132,45 @@ body {
   color: white;
 }
 
+/* Botão logout */
+.logout-button {
+  margin-top: auto;
+  font-size: 14px;
+  color: #ccc;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #cd0000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.logout-button:hover {
+   background-color: #920101;
+  color: white;
+}
+
 /* Conteúdo principal */
 .main-content {
   flex: 1;
   padding: 40px 30px;
   overflow-y: auto;
+  background-color: #ffffff;
+  color: #1e293b;
+  box-shadow: inset 0 0 20px #f0f4f8;
+  border-radius: 10px;
 }
 
+/* Wrapper */
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Seções do dashboard */
 .secao-dashboard {
   display: none;
 }
@@ -161,7 +179,7 @@ body {
   display: block;
 }
 
-h2, h1 {
+h1, h2 {
   margin-bottom: 20px;
   font-size: 26px;
   color: #0ea5e9;
@@ -253,7 +271,7 @@ table tr:nth-child(even) {
 
 /* Responsividade */
 @media (max-width: 768px) {
-  .dashboard {
+  .dashboard, .container {
     flex-direction: column;
   }
 
@@ -273,129 +291,6 @@ table tr:nth-child(even) {
   .main-content {
     padding: 20px;
   }
-}
-
-
-
-/* ---------------------- */
-/* SEÇÃO: Certificados         */
-/* ---------------------- */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-}
-body {
-  background-color: #ffffff; /* Fundo branco */
-  color: #1e293b; /* Cor texto escuro */
-}
-
-.container {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Sidebar */
-.sidebar {
-  background-color: #1e293b; /* menu escuro */
-  color: #f1f5f9;
-  padding: 20px;
-  width: 260px;
-  transition: transform 0.3s ease-in-out;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-  position: relative;
-  z-index: 1000;
-  user-select: none;
-}
-.sidebar h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-.sidebar h2 span {
-  color: #38bdf8;
-}
-
-/* Menu principal */
-nav ul {
-  list-style: none;
-}
-
-nav ul li {
-  margin: 16px 0;
-  position: relative;
-}
-
-nav ul li > a {
-  color: #cbd5e1;
-  text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 8px;
-  transition: color 0.3s;
-}
-
-nav ul li > a:hover,
-nav ul li > a.active {
-  color: #38bdf8;
-  font-weight: 700;
-}
-
-/* Botão logout */
-.logout {
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  margin-top: 30px;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-  width: 100%;
-  font-weight: 600;
-}
-.logout:hover {
-  background-color: #dc2626;
-}
-
-/* Botão toggle menu mobile */
-.menu-toggle {
-  display: none;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: #1e293b;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1100;
-  font-size: 16px;
-  user-select: none;
-}
-
-/* Conteúdo principal */
-.main-content {
-  flex: 1;
-  padding: 40px 30px;
-  background-color: #ffffff; /* Fundo branco */
-  color: #1e293b; /* Texto escuro */
-  overflow-y: auto;
-  box-shadow: inset 0 0 20px #f0f4f8;
-  border-radius: 10px;
-}
-
-.wrapper {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Caixa do formulário */
@@ -713,4 +608,265 @@ textarea {
 .btn-agendar:hover {
   background-color: #0284c7;
 }
+
+/* ========================
+   Estilo da Section #duvida
+   ======================== */
+
+/* Título centralizado com cor destaque e ícone */
+#duvida h2,
+.titulo-secao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  color: #0ea5e9;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 1.5rem;
+  padding: 24px 20px 10px;
+}
+
+.titulo-secao::before {
+  content: "💬";
+  font-size: 28px;
+}
+
+/* ============================
+   Caixa de Chat (Tira Dúvidas)
+   ============================ */
+
+/* Container com topo azul e sombra */
+.tira-duvidas-box,
+#chat-container {
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+  padding: 0;
+  max-width: 800px;
+  width: 100%;
+  margin: 10px auto 0;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  overflow: hidden;
+  margin-bottom: 200px;
+}
+
+/* Faixa azul no topo da caixa */
+.tira-duvidas-box::before,
+#chat-container::before {
+  content: "";
+  display: block;
+  height: 6px;
+  background-color: #0ea5e9;
+}
+
+/* ============================
+   Área de Mensagens
+   ============================ */
+
+/* Versão para tira-duvidas-box */
+.mensagens-chat {
+  height: 200px;
+  overflow-y: auto;
+  background-color: #f1f5f9;
+  padding: 15px;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Versão alternativa */
+.mensagens {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  background-color: #f8fafc;
+  max-height: 360px;
+  margin-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #0ea5e9 transparent;
+}
+
+/* Barra de rolagem (WebKit) */
+.mensagens::-webkit-scrollbar {
+  width: 8px;
+}
+.mensagens::-webkit-scrollbar-track {
+  background: transparent;
+}
+.mensagens::-webkit-scrollbar-thumb {
+  background-color: #0ea5e9;
+  border-radius: 10px;
+}
+
+/* ============================
+   Formulário (Input + Botão)
+   ============================ */
+
+.form-chat {
+  display: flex;
+  gap: 1rem;
+  padding: 20px;
+}
+
+.form-chat input[type="text"] {
+  flex-grow: 1;
+  padding: 12px 18px;
+  font-size: 1rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-chat input[type="text"]:focus {
+  border-color: #0ea5e9;
+  outline: none;
+}
+
+.form-chat button {
+  padding: 0 24px;
+  background-color: #0ea5e9;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  min-width: 110px;
+}
+
+.form-chat button:hover {
+  background-color: #0284c7;
+}
+
+/* ============================
+   Responsividade
+   ============================ */
+
+@media (max-width: 480px) {
+  #chat-container,
+  .tira-duvidas-box {
+    height: auto;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .mensagens {
+    max-height: 300px;
+  }
+
+  .form-chat {
+    flex-direction: column;
+  }
+
+  .form-chat button {
+    width: 100%;
+    min-width: unset;
+    padding: 12px 0;
+  }
+}
+
+/* section de avaliações */
+
+#avaliacao {
+  padding: 1.0rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 170, 255, 0.15);
+  margin-bottom: 2px;
+}
+
+#avaliacao h2 {
+  color: #00aaff;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 2px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.projeto-avaliacao {
+  background: white;
+  padding: 1.5rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 170, 255, 0.1);
+}
+
+.projeto-avaliacao h3 {
+  font-weight: 600;
+  color: #0369a1; /* azul escuro */
+  margin-bottom: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.aluno-avaliacao {
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0f2fe;
+}
+
+.aluno-avaliacao:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.aluno-avaliacao p {
+  font-weight: 500;
+  color: #0284c7;
+  margin-bottom: 0.5rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.estrelas {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+}
+
+.estrela {
+  font-size: 22px;
+  color: #b0c9da; /* cinza claro para estrelas vazias */
+  transition: color 0.3s ease;
+}
+
+.estrela:hover,
+.estrela:hover ~ .estrela {
+  color: #00aaff; /* azul vibrante ao hover */
+}
+
+.estrela.ativa {
+  color: #00aaff; /* azul vibrante para estrelas selecionadas */
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 48px;
+  max-height: 96px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.8px solid #d0e8ff;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  color: #1e293b;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #00aaff;
+  outline: none;
+  background-color: #e6f4ff;
+}
+/*página meu-perfil*/
 

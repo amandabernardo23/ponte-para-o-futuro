@@ -703,3 +703,104 @@ table tr:nth-child(even) {
   font-size: 0.95rem;
 }
 
+/*regras da section de avaliações da página do mentor */
+
+/* section de avaliações */
+
+#avaliacao {
+  padding: 1.0rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 170, 255, 0.15);
+  margin-bottom: 2px;
+}
+
+#avaliacao h2 {
+  color: #00aaff;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 2px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.projeto-avaliacao {
+  background: white;
+  padding: 1.5rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 170, 255, 0.1);
+}
+
+.projeto-avaliacao h3 {
+  font-weight: 600;
+  color: #0369a1; /* azul escuro */
+  margin-bottom: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.aluno-avaliacao {
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0f2fe;
+}
+
+.aluno-avaliacao:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.aluno-avaliacao p {
+  font-weight: 500;
+  color: #0284c7;
+  margin-bottom: 0.5rem;
+  font-family: "Roboto", sans-serif;
+}
+
+.estrelas {
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+}
+
+.estrela {
+  font-size: 22px;
+  color: #b0c9da; /* cinza claro para estrelas vazias */
+  transition: color 0.3s ease;
+}
+
+.estrela:hover,
+.estrela:hover ~ .estrela {
+  color: #ffcc00; /* azul vibrante ao hover */
+}
+
+.estrela.ativa {
+  color: #f6ff00; /* amarelo para estrelas selecionadas */
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 48px;
+  max-height: 96px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.8px solid #d0e8ff;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+  color: #1e293b;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #00aaff;
+  outline: none;
+  background-color: #e6f4ff;
+}
+
