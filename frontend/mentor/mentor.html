@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Página do Mentor</title>
-  <link rel="stylesheet" href="mentor.css" />
+  <link rel="stylesheet" href="aluno.css" />
   <script src="mentor.js" defer></script>
 </head>
 <body class="instituicao">
@@ -142,7 +142,7 @@
 
 
 
-  <script>
+<script>
         document.querySelectorAll('.estrelas').forEach(container => {
             const estrelas = container.querySelectorAll('.estrela');
 
@@ -166,8 +166,8 @@
 
     if (dados) {
       const usuario = JSON.parse(dados);
-
-      // Exemplo: verificar o tipo
+     
+ // Exemplo: verificar o tipo
       if (usuario.tipo !== "mentor") {
         alert("Acesso não autorizado.");
         window.location.href = "/login";
