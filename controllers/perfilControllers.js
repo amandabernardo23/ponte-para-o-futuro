@@ -1,27 +1,30 @@
 const pool = require('../config/database');
 
 // Salvar ou atualizar perfil
+const pool = require('../config/database');
+
 exports.salvarPerfil = (req, res) => {
-  const usuarioId = req.params.usuarioId;
-  const { nome, curso, instituicao, descricao } = req.body;
+  const { nome, curso, instituicao, descricao, usuario_id } = req.body;
+  console.log('Salvando perfil:', { usuario_id, nome, curso, instituicao, descricao });
 
-  console.log('Requisição recebida:', { usuarioId, nome, curso, instituicao, descricao });
+  if (!usuario_id) {
+    console.error('usuario_id não fornecido');
+    return res.status(400).json({ erro: 'usuario_id é obrigatório.' });
+  }
 
-  // Verifica se o perfil já existe
-  pool.query('SELECT id FROM perfil WHERE usuario_id = ?', [usuarioId], (err, result) => {
+  pool.query('SELECT id FROM perfil WHERE usuario_id = ?', [usuario_id], (err, result) => {
     if (err) {
       console.error('Erro ao verificar perfil:', err);
       return res.status(500).json({ erro: 'Erro ao verificar perfil.' });
     }
 
     if (result.length > 0) {
-      // Atualiza perfil existente
       const sqlUpdate = `
         UPDATE perfil 
         SET nome = ?, curso = ?, instituicao = ?, descricao = ?
         WHERE usuario_id = ?
       `;
-      pool.query(sqlUpdate, [nome, curso, instituicao, descricao, usuarioId], (err) => {
+      pool.query(sqlUpdate, [nome, curso, instituicao, descricao, usuario_id], (err) => {
         if (err) {
           console.error('Erro ao atualizar perfil:', err);
           return res.status(500).json({ erro: 'Erro ao atualizar perfil.' });
@@ -29,12 +32,11 @@ exports.salvarPerfil = (req, res) => {
         res.status(200).json({ mensagem: 'Perfil atualizado com sucesso.' });
       });
     } else {
-      // Insere novo perfil
       const sqlInsert = `
         INSERT INTO perfil (nome, curso, instituicao, descricao, usuario_id)
         VALUES (?, ?, ?, ?, ?)
       `;
-      pool.query(sqlInsert, [nome, curso, instituicao, descricao, usuarioId], (err) => {
+      pool.query(sqlInsert, [nome, curso, instituicao, descricao, usuario_id], (err) => {
         if (err) {
           console.error('Erro ao criar perfil:', err);
           return res.status(500).json({ erro: 'Erro ao criar perfil.' });
