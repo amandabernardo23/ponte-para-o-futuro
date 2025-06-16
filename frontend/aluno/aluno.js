@@ -251,10 +251,10 @@ function salvarPerfilAluno(event) {
     body: JSON.stringify(dados)
   })
     .then(response => {
-      console.log("🛰️ Resposta da API:", response);
-      if (!response.ok) throw new Error("Erro ao salvar perfil.");
-      return response.json();
-    })
+    console.log("🛰️ Resposta da API:", response);
+    if (!response.ok) throw new Error(`Erro ao salvar perfil. Status: ${response.status}`);
+    return response.json();
+  })
     .then(data => {
       console.log("✅ Sucesso:", data);
       alert(data.mensagem);

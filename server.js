@@ -25,7 +25,6 @@ app.use('/api/users', usersRoutes);
 app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
 app.use('/api/perfil', perfilRoutes);
-console.log('Rota /api/perfil registrada'); // Adicione este log
 app.use('/api/solicitacoes', solicitacoesRoutes);
 
 // Serve arquivos estáticos da pasta 'frontend'
