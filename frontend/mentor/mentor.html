@@ -43,7 +43,6 @@
   <button class="sidebar-btn home" onclick="mostrarSecao('painel')">🏠</button>
   <button class="sidebar-btn" onclick="mostrarSecao('listar-projetos')">Projetos Disponíveis</button>
   <button class="sidebar-btn" onclick="mostrarSecao('reunioes')">Reuniões</button>
-  <button class="sidebar-btn" onclick="mostrarSecao('duvida')">Tira-Dúvidas</button>
   <button class="sidebar-btn" onclick="mostrarSecao('avaliacao')">Avaliações</button>
   <button class="sidebar-btn" onclick="mostrarSecao('meu-perfil')">Meu Perfil</button>
   <a href="/login.html" class="back-button">Sair</a>
@@ -114,22 +113,6 @@
     </form>
   </div>
 </section>
-
-
-      <section id="duvida" class="secao-dashboard">
-  <div class="wrapper">
-    <div id="chat-container" class="chat-container">
-      <h2>Tira-Dúvidas</h2>
-
-      <div id="mensagens" class="mensagens"></div>
-
-      <form id="form-chat" onsubmit="enviarMensagem(event)" class="form-chat">
-        <input type="text" id="mensagem" placeholder="Digite sua mensagem..." required autocomplete="off" />
-        <button type="submit">Enviar</button>
-      </form>
-    </div>
-  </div>
-</section>
 <section id="avaliacao" class="secao-dashboard">
   <h2>Avaliações</h2>
   <div class="wrapper">
@@ -167,13 +150,6 @@
   <h2 class="secao-titulo">Meu Perfil</h2>
 
   <form id="form-perfil" class="form-perfil" enctype="multipart/form-data">
-    <div class="form-topo">
-      <div class="foto-preview">
-        <img id="preview-img" src="../assets/iconuser.png" alt="Foto de perfil" />
-        <input type="file" id="foto-perfil" name="foto_perfil" accept="image/*" />
-      </div>
-    </div>
-
     <div class="form-linha">
       <div class="form-campo">
         <label for="nome">Nome</label>

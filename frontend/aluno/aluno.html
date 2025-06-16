@@ -350,7 +350,7 @@ function mostrarSecao(secaoId) {
 
     async function fetchProjetosAluno() {
       try {
-        const res = await fetch(`http://ponte-para-o-futuro-production.up.railway.app/api/projetos/aluno/${alunoId}`);
+        const res = await fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos/aluno/${alunoId}`);
         if (!res.ok) throw new Error(`Erro HTTP! status: ${res.status}`);
         const projetos = await res.json();
 
@@ -370,7 +370,7 @@ function mostrarSecao(secaoId) {
 
     async function fetchEntregasProjeto(projetoId) {
       try {
-        const res = await fetch(`http://ponte-para-o-futuro-production.up.railway.app/api/progresso/${projetoId}`);
+        const res = await fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/progresso/${projetoId}`);
         if (!res.ok) throw new Error(`Erro HTTP! status: ${res.status}`);
         const data = await res.json();
 
