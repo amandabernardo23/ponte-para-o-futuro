@@ -5,7 +5,7 @@ exports.salvarPerfil = (req, res) => {
   const usuarioId = req.params.usuarioId;
   const { nome, curso, instituicao, descricao } = req.body;
 
-  console.log('Requisição recebida:', req.params, req.body);
+  console.log('Requisição recebida:', { usuarioId, nome, curso, instituicao, descricao });
 
   // Verifica se o perfil já existe
   pool.query('SELECT id FROM perfil WHERE usuario_id = ?', [usuarioId], (err, result) => {
@@ -21,7 +21,6 @@ exports.salvarPerfil = (req, res) => {
         SET nome = ?, curso = ?, instituicao = ?, descricao = ?
         WHERE usuario_id = ?
       `;
-
       pool.query(sqlUpdate, [nome, curso, instituicao, descricao, usuarioId], (err) => {
         if (err) {
           console.error('Erro ao atualizar perfil:', err);
@@ -35,7 +34,6 @@ exports.salvarPerfil = (req, res) => {
         INSERT INTO perfil (nome, curso, instituicao, descricao, usuario_id)
         VALUES (?, ?, ?, ?, ?)
       `;
-
       pool.query(sqlInsert, [nome, curso, instituicao, descricao, usuarioId], (err) => {
         if (err) {
           console.error('Erro ao criar perfil:', err);
@@ -66,11 +64,11 @@ exports.buscarPerfil = (req, res) => {
   pool.query(sql, [usuarioId], (err, rows) => {
     if (err) {
       console.error('Erro ao buscar perfil:', err);
-      return res.status(500).json({ error: 'Erro ao buscar perfil.' });
+      return res.status(500).json({ erro: 'Erro ao buscar perfil.' });
     }
 
     if (rows.length === 0) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+      return res.status(404).json({ mensagem: 'Usuário não encontrado' });
     }
 
     res.json(rows[0]);
