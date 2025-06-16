@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
   mostrarSecao("painel"); 
+
+  buscarPerfilAluno();
+
 });
 
 async function carregarProjetos() {
@@ -287,6 +290,6 @@ function mostrarSecao(secaoId) {
   }
 
   if (secaoId === 'perfil') {
-  carregarPerfilAluno();
+    buscarPerfilAluno();
   }
 }
