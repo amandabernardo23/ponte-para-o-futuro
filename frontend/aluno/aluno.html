@@ -368,49 +368,105 @@ function mostrarSecao(secaoId) {
   });
 </script>
 
+
  <script>
-      const toggleMenuBtn = document.getElementById("toggleMenu");
-      const menuLateral = document.getElementById("menuLateral");
+  document.addEventListener("DOMContentLoaded", () => {
+    const selectProjetos = document.getElementById("projetosAluno");
+    const listaEtapas = document.getElementById("etapas");
+    const barraProgresso = document.getElementById("barraProgresso");
+    const tituloProjeto = document.getElementById("titulo-projeto");
+    const listaHistorico = document.getElementById("lista-historico");
 
-      toggleMenuBtn.addEventListener("click", () => {
-        menuLateral.classList.toggle("active");
-      });
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const alunoId = usuarioLogado?.id;
 
-      const barra = document.getElementById("barraProgresso");
+    async function fetchProjetosAluno() {
+      try {
+        const res = await fetch(`http://localhost:3000/api/projetos/aluno/${alunoId}`);
+        const projetos = await res.json();
 
-      function atualizarProgresso() {
-        const grupos = document.querySelectorAll(".botoes-status");
-        let progressoTotal = 0;
-
-        grupos.forEach((grupo) => {
-          const selecionado = grupo.querySelector(".active");
-          if (selecionado.classList.contains("entregue")) {
-            progressoTotal += 1;
-          } else if (selecionado.classList.contains("andamento")) {
-            progressoTotal += 0.5;
-          }
+        projetos.forEach((projeto) => {
+          const option = document.createElement("option");
+          option.value = projeto.id;
+          option.textContent = projeto.titulo;
+          selectProjetos.appendChild(option);
         });
-
-        const totalEtapas = grupos.length;
-        const porcentagem = Math.round((progressoTotal / totalEtapas) * 100);
-
-        barra.style.width = `${porcentagem}%`;
-        barra.textContent = `${porcentagem}%`;
+      } catch (err) {
+        console.error("Erro ao buscar projetos do aluno:", err);
       }
+    }
 
-      document.querySelectorAll(".botao-status").forEach((botao) => {
-        botao.addEventListener("click", () => {
-          const grupo = botao.parentElement;
-          grupo
-            .querySelectorAll(".botao-status")
-            .forEach((b) => b.classList.remove("active"));
-          botao.classList.add("active");
-          atualizarProgresso();
-        });
+    async function fetchEntregasProjeto(projetoId) {
+      try {
+        const res = await fetch(`http://localhost:3000/api/progresso/${projetoId}`);
+        const data = await res.json();
+
+        renderEtapas(data.etapas);
+        atualizarBarraProgresso(data.etapas);
+        renderHistorico(data.historico);
+        tituloProjeto.textContent = `Mapa de Progresso - ${data.nomeProjeto}`;
+      } catch (err) {
+        console.error("Erro ao buscar entregas do projeto:", err);
+      }
+    }
+
+    function renderEtapas(etapas) {
+      listaEtapas.innerHTML = "";
+      etapas.forEach((etapa, index) => {
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+          <span>${etapa.titulo}:</span>
+          <div class="botoes-status">
+            <button class="botao-status entregue ${etapa.status === "Entregue" ? "active" : ""}">Entregue</button>
+            <button class="botao-status andamento ${etapa.status === "Em andamento" ? "active" : ""}">Em andamento</button>
+            <button class="botao-status pendente ${etapa.status === "Pendente" ? "active" : ""}">Pendente</button>
+          </div>
+        `;
+
+        listaEtapas.appendChild(li);
       });
+    }
 
-      atualizarProgresso();
-    </script>
+    function atualizarBarraProgresso(etapas) {
+      const total = etapas.length;
+      const entregues = etapas.filter((e) => e.status === "Entregue").length;
+      const porcentagem = Math.round((entregues / total) * 100);
+      barraProgresso.style.width = `${porcentagem}%`;
+      barraProgresso.textContent = `${porcentagem}%`;
+    }
+
+    function renderHistorico(historico) {
+      listaHistorico.innerHTML = "";
+      historico.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        listaHistorico.appendChild(li);
+      });
+    }
+
+    selectProjetos.addEventListener("change", (e) => {
+      const projetoId = e.target.value;
+      if (projetoId) {
+        fetchEntregasProjeto(projetoId);
+      } else {
+        listaEtapas.innerHTML = "";
+        listaHistorico.innerHTML = "";
+        barraProgresso.style.width = "0%";
+        barraProgresso.textContent = "0%";
+        tituloProjeto.textContent = "Mapa de Progresso - Etapas";
+      }
+    });
+
+    // Inicializa a página
+    if (alunoId) {
+      fetchProjetosAluno();
+    } else {
+      alert("Erro: aluno não logado.");
+    }
+  });
+</script>
+
     
 </body>
 </html>
