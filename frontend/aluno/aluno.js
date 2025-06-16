@@ -192,7 +192,7 @@ function contarProjetosAtivos() {
 }
 
 // Função para carregar os dados do perfil do aluno
-function carregarPerfilAluno() {
+function buscarPerfilAluno() {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
   const usuarioId = usuarioLogado?.id;
 
@@ -203,7 +203,9 @@ function carregarPerfilAluno() {
 
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${usuarioId}`)
     .then(response => {
-      if (!response.ok) throw new Error('Erro ao carregar perfil.');
+      if (!response.ok) {
+        throw new Error("Erro ao buscar perfil.");
+      }
       return response.json();
     })
     .then(perfil => {
@@ -211,17 +213,10 @@ function carregarPerfilAluno() {
       document.getElementById('curso').value = perfil.curso || '';
       document.getElementById('instituicao').value = perfil.instituicao || '';
       document.getElementById('descricao').value = perfil.descricao || '';
-
-      const previewImg = document.getElementById('preview-img');
-      if (perfil.foto) {
-        previewImg.src = `https://ponte-para-o-futuro-production.up.railway.app/uploads/${perfil.foto}`;
-      } else {
-        previewImg.src = '../assets/iconuser.png';
-      }
     })
     .catch(error => {
-      console.error('Erro ao carregar perfil:', error);
-      alert("Erro ao carregar perfil.");
+      console.error("Erro:", error);
+      alert("Erro ao buscar perfil.");
     });
 }
 
@@ -237,25 +232,38 @@ function salvarPerfilAluno(event) {
     return;
   }
 
-  const form = document.getElementById('form-perfil');
-  const formData = new FormData(form);
+  const nome = document.getElementById('nome').value;
+  const curso = document.getElementById('curso').value;
+  const instituicao = document.getElementById('instituicao').value;
+  const descricao = document.getElementById('descricao').value;
+
+  const dados = {
+    nome,
+    curso,
+    instituicao,
+    descricao
+  };
 
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${usuarioId}`, {
     method: 'POST',
-    body: formData
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dados)
   })
-  .then(response => {
-    if (!response.ok) throw new Error('Erro ao salvar perfil.');
-    return response.json();
-  })
-  .then(data => {
-    alert(data.mensagem);
-    carregarPerfilAluno(); // recarrega os dados após salvar
-  })
-  .catch(error => {
-    console.error('Erro ao salvar perfil:', error);
-    alert("Erro ao salvar perfil.");
-  });
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erro ao salvar perfil.");
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert(data.mensagem);
+    })
+    .catch(error => {
+      console.error("Erro:", error);
+      alert("Erro ao salvar perfil.");
+    });
 }
 
 function mostrarSecao(secaoId) {

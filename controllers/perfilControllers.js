@@ -4,7 +4,6 @@ const pool = require('../config/database')
 exports.salvarPerfil = (req, res) => {
   const usuarioId = req.params.usuarioId;
   const { nome, curso, instituicao, descricao } = req.body;
-  const foto = req.file ? req.file.filename : null;
 
   // Verifica se o perfil já existe
   pool.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId], (err, result) => {
@@ -17,11 +16,11 @@ exports.salvarPerfil = (req, res) => {
       // Atualiza perfil existente
       const sqlUpdate = `
         UPDATE perfis 
-        SET nome = ?, curso = ?, instituicao = ?, descricao = ?, foto = ?
+        SET nome = ?, curso = ?, instituicao = ?, descricao = ?
         WHERE usuario_id = ?
       `;
 
-      pool.query(sqlUpdate, [nome, curso, instituicao, descricao, foto, usuarioId], (err) => {
+      pool.query(sqlUpdate, [nome, curso, instituicao, descricao, usuarioId], (err) => {
         if (err) {
           console.error('Erro ao atualizar perfil:', err);
           return res.status(500).json({ erro: 'Erro ao atualizar perfil.' });
@@ -32,11 +31,11 @@ exports.salvarPerfil = (req, res) => {
     } else {
       // Insere novo perfil
       const sqlInsert = `
-        INSERT INTO perfis (nome, curso, instituicao, descricao, foto, usuario_id)
+        INSERT INTO perfis (nome, curso, instituicao, descricao, usuario_id)
         VALUES (?, ?, ?, ?, ?, ?)
       `;
 
-      pool.query(sqlInsert, [nome, curso, instituicao, descricao, foto, usuarioId], (err) => {
+      pool.query(sqlInsert, [nome, curso, instituicao, descricao, usuarioId], (err) => {
         if (err) {
           console.error('Erro ao criar perfil:', err);
           return res.status(500).json({ erro: 'Erro ao criar perfil.' });
@@ -58,7 +57,6 @@ exports.buscarPerfil = (req, res) => {
       p.curso,
       p.instituicao,
       p.descricao,
-      p.foto
     FROM usuarios u
     LEFT JOIN perfis p ON u.id = p.usuario_id
     WHERE u.id = ?
