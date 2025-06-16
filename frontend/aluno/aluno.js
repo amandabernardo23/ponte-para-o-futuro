@@ -12,6 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", () => {
       alert("Visualização de etapas ainda em desenvolvimento.");
     });
+
+     // Listener do formulário de perfil
+    const formPerfil = document.getElementById('form-perfil');
+    if (formPerfil) {
+     formPerfil.addEventListener('submit', salvarPerfilAluno);
+    }
+
   });
 
   // Exemplo: ação ao clicar em "Sair"
@@ -187,6 +194,86 @@ function contarProjetosAtivos() {
     });
 }
 
+// Função para carregar os dados do perfil do aluno
+function carregarPerfilAluno() {
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const alunoId = usuarioLogado?.id;
+
+  if (!alunoId) {
+    alert("Aluno não identificado.");
+    return;
+  }
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${alunoId}`)
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao buscar perfil.");
+      return response.json();
+    })
+    .then(perfil => {
+      // Preencher os campos do formulário
+      document.getElementById("nome").value = perfil.nome || "";
+      document.getElementById("curso").value = perfil.formacao || "";
+      document.getElementById("instituicao").value = perfil.instituicao || "";
+      document.getElementById("descricao").value = perfil.descricao || "";
+
+      // Preencher a imagem de perfil, se houver
+      const previewImg = document.getElementById("preview-img");
+      if (perfil.foto) {
+        previewImg.src = `https://ponte-para-o-futuro-production.up.railway.app/uploads/${perfil.foto}`;
+      } else {
+        previewImg.src = "../assets/iconuser.png";
+      }
+    })
+    .catch(erro => {
+      console.error("Erro ao carregar perfil:", erro);
+      alert("Erro ao carregar perfil.");
+    });
+}
+
+function salvarPerfilAluno(event) {
+  event.preventDefault(); // Evita o recarregamento da página
+
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const alunoId = usuarioLogado?.id;
+
+  if (!alunoId) {
+    alert("Aluno não identificado.");
+    return;
+  }
+
+  const form = document.getElementById("form-perfil");
+  const formData = new FormData();
+
+  // Adiciona os dados do formulário
+  formData.append('nome', document.getElementById('nome').value);
+  formData.append('formacao', document.getElementById('curso').value);
+  formData.append('instituicao', document.getElementById('instituicao').value);
+  formData.append('descricao', document.getElementById('descricao').value);
+
+  // Verifica se foi selecionada uma imagem
+  const foto = document.getElementById('foto-perfil').files[0];
+  if (foto) {
+    formData.append('foto_perfil', foto);
+  }
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${alunoId}`, {
+    method: 'POST',
+    body: formData
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao salvar perfil.");
+      return response.json();
+    })
+    .then(data => {
+      alert(data.mensagem || "Perfil salvo com sucesso!");
+      carregarPerfilAluno(); // Atualiza os dados após salvar
+    })
+    .catch(erro => {
+      console.error("Erro ao salvar perfil:", erro);
+      alert("Erro ao salvar perfil.");
+    });
+}
+
 function mostrarSecao(secaoId) {
   const secoes = document.querySelectorAll('.secao-dashboard');
   secoes.forEach(secao => secao.classList.remove('active'));
@@ -204,5 +291,9 @@ function mostrarSecao(secaoId) {
 
   if (secaoId ===  'projetos-disponiveis'){
     carregarProjetos();
+  }
+
+  if (secaoId === 'perfil') {
+  carregarPerfilAluno();
   }
 }

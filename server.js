@@ -19,6 +19,7 @@ const universidadeRoutes = require('./routes/universidades');
 const uploadRoutes = require('./routes/uploads');
 const solicitacoesRoutes = require('./routes/solicitacoes');
 const reunioesRoutes = require('./routes/reunioes');
+const perfilRoutes = require('./routes/perfil');
 
 //Rotas
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -26,6 +27,7 @@ app.use('/api/reunioes', reunioesRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
+app.use('/api/perfil', perfilRoutes);
 
 //Rota para fazer upload da foto de perfil do usuário
 app.use('/upload-foto', uploadRoutes);

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const perfilControllers = require('../controllers/perfilControllers');
 
-router.get('/perfil/:usuario_id', perfilControllers.obterPerfilPorUsuarioId);
-router.post('/perfil', perfilControllers.criarPerfil);
+router.get('/perfil/:usuarioId', perfilControllers.buscarPerfil);
+router.post('/perfil/:usuarioId-', perfilControllers.salvarPerfil);
 
 module.exports = router;
