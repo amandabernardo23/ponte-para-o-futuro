@@ -242,6 +242,7 @@ function salvarPerfilAluno(event) {
     curso: document.getElementById('curso').value,
     instituicao: document.getElementById('instituicao').value,
     descricao: document.getElementById('descricao').value,
+    usuario_id: usuarioId
   };
 
   console.log("📦 Dados do formulário:", dados);
