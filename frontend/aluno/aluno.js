@@ -6,19 +6,16 @@ document.addEventListener("DOMContentLoaded", function () {
     sidebar.classList.toggle("active");
   });
 
+  const formPerfil = document.getElementById('form-perfil');
+  if (formPerfil) {
+    formPerfil.addEventListener('submit', salvarPerfilAluno);
+  }
   // Exemplo: ação ao clicar em "Visualizar etapas"
   const viewButtons = document.querySelectorAll(".view-button");
   viewButtons.forEach((button) => {
     button.addEventListener("click", () => {
       alert("Visualização de etapas ainda em desenvolvimento.");
     });
-
-     // Listener do formulário de perfil
-    const formPerfil = document.getElementById('form-perfil');
-    if (formPerfil) {
-     formPerfil.addEventListener('submit', salvarPerfilAluno);
-    }
-
   });
 
   // Exemplo: ação ao clicar em "Sair"
