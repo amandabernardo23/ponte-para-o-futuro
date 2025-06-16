@@ -1,64 +1,81 @@
 const pool = require('../config/database')
 
-exports.salvarPerfil = async (req, res) => {
-  try {
-    const usuarioId = req.params.usuarioId;
-    const { idade, instituicao, formacao, descricao } = req.body;
-    const foto = req.file ? req.file.filename : null;
+// Salvar ou atualizar perfil
+exports.salvarPerfil = (req, res) => {
+  const usuarioId = req.params.usuarioId;
+  const { nome, curso, instituicao, descricao } = req.body;
+  const foto = req.file ? req.file.filename : null;
 
-    // Verifica se já existe perfil
-    const [rows] = await pool.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId]);
-
-    if (rows.length > 0) {
-      // Atualiza perfil existente
-      await pool.query(
-        `UPDATE perfis SET idade = ?, instituicao = ?, formacao = ?, descricao = ?, foto_perfil = ? WHERE usuario_id = ?`,
-        [idade, instituicao, formacao, descricao, foto, usuarioId]
-      );
-    } else {
-      // Insere novo perfil
-      await pool.query(
-        `INSERT INTO perfis (usuario_id, idade, instituicao, formacao, descricao, foto_perfil) VALUES (?, ?, ?, ?, ?, ?)`,
-        [usuarioId, idade, instituicao, formacao, descricao, foto]
-      );
+  // Verifica se o perfil já existe
+  pool.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId], (err, result) => {
+    if (err) {
+      console.error('Erro ao verificar perfil:', err);
+      return res.status(500).json({ erro: 'Erro ao verificar perfil.' });
     }
 
-    res.status(200).json({ mensagem: 'Perfil salvo com sucesso.' });
-  } catch (erro) {
-    console.error('Erro ao salvar perfil:', erro);
-    res.status(500).json({ erro: 'Erro ao salvar perfil.' });
-  }
+    if (result.length > 0) {
+      // Atualiza perfil existente
+      const sqlUpdate = `
+        UPDATE perfis 
+        SET nome = ?, curso = ?, instituicao = ?, descricao = ?, foto = ?
+        WHERE usuario_id = ?
+      `;
+
+      pool.query(sqlUpdate, [nome, curso, instituicao, descricao, foto, usuarioId], (err) => {
+        if (err) {
+          console.error('Erro ao atualizar perfil:', err);
+          return res.status(500).json({ erro: 'Erro ao atualizar perfil.' });
+        }
+        res.status(200).json({ mensagem: 'Perfil atualizado com sucesso.' });
+      });
+
+    } else {
+      // Insere novo perfil
+      const sqlInsert = `
+        INSERT INTO perfis (nome, curso, instituicao, descricao, foto, usuario_id)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+
+      pool.query(sqlInsert, [nome, curso, instituicao, descricao, foto, usuarioId], (err) => {
+        if (err) {
+          console.error('Erro ao criar perfil:', err);
+          return res.status(500).json({ erro: 'Erro ao criar perfil.' });
+        }
+        res.status(200).json({ mensagem: 'Perfil criado com sucesso.' });
+      });
+    }
+  });
 };
 
+// Buscar perfil
+exports.buscarPerfil = (req, res) => {
+  const { usuarioId } = req.params;
 
-// Buscar perfil com nome do usuário
-exports.buscarPerfil = async (req, res) => {
-  try {
-    const { usuarioId } = req.params;
+  const sql = `
+    SELECT 
+      u.nome AS nome_usuario,
+      p.nome,
+      p.curso,
+      p.instituicao,
+      p.descricao,
+      p.foto
+    FROM usuarios u
+    LEFT JOIN perfis p ON u.id = p.usuario_id
+    WHERE u.id = ?
+  `;
 
-    // Junta dados de usuarios (nome, email) com dados de perfis
-    const [rows] = await pool.query(`
-      SELECT 
-        u.nome,
-        p.idade,
-        p.instituicao,
-        p.formacao,
-        p.descricao,
-        p.foto_perfil AS foto
-      FROM usuarios u
-      LEFT JOIN perfis p ON u.id = p.usuario_id
-      WHERE u.id = ?
-    `, [usuarioId]);
+  pool.query(sql, [usuarioId], (err, rows) => {
+    if (err) {
+      console.error('Erro ao buscar perfil:', err);
+      return res.status(500).json({ error: 'Erro ao buscar perfil.' });
+    }
 
     if (rows.length === 0) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
     res.json(rows[0]);
-  } catch (error) {
-    console.error('Erro ao buscar perfil:', error);
-    res.status(500).json({ error: 'Erro ao buscar perfil.' });
-  }
+  });
 };
 
 // Controller para listar projetos do usuário logado
