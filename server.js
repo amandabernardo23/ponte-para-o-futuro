@@ -47,6 +47,14 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'login.html'));
 });
 
+app.get('/saibamais', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'saibamais.html'));
+});
+
+app.get('/parceiros', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'parceiros.html'));
+});
+
 // Inicia o servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
