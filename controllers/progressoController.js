@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+const db = require('../config/database');
 
 exports.getProgressoProjeto = (req, res) => {
   const projetoId = req.params.id;
@@ -52,7 +52,7 @@ exports.criarEtapa = (req, res) => {
   }
 
   const query = `
-    INSERT INTO etapas_projeto (projeto_id, titulo, status)
+    INSERT INTO etapas_projetos (projeto_id, titulo, status)
     VALUES (?, ?, ?)
   `;
 
@@ -77,14 +77,14 @@ exports.atualizarStatusEtapa = (req, res) => {
 
   if (status === 'Entregue') {
     query = `
-      UPDATE etapas_projeto
+      UPDATE etapas_projetos
       SET status = ?, data_entrega = CURRENT_DATE
       WHERE id = ?
     `;
     params = [status, etapaId];
   } else {
     query = `
-      UPDATE etapas_projeto
+      UPDATE etapas_projetos
       SET status = ?, data_entrega = NULL
       WHERE id = ?
     `;
