@@ -8,7 +8,7 @@ exports.salvarPerfil = (req, res) => {
   console.log('Requisição recebida:', req.params, req.body);
 
   // Verifica se o perfil já existe
-  pool.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId], (err, result) => {
+  pool.query('SELECT id FROM perfil WHERE usuario_id = ?', [usuarioId], (err, result) => {
     if (err) {
       console.error('Erro ao verificar perfil:', err);
       return res.status(500).json({ erro: 'Erro ao verificar perfil.' });
@@ -17,7 +17,7 @@ exports.salvarPerfil = (req, res) => {
     if (result.length > 0) {
       // Atualiza perfil existente
       const sqlUpdate = `
-        UPDATE perfis 
+        UPDATE perfil 
         SET nome = ?, curso = ?, instituicao = ?, descricao = ?
         WHERE usuario_id = ?
       `;
@@ -32,7 +32,7 @@ exports.salvarPerfil = (req, res) => {
     } else {
       // Insere novo perfil
       const sqlInsert = `
-        INSERT INTO perfis (nome, curso, instituicao, descricao, usuario_id)
+        INSERT INTO perfil (nome, curso, instituicao, descricao, usuario_id)
         VALUES (?, ?, ?, ?, ?)
       `;
 
@@ -59,7 +59,7 @@ exports.buscarPerfil = (req, res) => {
       p.instituicao,
       p.descricao
     FROM usuarios u
-    LEFT JOIN perfis p ON u.id = p.usuario_id
+    LEFT JOIN perfil p ON u.id = p.usuario_id
     WHERE u.id = ?
   `;
 
