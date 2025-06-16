@@ -24,7 +24,7 @@ app.use('/api/reunioes', reunioesRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
-app.use('/api/perfil', perfilRoutes);
+app.use('/api', perfilRoutes);
 app.use('/api/solicitacoes', solicitacoesRoutes);
 
 // Serve arquivos estáticos da pasta 'frontend'
