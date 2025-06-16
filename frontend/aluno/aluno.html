@@ -148,10 +148,9 @@
 
   <!-- Menu suspenso com projetos -->
   <label for="projetosAluno">Escolha um projeto:</label>
-  <select id="projetosAluno">
-    <option value="">Selecione um projeto</option>
-    <!-- Opções serão inseridas via JS -->
-  </select>
+ <select id="projetosAluno">
+  <option value="">Selecione um projeto</option>
+</select>
 
   <!-- Lista de etapas (será preenchida dinamicamente) -->
   <ul class="etapas" id="etapas">
@@ -359,7 +358,11 @@ function mostrarSecao(secaoId) {
     async function fetchProjetosAluno() {
       try {
         const res = await fetch(`http://localhost:3000/api/projetos/aluno/${alunoId}`);
+        if (!res.ok) throw new Error(`Erro HTTP! status: ${res.status}`);
         const projetos = await res.json();
+
+        // Limpa as opções antes de popular
+        selectProjetos.innerHTML = '<option value="">Selecione um projeto</option>';
 
         projetos.forEach((projeto) => {
           const option = document.createElement("option");
@@ -375,6 +378,7 @@ function mostrarSecao(secaoId) {
     async function fetchEntregasProjeto(projetoId) {
       try {
         const res = await fetch(`http://localhost:3000/api/progresso/${projetoId}`);
+        if (!res.ok) throw new Error(`Erro HTTP! status: ${res.status}`);
         const data = await res.json();
 
         renderEtapas(data.etapas);
@@ -388,7 +392,7 @@ function mostrarSecao(secaoId) {
 
     function renderEtapas(etapas) {
       listaEtapas.innerHTML = "";
-      etapas.forEach((etapa, index) => {
+      etapas.forEach((etapa) => {
         const li = document.createElement("li");
 
         li.innerHTML = `
@@ -407,7 +411,7 @@ function mostrarSecao(secaoId) {
     function atualizarBarraProgresso(etapas) {
       const total = etapas.length;
       const entregues = etapas.filter((e) => e.status === "Entregue").length;
-      const porcentagem = Math.round((entregues / total) * 100);
+      const porcentagem = total === 0 ? 0 : Math.round((entregues / total) * 100);
       barraProgresso.style.width = `${porcentagem}%`;
       barraProgresso.textContent = `${porcentagem}%`;
     }
