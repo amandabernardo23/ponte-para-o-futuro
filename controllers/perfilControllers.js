@@ -1,8 +1,5 @@
 const pool = require('../config/database');
 
-// Salvar ou atualizar perfil
-const pool = require('../config/database');
-
 exports.salvarPerfil = (req, res) => {
   const { nome, curso, instituicao, descricao, usuario_id } = req.body;
   console.log('Salvando perfil:', { usuario_id, nome, curso, instituicao, descricao });
