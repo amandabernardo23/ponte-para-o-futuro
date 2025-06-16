@@ -1,9 +1,11 @@
-const pool = require('../config/database')
+const pool = require('../config/database');
 
 // Salvar ou atualizar perfil
 exports.salvarPerfil = (req, res) => {
   const usuarioId = req.params.usuarioId;
   const { nome, curso, instituicao, descricao } = req.body;
+
+  console.log('Requisição recebida:', req.params, req.body);
 
   // Verifica se o perfil já existe
   pool.query('SELECT id FROM perfis WHERE usuario_id = ?', [usuarioId], (err, result) => {
@@ -27,12 +29,11 @@ exports.salvarPerfil = (req, res) => {
         }
         res.status(200).json({ mensagem: 'Perfil atualizado com sucesso.' });
       });
-
     } else {
       // Insere novo perfil
       const sqlInsert = `
         INSERT INTO perfis (nome, curso, instituicao, descricao, usuario_id)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
       `;
 
       pool.query(sqlInsert, [nome, curso, instituicao, descricao, usuarioId], (err) => {
@@ -56,7 +57,7 @@ exports.buscarPerfil = (req, res) => {
       p.nome,
       p.curso,
       p.instituicao,
-      p.descricao,
+      p.descricao
     FROM usuarios u
     LEFT JOIN perfis p ON u.id = p.usuario_id
     WHERE u.id = ?

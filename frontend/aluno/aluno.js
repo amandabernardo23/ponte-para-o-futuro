@@ -222,49 +222,57 @@ function buscarPerfilAluno() {
 
 //function para salver perfil de aluno
 function salvarPerfilAluno(event) {
-  event.preventDefault();
+  event.preventDefault(); // Impede o recarregamento da página
+
+  console.log("➡️ Função salvarPerfilAluno chamada.");
 
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  console.log("👤 Usuario logado:", usuarioLogado);
+
   const usuarioId = usuarioLogado?.id;
 
   if (!usuarioId) {
     alert("Usuário não identificado.");
+    console.error("❌ Usuário não encontrado no localStorage.");
     return;
   }
 
-  const nome = document.getElementById('nome').value;
-  const curso = document.getElementById('curso').value;
-  const instituicao = document.getElementById('instituicao').value;
-  const descricao = document.getElementById('descricao').value;
-
   const dados = {
-    nome,
-    curso,
-    instituicao,
-    descricao
+    nome: document.getElementById('nome').value,
+    curso: document.getElementById('curso').value,
+    instituicao: document.getElementById('instituicao').value,
+    descricao: document.getElementById('descricao').value,
   };
+
+  console.log("📦 Dados do formulário:", dados);
 
   fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${usuarioId}`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(dados)
+    body: JSON.stringify(dados),
   })
     .then(response => {
+      console.log("🛰️ Resposta da API:", response);
       if (!response.ok) {
         throw new Error("Erro ao salvar perfil.");
       }
       return response.json();
     })
     .then(data => {
+      console.log("✅ Sucesso:", data);
       alert(data.mensagem);
     })
     .catch(error => {
-      console.error("Erro:", error);
+      console.error("🚨 Erro ao salvar perfil:", error);
       alert("Erro ao salvar perfil.");
     });
 }
+
+// Vincular o evento de submissão
+document.getElementById('form-perfil').addEventListener('submit', salvarPerfilAluno);
+
 
 function mostrarSecao(secaoId) {
   const secoes = document.querySelectorAll('.secao-dashboard');
