@@ -143,54 +143,22 @@
 
 
 <section id="mapa-progresso" class="secao-dashboard">
-  <h1>Mapa de Progresso - Etapas</h1>
-  <p class="subtitulo">
-    Painel de Indicadores de Eficiência Operacional (PIEO)
-  </p>
+  <h1 id="titulo-projeto">Mapa de Progresso - Etapas</h1>
+  <p class="subtitulo">Painel de Indicadores de Eficiência Operacional (PIEO)</p>
 
+  <!-- Menu suspenso com projetos -->
+  <label for="projetosAluno">Escolha um projeto:</label>
+  <select id="projetosAluno">
+    <option value="">Selecione um projeto</option>
+    <!-- Opções serão inseridas via JS -->
+  </select>
+
+  <!-- Lista de etapas (será preenchida dinamicamente) -->
   <ul class="etapas" id="etapas">
-    <li>
-      <span>Planejamento:</span>
-      <div class="botoes-status">
-        <button class="botao-status entregue active">Entregue</button>
-        <button class="botao-status andamento">Em andamento</button>
-        <button class="botao-status pendente">Pendente</button>
-      </div>
-    </li>
-    <li>
-      <span>Protótipo em Figma:</span>
-      <div class="botoes-status">
-        <button class="botao-status entregue active">Entregue</button>
-        <button class="botao-status andamento">Em andamento</button>
-        <button class="botao-status pendente">Pendente</button>
-      </div>
-    </li>
-    <li>
-      <span>Setup do projeto:</span>
-      <div class="botoes-status">
-        <button class="botao-status entregue">Entregue</button>
-        <button class="botao-status andamento active">Em andamento</button>
-        <button class="botao-status pendente">Pendente</button>
-      </div>
-    </li>
-    <li>
-      <span>Login e base do frontend:</span>
-      <div class="botoes-status">
-        <button class="botao-status entregue">Entregue</button>
-        <button class="botao-status andamento">Em andamento</button>
-        <button class="botao-status pendente active">Pendente</button>
-      </div>
-    </li>
-    <li>
-      <span>Módulo de dashboards e gráficos:</span>
-      <div class="botoes-status">
-        <button class="botao-status entregue">Entregue</button>
-        <button class="botao-status andamento">Em andamento</button>
-        <button class="botao-status pendente active">Pendente</button>
-      </div>
-    </li>
+    <!-- Etapas dinâmicas aparecerão aqui -->
   </ul>
 
+  <!-- Progresso total do projeto -->
   <div class="progresso">
     Progresso do Projeto:
     <div class="barra">
@@ -198,7 +166,15 @@
     </div>
   </div>
 
-      </section>
+  <!-- Histórico de entregas -->
+  <div id="historico-entregas">
+    <h3>Histórico de Entregas</h3>
+    <ul id="lista-historico">
+      <!-- Entradas do histórico via JS -->
+    </ul>
+  </div>
+</section>
+
 
  <section id="meu-perfil" class="secao-dashboard">
   <h2 class="secao-titulo">Meu Perfil</h2>
