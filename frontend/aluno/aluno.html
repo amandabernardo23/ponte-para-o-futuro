@@ -338,126 +338,134 @@ function mostrarSecao(secaoId) {
 
 
  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const dados = localStorage.getItem("usuarioLogado");
-  if (!dados) {
-    window.location.href = "login.html";
-    return;
-  }
+  let alunoId;
+  document.addEventListener("DOMContentLoaded", () => {
+    const dados = localStorage.getItem("usuarioLogado");
 
-  const usuario = JSON.parse(dados);
-  const alunoId = usuario.id;
+    if (dados) {
+      const usuario = JSON.parse(dados);
 
-  const selectProjetos = document.getElementById('projetosAluno');
-  const listaEtapas = document.getElementById('etapas');
-  const listaHistorico = document.getElementById('lista-historico');
-  const barraProgresso = document.getElementById('barraProgresso');
+      if (usuario.tipo !== "aluno") {
+        alert("Acesso não autorizado.");
+        window.location.href = "login.html";
+        return;
+      }
 
-  // 🟢 Carregar projetos do aluno
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
-    .then(res => res.json())
-    .then(projetos => {
-      projetos.forEach(p => {
-        const option = document.createElement('option');
-        option.value = p.id;
-        option.textContent = p.titulo;
-        selectProjetos.appendChild(option);
-      });
-    });
-
-  // 🔁 Ao mudar o projeto, carregar etapas
-  selectProjetos.addEventListener('change', () => {
-    const projetoId = selectProjetos.value;
-    if (!projetoId) return;
-
-    listaEtapas.innerHTML = '';
-    listaHistorico.innerHTML = '';
-    barraProgresso.style.width = '0%';
-    barraProgresso.textContent = '0%';
-
-    carregarEtapas(projetoId);
+      alunoId = usuario.id;
+      carregarProjetos(usuario.id);
+    } else {
+      window.location.href = "login.html";
+    }
   });
 
-  // 📦 Função para carregar etapas e histórico
-  function carregarEtapas(projetoId) {
+  function carregarProjetos(alunoId) {
+    fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
+      .then(res => res.json())
+      .then(projetos => {
+        const select = document.getElementById('projetosAluno');
+        projetos.forEach(p => {
+          const option = document.createElement('option');
+          option.value = p.id;
+          option.textContent = p.titulo;
+          select.appendChild(option);
+        });
+
+        select.addEventListener('change', (e) => {
+          const projetoId = e.target.value;
+          if (projetoId) {
+            buscarEtapas(projetoId);
+            mostrarFormulario(projetoId);
+          }
+        });
+      })
+      .catch(err => console.error('Erro ao buscar projetos:', err));
+  }
+
+  function buscarEtapas(projetoId) {
     fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`)
       .then(res => res.json())
       .then(etapas => {
-        if (!etapas.length) return;
-
-        let concluídas = 0;
+        const lista = document.getElementById('etapas');
+        lista.innerHTML = '';
 
         etapas.forEach(etapa => {
-          // Lista de etapas com ícones
           const li = document.createElement('li');
           li.classList.add('etapa');
+          const statusClass = etapa.status.toLowerCase().replace(' ', '-');
           li.innerHTML = `
-            <span class="icone-status ${etapa.status.toLowerCase()}"></span>
+            <span class="icone-status ${statusClass}"></span>
             ${etapa.titulo}
-            <span class="status-etapa">${etapa.status}</span>
+            <span class="status-etapa">(${etapa.status})</span>
           `;
-          listaEtapas.appendChild(li);
-
-          // Histórico
-          const hist = document.createElement('li');
-          hist.textContent = `${etapa.titulo} - ${etapa.status} (${etapa.data})`;
-          listaHistorico.appendChild(hist);
-
-          if (etapa.status === "Entregue") concluídas++;
+          lista.appendChild(li);
         });
 
-        // Progresso
-        const total = etapas.length;
-        const progresso = Math.round((concluídas / total) * 100);
-        barraProgresso.style.width = `${progresso}%`;
-        barraProgresso.textContent = `${progresso}%`;
-      });
+        atualizarBarraProgresso(etapas);
+        atualizarHistorico(etapas);
+      })
+      .catch(err => console.error('Erro ao buscar etapas:', err));
   }
 
-  // ➕ Função para adicionar nova etapa
-  function criarFormularioEntrega(projetoId) {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <input type="text" placeholder="Nova entrega" id="novaEtapaTitulo">
-      <select id="novaEtapaStatus">
-        <option value="Pendente">Pendente</option>
-        <option value="Em andamento">Em andamento</option>
-        <option value="Entregue">Entregue</option>
-      </select>
-      <button id="salvarEtapa">Salvar</button>
-    `;
-    listaEtapas.prepend(li);
+  function atualizarBarraProgresso(etapas) {
+    const barra = document.getElementById('barraProgresso');
+    const total = etapas.length;
+    const feitas = etapas.filter(e => e.status === 'Entregue').length;
+    const progresso = total > 0 ? Math.round((feitas / total) * 100) : 0;
+    barra.style.width = `${progresso}%`;
+    barra.textContent = `${progresso}%`;
+  }
 
-    // Evento de salvar
-    document.getElementById('salvarEtapa').addEventListener('click', () => {
-      const titulo = document.getElementById('novaEtapaTitulo').value.trim();
-      const status = document.getElementById('novaEtapaStatus').value;
-      if (!titulo) return alert('Informe o título da etapa');
-
-      fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ titulo, status })
-      })
-      .then(res => res.json())
-      .then(() => {
-        carregarEtapas(projetoId);
-      });
+  function atualizarHistorico(etapas) {
+    const historico = document.getElementById('lista-historico');
+    historico.innerHTML = '';
+    etapas.forEach(e => {
+      const item = document.createElement('li');
+      item.textContent = `${e.data} - ${e.titulo} (${e.status})`;
+      historico.appendChild(item);
     });
   }
 
-  // ⏺️ Cria botão de nova entrega
-  const novaEntregaBtn = document.createElement('button');
-  novaEntregaBtn.textContent = 'Adicionar Entrega';
-  novaEntregaBtn.style.marginTop = '1rem';
-  document.getElementById('mapa-progresso').appendChild(novaEntregaBtn);
+  function mostrarFormulario(projetoId) {
+    let form = document.getElementById('form-etapa');
+    if (!form) {
+      form = document.createElement('div');
+      form.id = 'form-etapa';
+      form.innerHTML = `
+        <h4>Adicionar nova etapa</h4>
+        <input type="text" id="novaEtapaTitulo" placeholder="Título da etapa" />
+        <select id="novaEtapaStatus">
+          <option value="Pendente">Pendente</option>
+          <option value="Em andamento">Em andamento</option>
+          <option value="Entregue">Entregue</option>
+        </select>
+        <button onclick="salvarEtapa(${projetoId})">Salvar Etapa</button>
+      `;
+      document.getElementById('mapa-progresso').appendChild(form);
+    }
+  }
 
-  novaEntregaBtn.addEventListener('click', () => {
-    const projetoId = selectProjetos.value;
-    if (!projetoId) return alert('Selecione um projeto primeiro!');
-    criarFormularioEntrega(projetoId);
-  });
-});
+  function salvarEtapa(projetoId) {
+    const titulo = document.getElementById('novaEtapaTitulo').value;
+    const status = document.getElementById('novaEtapaStatus').value;
+
+    if (!titulo || !status) {
+      alert('Preencha todos os campos.');
+      return;
+    }
+
+    fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ titulo, status })
+    })
+      .then(res => res.json())
+      .then(novaEtapa => {
+        buscarEtapas(projetoId); // Recarrega lista
+        document.getElementById('novaEtapaTitulo').value = '';
+        document.getElementById('novaEtapaStatus').value = 'Pendente';
+      })
+      .catch(err => console.error('Erro ao salvar etapa:', err));
+  }
 </script>
 
     
