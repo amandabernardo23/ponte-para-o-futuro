@@ -151,6 +151,18 @@
     <option value="">Selecione um projeto</option>
   </select>
 
+  <!-- Formulário de nova etapa -->
+  <div id="form-nova-etapa" style="margin-top: 20px;">
+    <h3>Nova Etapa</h3>
+    <input type="text" id="novaEtapaTitulo" placeholder="Título da etapa" required />
+    <select id="novaEtapaStatus">
+      <option value="Pendente">Pendente</option>
+      <option value="Em andamento">Em andamento</option>
+      <option value="Entregue">Entregue</option>
+    </select>
+    <button id="btnSalvarEtapa">Salvar Etapa</button>
+  </div>
+
   <!-- Lista de etapas -->
   <ul class="etapas" id="etapas">
     <!-- Etapas com ícones de status aparecerão aqui -->
@@ -172,6 +184,7 @@
     </ul>
   </div>
 </section>
+
 
 
 
@@ -418,16 +431,6 @@ function mostrarSecao(secaoId) {
     if (!form) {
       form = document.createElement('div');
       form.id = 'form-etapa';
-      form.innerHTML = `
-        <h4>Adicionar nova etapa</h4>
-        <input type="text" id="novaEtapaTitulo" placeholder="Título da etapa" />
-        <select id="novaEtapaStatus">
-          <option value="Pendente">Pendente</option>
-          <option value="Em andamento">Em andamento</option>
-          <option value="Entregue">Entregue</option>
-        </select>
-        <button id="btnSalvarEtapa">Salvar Etapa</button>
-      `;
       document.getElementById('mapa-progresso').appendChild(form);
     }
 
