@@ -28,7 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   mostrarSecao("painel"); 
 
-  buscarPerfilAluno();
+    const btnPerfil = document.getElementById('btnPerfil');
+  if (btnPerfil) {
+    btnPerfil.addEventListener('click', () => {
+      mostrarSecao('perfil');
+      buscarPerfilAluno();
+    });
+  }
 
 });
 
@@ -194,6 +200,7 @@ function contarProjetosAtivos() {
     });
 }
 
+// Função para carregar os dados do perfil do aluno
 // Função para carregar os dados do perfil do aluno
 function buscarPerfilAluno() {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
