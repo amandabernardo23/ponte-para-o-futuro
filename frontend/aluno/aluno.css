@@ -873,29 +873,25 @@ textarea:focus {
   background-color: #e6f4ff;
 }
 
-.entrega-item {
-  margin: 8px 0;
-  padding: 6px 12px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #f2f2f2;
+.icone-status {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
 }
 
-.status-icon {
-  font-size: 18px;
+.icone-status.pendente {
+  background-color: gray;
+}
+.icone-status.em andamento, .icone-status.em\ andamento {
+  background-color: orange;
+}
+.icone-status.entregue {
+  background-color: green;
 }
 
-/* Cores por status */
-.pendente {
-  border-left: 6px solid #ff9800;
-}
-
-.em-andamento {
-  border-left: 6px solid #2196f3;
-}
-
-.entregue {
-  border-left: 6px solid #4caf50;
+.etapa {
+  margin-bottom: 10px;
+  list-style: none;
 }

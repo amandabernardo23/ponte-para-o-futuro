@@ -338,24 +338,127 @@ function mostrarSecao(secaoId) {
 
 
  <script>
- const alunoId = 11; // temporário — você vai trocar por sessionStorage depois
+document.addEventListener("DOMContentLoaded", () => {
+  const dados = localStorage.getItem("usuarioLogado");
+  if (!dados) {
+    window.location.href = "login.html";
+    return;
+  }
 
-fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
-  .then(res => res.json())
-  .then(projetos => {
-    console.log('Projetos carregados:', projetos); // debug
-    const select = document.getElementById('projetosAluno');
+  const usuario = JSON.parse(dados);
+  const alunoId = usuario.id;
 
-    projetos.forEach(p => {
-      const option = document.createElement('option');
-      option.value = p.id;
-      option.textContent = p.titulo;
-      select.appendChild(option);
+  const selectProjetos = document.getElementById('projetosAluno');
+  const listaEtapas = document.getElementById('etapas');
+  const listaHistorico = document.getElementById('lista-historico');
+  const barraProgresso = document.getElementById('barraProgresso');
+
+  // 🟢 Carregar projetos do aluno
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
+    .then(res => res.json())
+    .then(projetos => {
+      projetos.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p.id;
+        option.textContent = p.titulo;
+        selectProjetos.appendChild(option);
+      });
     });
-  })
-  .catch(err => console.error('Erro ao buscar projetos:', err));
-</script>
 
+  // 🔁 Ao mudar o projeto, carregar etapas
+  selectProjetos.addEventListener('change', () => {
+    const projetoId = selectProjetos.value;
+    if (!projetoId) return;
+
+    listaEtapas.innerHTML = '';
+    listaHistorico.innerHTML = '';
+    barraProgresso.style.width = '0%';
+    barraProgresso.textContent = '0%';
+
+    carregarEtapas(projetoId);
+  });
+
+  // 📦 Função para carregar etapas e histórico
+  function carregarEtapas(projetoId) {
+    fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`)
+      .then(res => res.json())
+      .then(etapas => {
+        if (!etapas.length) return;
+
+        let concluídas = 0;
+
+        etapas.forEach(etapa => {
+          // Lista de etapas com ícones
+          const li = document.createElement('li');
+          li.classList.add('etapa');
+          li.innerHTML = `
+            <span class="icone-status ${etapa.status.toLowerCase()}"></span>
+            ${etapa.titulo}
+            <span class="status-etapa">${etapa.status}</span>
+          `;
+          listaEtapas.appendChild(li);
+
+          // Histórico
+          const hist = document.createElement('li');
+          hist.textContent = `${etapa.titulo} - ${etapa.status} (${etapa.data})`;
+          listaHistorico.appendChild(hist);
+
+          if (etapa.status === "Entregue") concluídas++;
+        });
+
+        // Progresso
+        const total = etapas.length;
+        const progresso = Math.round((concluídas / total) * 100);
+        barraProgresso.style.width = `${progresso}%`;
+        barraProgresso.textContent = `${progresso}%`;
+      });
+  }
+
+  // ➕ Função para adicionar nova etapa
+  function criarFormularioEntrega(projetoId) {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <input type="text" placeholder="Nova entrega" id="novaEtapaTitulo">
+      <select id="novaEtapaStatus">
+        <option value="Pendente">Pendente</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Entregue">Entregue</option>
+      </select>
+      <button id="salvarEtapa">Salvar</button>
+    `;
+    listaEtapas.prepend(li);
+
+    // Evento de salvar
+    document.getElementById('salvarEtapa').addEventListener('click', () => {
+      const titulo = document.getElementById('novaEtapaTitulo').value.trim();
+      const status = document.getElementById('novaEtapaStatus').value;
+      if (!titulo) return alert('Informe o título da etapa');
+
+      fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, status })
+      })
+      .then(res => res.json())
+      .then(() => {
+        carregarEtapas(projetoId);
+      });
+    });
+  }
+
+  // ⏺️ Cria botão de nova entrega
+  const novaEntregaBtn = document.createElement('button');
+  novaEntregaBtn.textContent = 'Adicionar Entrega';
+  novaEntregaBtn.style.marginTop = '1rem';
+  document.getElementById('mapa-progresso').appendChild(novaEntregaBtn);
+
+  novaEntregaBtn.addEventListener('click', () => {
+    const projetoId = selectProjetos.value;
+    if (!projetoId) return alert('Selecione um projeto primeiro!');
+    criarFormularioEntrega(projetoId);
+  });
+});
+</script>
 
     
 </body>
