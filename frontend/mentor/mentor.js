@@ -316,3 +316,53 @@ function salvarPerfilMentor(event) {
 }
 
 document.getElementById('form-perfil').addEventListener('submit', salvarPerfilMentor);
+
+// Função para carregar os dados do perfil do aluno
+function buscarPerfilMentor() {
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  console.log("👤 Usuário logado:", usuarioLogado);
+
+  const usuarioId = usuarioLogado?.id;
+  console.log("🔍 Buscando perfil do usuário ID:", usuarioId);
+
+  if (!usuarioId) {
+    alert("Usuário não identificado.");
+    return;
+  }
+
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/perfil/${usuarioId}`)
+    .then(response => {
+      console.log("🌐 Resposta da API buscar:", response);
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log("Perfil não encontrado, formulário ficará vazio.");
+          return {};
+        }
+        throw new Error("Erro ao buscar perfil.");
+      }
+      return response.json();
+    })
+    .then(perfil => {
+      console.log("📦 Dados do perfil:", perfil);
+      document.getElementById('nome').value = perfil.nome || '';
+      document.getElementById('curso').value = perfil.curso || '';
+      document.getElementById('instituicao').value = perfil.instituicao || '';
+      document.getElementById('descricao').value = perfil.descricao || '';
+    })
+    .catch(error => {
+      console.error("🚨 Erro ao buscar perfil:", error);
+      alert("Erro ao buscar perfil.");
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btnPerfil = document.getElementById('btnPerfil');
+  if (btnPerfil) {
+    btnPerfil.addEventListener('click', () => {
+      mostrarSecao('perfil');
+      buscarPerfilAluno();
+    });
+  }
+
+});
