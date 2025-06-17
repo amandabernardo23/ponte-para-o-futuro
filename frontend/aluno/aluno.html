@@ -338,109 +338,22 @@ function mostrarSecao(secaoId) {
 
 
  <script>
-  const alunoId = 11; // Substituir com ID real do aluno logado
-  const baseURL = 'https://ponte-para-o-futuro-production.up.railway.app';
+ const alunoId = 11; // temporário — você vai trocar por sessionStorage depois
 
-  const selectProjetos = document.getElementById('projetosAluno');
-  const listaEtapas = document.getElementById('etapas');
-  const barraProgresso = document.getElementById('barraProgresso');
-  const listaHistorico = document.getElementById('lista-historico');
-  const tituloProjeto = document.getElementById('titulo-projeto');
-  let etapas = [];
-  let projetoAtualId = null;
+fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
+  .then(res => res.json())
+  .then(projetos => {
+    console.log('Projetos carregados:', projetos); // debug
+    const select = document.getElementById('projetosAluno');
 
-  // Carregar projetos do aluno
-  fetch(`${baseURL}/alunos/${alunoId}/projetos`)
-    .then(res => res.json())
-    .then(projetos => {
-      projetos.forEach(p => {
-        const option = document.createElement('option');
-        option.value = p.id;
-        option.textContent = p.titulo;
-        selectProjetos.appendChild(option);
-      });
+    projetos.forEach(p => {
+      const option = document.createElement('option');
+      option.value = p.id;
+      option.textContent = p.titulo;
+      select.appendChild(option);
     });
-
-  // Seleção de projeto
-  selectProjetos.addEventListener('change', async () => {
-    projetoAtualId = selectProjetos.value;
-    const projetoNome = selectProjetos.options[selectProjetos.selectedIndex].text;
-    tituloProjeto.textContent = `Mapa de Progresso - ${projetoNome}`;
-    etapas = await carregarEtapas(projetoAtualId);
-    exibirFormulario();
-    atualizarHistorico();
-    atualizarProgresso();
-  });
-
-  async function carregarEtapas(projetoId) {
-    const res = await fetch(`${baseURL}/projetos/${projetoId}/etapas`);
-    return await res.json();
-  }
-
-  function exibirFormulario() {
-    listaEtapas.innerHTML = '';
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <input type="text" id="nomeEntrega" placeholder="Nome da entrega" />
-      <select id="statusEntrega">
-        <option value="Pendente">Pendente</option>
-        <option value="Em andamento">Em andamento</option>
-        <option value="Entregue">Entregue</option>
-      </select>
-      <button onclick="adicionarEtapa()">Adicionar</button>
-    `;
-    listaEtapas.appendChild(li);
-  }
-
-  async function adicionarEtapa() {
-    const titulo = document.getElementById('nomeEntrega').value.trim();
-    const status = document.getElementById('statusEntrega').value;
-
-    if (!titulo) return alert('Digite o nome da entrega.');
-
-    const res = await fetch(`${baseURL}/projetos/${projetoAtualId}/etapas`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ titulo, status })
-    });
-
-    const novaEtapa = await res.json();
-    etapas.unshift(novaEtapa);
-    atualizarHistorico();
-    atualizarProgresso();
-    document.getElementById('nomeEntrega').value = '';
-  }
-
- function atualizarHistorico() {
-  listaHistorico.innerHTML = '';
-
-  etapas.forEach(e => {
-    const item = document.createElement('li');
-    item.classList.add('entrega-item', e.status.toLowerCase().replace(' ', '-'));
-
-    const icone = document.createElement('span');
-    icone.classList.add('status-icon');
-
-    if (e.status === 'Pendente') {
-      icone.textContent = '🕒';
-    } else if (e.status === 'Em andamento') {
-      icone.textContent = '⚙️';
-    } else if (e.status === 'Entregue') {
-      icone.textContent = '✅';
-    }
-
-    item.innerHTML = `${icone.outerHTML} <strong>${e.titulo}</strong> - ${e.status} <small>(${e.data})</small>`;
-    listaHistorico.appendChild(item);
-  });
-}
-
-  function atualizarProgresso() {
-    const total = etapas.length;
-    const concluidas = etapas.filter(e => e.status === 'Entregue').length;
-    const perc = total === 0 ? 0 : Math.round((concluidas / total) * 100);
-    barraProgresso.style.width = `${perc}%`;
-    barraProgresso.textContent = `${perc}%`;
-  }
+  })
+  .catch(err => console.error('Erro ao buscar projetos:', err));
 </script>
 
 
