@@ -338,134 +338,22 @@ function mostrarSecao(secaoId) {
 
 
  <script>
-  let alunoId;
-  document.addEventListener("DOMContentLoaded", () => {
-    const dados = localStorage.getItem("usuarioLogado");
+ const alunoId = 11; // temporário — você vai trocar por sessionStorage depois
 
-    if (dados) {
-      const usuario = JSON.parse(dados);
+fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
+  .then(res => res.json())
+  .then(projetos => {
+    console.log('Projetos carregados:', projetos); // debug
+    const select = document.getElementById('projetosAluno');
 
-      if (usuario.tipo !== "aluno") {
-        alert("Acesso não autorizado.");
-        window.location.href = "login.html";
-        return;
-      }
-
-      alunoId = usuario.id;
-      carregarProjetos(usuario.id);
-    } else {
-      window.location.href = "login.html";
-    }
-  });
-
-  function carregarProjetos(alunoId) {
-    fetch(`https://ponte-para-o-futuro-production.up.railway.app/alunos/${alunoId}/projetos`)
-      .then(res => res.json())
-      .then(projetos => {
-        const select = document.getElementById('projetosAluno');
-        projetos.forEach(p => {
-          const option = document.createElement('option');
-          option.value = p.id;
-          option.textContent = p.titulo;
-          select.appendChild(option);
-        });
-
-        select.addEventListener('change', (e) => {
-          const projetoId = e.target.value;
-          if (projetoId) {
-            buscarEtapas(projetoId);
-            mostrarFormulario(projetoId);
-          }
-        });
-      })
-      .catch(err => console.error('Erro ao buscar projetos:', err));
-  }
-
-  function buscarEtapas(projetoId) {
-    fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`)
-      .then(res => res.json())
-      .then(etapas => {
-        const lista = document.getElementById('etapas');
-        lista.innerHTML = '';
-
-        etapas.forEach(etapa => {
-          const li = document.createElement('li');
-          li.classList.add('etapa');
-          const statusClass = etapa.status.toLowerCase().replace(' ', '-');
-          li.innerHTML = `
-            <span class="icone-status ${statusClass}"></span>
-            ${etapa.titulo}
-            <span class="status-etapa">(${etapa.status})</span>
-          `;
-          lista.appendChild(li);
-        });
-
-        atualizarBarraProgresso(etapas);
-        atualizarHistorico(etapas);
-      })
-      .catch(err => console.error('Erro ao buscar etapas:', err));
-  }
-
-  function atualizarBarraProgresso(etapas) {
-    const barra = document.getElementById('barraProgresso');
-    const total = etapas.length;
-    const feitas = etapas.filter(e => e.status === 'Entregue').length;
-    const progresso = total > 0 ? Math.round((feitas / total) * 100) : 0;
-    barra.style.width = `${progresso}%`;
-    barra.textContent = `${progresso}%`;
-  }
-
-  function atualizarHistorico(etapas) {
-    const historico = document.getElementById('lista-historico');
-    historico.innerHTML = '';
-    etapas.forEach(e => {
-      const item = document.createElement('li');
-      item.textContent = `${e.data} - ${e.titulo} (${e.status})`;
-      historico.appendChild(item);
+    projetos.forEach(p => {
+      const option = document.createElement('option');
+      option.value = p.id;
+      option.textContent = p.titulo;
+      select.appendChild(option);
     });
-  }
-
-  function mostrarFormulario(projetoId) {
-    let form = document.getElementById('form-etapa');
-    if (!form) {
-      form = document.createElement('div');
-      form.id = 'form-etapa';
-      form.innerHTML = `
-        <h4>Adicionar nova etapa</h4>
-        <input type="text" id="novaEtapaTitulo" placeholder="Título da etapa" />
-        <select id="novaEtapaStatus">
-          <option value="Pendente">Pendente</option>
-          <option value="Em andamento">Em andamento</option>
-          <option value="Entregue">Entregue</option>
-        </select>
-        <button onclick="salvarEtapa(${projetoId})">Salvar Etapa</button>
-      `;
-      document.getElementById('mapa-progresso').appendChild(form);
-    }
-  }
-
-  function salvarEtapa(projetoId) {
-    const titulo = document.getElementById('novaEtapaTitulo').value;
-    const status = document.getElementById('novaEtapaStatus').value;
-
-    if (!titulo || !status) {
-      alert('Preencha todos os campos.');
-      return;
-    }
-
-    fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ titulo, status })
-    })
-      .then(res => res.json())
-      .then(novaEtapa => {
-        buscarEtapas(projetoId); // Recarrega lista
-        document.getElementById('novaEtapaTitulo').value = '';
-        document.getElementById('novaEtapaStatus').value = 'Pendente';
-      })
-      .catch(err => console.error('Erro ao salvar etapa:', err));
-  }
+  })
+  .catch(err => console.error('Erro ao buscar projetos:', err));
 </script>
 
     
