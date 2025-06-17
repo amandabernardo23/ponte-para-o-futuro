@@ -369,7 +369,6 @@ function mostrarSecao(secaoId) {
       select.addEventListener('change', (e) => {
         const projetoId = e.target.value;
         if (projetoId) {
-          buscarEtapas(projetoId);
           mostrarFormulario(projetoId);
         }
       });

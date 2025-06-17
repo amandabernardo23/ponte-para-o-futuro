@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const projetosController = require('../controllers/projetosController');
+const db = require('../config/database');
+
 
 // Listar projetos
 router.get('/', projetosController.listarProjetos);
