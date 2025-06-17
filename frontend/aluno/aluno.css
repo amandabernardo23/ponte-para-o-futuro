@@ -884,7 +884,7 @@ textarea:focus {
 .icone-status.pendente {
   background-color: gray;
 }
-.icone-status em andamento, .icone-status.em\ andamento {
+.icone-status.em\ andamento {
   background-color: orange;
 }
 .icone-status.entregue {
