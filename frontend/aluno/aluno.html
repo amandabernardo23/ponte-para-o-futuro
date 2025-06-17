@@ -430,7 +430,7 @@ document.getElementById('btnSalvarEtapa').addEventListener('click', () => {
 
   if (!projetoId || !titulo || !status) return alert('Preencha todos os campos');
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`, {
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos/${projetoId}/etapas`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ titulo, status })
