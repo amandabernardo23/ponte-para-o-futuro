@@ -873,3 +873,29 @@ textarea:focus {
   background-color: #e6f4ff;
 }
 
+.entrega-item {
+  margin: 8px 0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f2f2f2;
+}
+
+.status-icon {
+  font-size: 18px;
+}
+
+/* Cores por status */
+.pendente {
+  border-left: 6px solid #ff9800;
+}
+
+.em-andamento {
+  border-left: 6px solid #2196f3;
+}
+
+.entregue {
+  border-left: 6px solid #4caf50;
+}

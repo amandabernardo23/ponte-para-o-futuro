@@ -18,6 +18,8 @@ const universidadeRoutes = require('./routes/universidades');
 const solicitacoesRoutes = require('./routes/solicitacoes');
 const reunioesRoutes = require('./routes/reunioes');
 const perfilRoutes = require('./routes/perfil');
+const progressoRoutes = require('./routes/progresso');
+
 
 //Rotas
 app.use('/api/reunioes', reunioesRoutes);
@@ -26,6 +28,7 @@ app.use('/api/projetos', projetosRoutes);
 app.use('/universidades', universidadeRoutes);
 app.use('/api', perfilRoutes);
 app.use('/api/solicitacoes', solicitacoesRoutes);
+app.use('/alunos', progressoRoutes); 
 
 // Serve arquivos estáticos da pasta 'frontend'
 app.use(express.static(path.join(__dirname, 'frontend')));

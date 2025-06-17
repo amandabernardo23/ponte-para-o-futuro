@@ -338,107 +338,111 @@ function mostrarSecao(secaoId) {
 
 
  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const selectProjetos = document.getElementById("projetosAluno");
-    const listaEtapas = document.getElementById("etapas");
-    const barraProgresso = document.getElementById("barraProgresso");
-    const tituloProjeto = document.getElementById("titulo-projeto");
-    const listaHistorico = document.getElementById("lista-historico");
+  const alunoId = 1; // Substituir com ID real do aluno logado
+  const baseURL = 'https://ponte-para-o-futuro-production.up.railway.app';
 
-    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-    const alunoId = usuarioLogado?.id;
+  const selectProjetos = document.getElementById('projetosAluno');
+  const listaEtapas = document.getElementById('etapas');
+  const barraProgresso = document.getElementById('barraProgresso');
+  const listaHistorico = document.getElementById('lista-historico');
+  const tituloProjeto = document.getElementById('titulo-projeto');
+  let etapas = [];
+  let projetoAtualId = null;
 
-    async function fetchProjetosAluno() {
-      try {
-        const res = await fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos/aluno/${alunoId}`);
-        if (!res.ok) throw new Error(`Erro HTTP! status: ${res.status}`);
-        const projetos = await res.json();
-
-        // Limpa as opções antes de popular
-        selectProjetos.innerHTML = '<option value="">Selecione um projeto</option>';
-
-        projetos.forEach((projeto) => {
-          const option = document.createElement("option");
-          option.value = projeto.id;
-          option.textContent = projeto.titulo;
-          selectProjetos.appendChild(option);
-        });
-      } catch (err) {
-        console.error("Erro ao buscar projetos do aluno:", err);
-      }
-    }
-
-    async function fetchEntregasProjeto(projetoId) {
-      try {
-        const res = await fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/progresso/${projetoId}`);
-        if (!res.ok) throw new Error(`Erro HTTP! status: ${res.status}`);
-        const data = await res.json();
-
-        renderEtapas(data.etapas);
-        atualizarBarraProgresso(data.etapas);
-        renderHistorico(data.historico);
-        tituloProjeto.textContent = `Mapa de Progresso - ${data.nomeProjeto}`;
-      } catch (err) {
-        console.error("Erro ao buscar entregas do projeto:", err);
-      }
-    }
-
-    function renderEtapas(etapas) {
-      listaEtapas.innerHTML = "";
-      etapas.forEach((etapa) => {
-        const li = document.createElement("li");
-
-        li.innerHTML = `
-          <span>${etapa.titulo}:</span>
-          <div class="botoes-status">
-            <button class="botao-status entregue ${etapa.status === "Entregue" ? "active" : ""}">Entregue</button>
-            <button class="botao-status andamento ${etapa.status === "Em andamento" ? "active" : ""}">Em andamento</button>
-            <button class="botao-status pendente ${etapa.status === "Pendente" ? "active" : ""}">Pendente</button>
-          </div>
-        `;
-
-        listaEtapas.appendChild(li);
+  // Carregar projetos do aluno
+  fetch(`${baseURL}/alunos/${alunoId}/projetos`)
+    .then(res => res.json())
+    .then(projetos => {
+      projetos.forEach(p => {
+        const option = document.createElement('option');
+        option.value = p.id;
+        option.textContent = p.titulo;
+        selectProjetos.appendChild(option);
       });
-    }
-
-    function atualizarBarraProgresso(etapas) {
-      const total = etapas.length;
-      const entregues = etapas.filter((e) => e.status === "Entregue").length;
-      const porcentagem = total === 0 ? 0 : Math.round((entregues / total) * 100);
-      barraProgresso.style.width = `${porcentagem}%`;
-      barraProgresso.textContent = `${porcentagem}%`;
-    }
-
-    function renderHistorico(historico) {
-      listaHistorico.innerHTML = "";
-      historico.forEach((item) => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        listaHistorico.appendChild(li);
-      });
-    }
-
-    selectProjetos.addEventListener("change", (e) => {
-      const projetoId = e.target.value;
-      if (projetoId) {
-        fetchEntregasProjeto(projetoId);
-      } else {
-        listaEtapas.innerHTML = "";
-        listaHistorico.innerHTML = "";
-        barraProgresso.style.width = "0%";
-        barraProgresso.textContent = "0%";
-        tituloProjeto.textContent = "Mapa de Progresso - Etapas";
-      }
     });
 
-    // Inicializa a página
-    if (alunoId) {
-      fetchProjetosAluno();
-    } else {
-      alert("Erro: aluno não logado.");
-    }
+  // Seleção de projeto
+  selectProjetos.addEventListener('change', async () => {
+    projetoAtualId = selectProjetos.value;
+    const projetoNome = selectProjetos.options[selectProjetos.selectedIndex].text;
+    tituloProjeto.textContent = `Mapa de Progresso - ${projetoNome}`;
+    etapas = await carregarEtapas(projetoAtualId);
+    exibirFormulario();
+    atualizarHistorico();
+    atualizarProgresso();
   });
+
+  async function carregarEtapas(projetoId) {
+    const res = await fetch(`${baseURL}/projetos/${projetoId}/etapas`);
+    return await res.json();
+  }
+
+  function exibirFormulario() {
+    listaEtapas.innerHTML = '';
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <input type="text" id="nomeEntrega" placeholder="Nome da entrega" />
+      <select id="statusEntrega">
+        <option value="Pendente">Pendente</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Entregue">Entregue</option>
+      </select>
+      <button onclick="adicionarEtapa()">Adicionar</button>
+    `;
+    listaEtapas.appendChild(li);
+  }
+
+  async function adicionarEtapa() {
+    const titulo = document.getElementById('nomeEntrega').value.trim();
+    const status = document.getElementById('statusEntrega').value;
+
+    if (!titulo) return alert('Digite o nome da entrega.');
+
+    const res = await fetch(`${baseURL}/projetos/${projetoAtualId}/etapas`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ titulo, status })
+    });
+
+    const novaEtapa = await res.json();
+    etapas.unshift(novaEtapa);
+    atualizarHistorico();
+    atualizarProgresso();
+    document.getElementById('nomeEntrega').value = '';
+  }
+
+ function atualizarHistorico() {
+  listaHistorico.innerHTML = '';
+
+  etapas.forEach(e => {
+    const item = document.createElement('li');
+    item.classList.add('entrega-item', e.status.toLowerCase().replace(' ', '-'));
+
+    const icone = document.createElement('span');
+    icone.classList.add('status-icon');
+
+    if (e.status === 'Pendente') {
+      icone.textContent = '🕒';
+    } else if (e.status === 'Em andamento') {
+      icone.textContent = '⚙️';
+    } else if (e.status === 'Entregue') {
+      icone.textContent = '✅';
+    }
+
+    item.innerHTML = `${icone.outerHTML} <strong>${e.titulo}</strong> - ${e.status} <small>(${e.data})</small>`;
+    listaHistorico.appendChild(item);
+  });
+}
+
+  function atualizarProgresso() {
+    const total = etapas.length;
+    const concluidas = etapas.filter(e => e.status === 'Entregue').length;
+    const perc = total === 0 ? 0 : Math.round((concluidas / total) * 100);
+    barraProgresso.style.width = `${perc}%`;
+    barraProgresso.textContent = `${perc}%`;
+  }
 </script>
+
 
     
 </body>
