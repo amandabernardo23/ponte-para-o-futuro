@@ -384,7 +384,7 @@ document.getElementById('projetosAluno').addEventListener('change', function () 
   const projetoId = this.value;
   if (!projetoId) return;
 
-  fetch(`https://ponte-para-o-futuro-production.up.railway.app/projetos/${projetoId}/etapas`)
+  fetch(`https://ponte-para-o-futuro-production.up.railway.app/api/projetos/${projetoId}/etapas`)
     .then(res => res.json())
     .then(etapas => {
       const lista = document.getElementById('etapas');
