@@ -872,7 +872,6 @@ textarea:focus {
   outline: none;
   background-color: #e6f4ff;
 }
-
 .icone-status {
   display: inline-block;
   width: 12px;
@@ -882,16 +881,14 @@ textarea:focus {
 }
 
 .icone-status.pendente {
-  background-color: gray;
+  background-color: rgb(214, 0, 0);
 }
-.icone-status.em\ andamento {
-  background-color: orange;
+
+.icone-status.em-andamento {
+  background-color: rgb(255, 251, 0);
 }
+
 .icone-status.entregue {
   background-color: green;
 }
 
-.etapa {
-  margin-bottom: 10px;
-  list-style: none;
-}
